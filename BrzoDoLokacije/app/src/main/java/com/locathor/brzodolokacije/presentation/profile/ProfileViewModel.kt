@@ -7,18 +7,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.locathor.brzodolokacije.domain.repository.BrzoDoLokacijeRepository
+import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val repository: BrzoDoLokacijeRepository
+    private val repository: UserRepository
 ): ViewModel() {
     var state by mutableStateOf(ProfileState())
 

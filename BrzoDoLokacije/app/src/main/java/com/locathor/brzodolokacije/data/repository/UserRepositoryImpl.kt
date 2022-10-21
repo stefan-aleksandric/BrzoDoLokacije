@@ -3,9 +3,9 @@ package com.locathor.brzodolokacije.data.repository
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.mappers.toUser
 import com.locathor.brzodolokacije.data.mappers.toUserEntity
-import com.locathor.brzodolokacije.data.remote.BrzoDoLokacijeApi
+import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.domain.model.User
-import com.locathor.brzodolokacije.domain.repository.BrzoDoLokacijeRepository
+import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,11 +15,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BrzoDoLokacijeRepositoryImpl @Inject constructor(
-    private val api: BrzoDoLokacijeApi,
+class UserRepositoryImpl @Inject constructor(
+    private val api: UserApi,
     private val db: BrzoDoLokacijeDatabase
-): BrzoDoLokacijeRepository {
-    private val dao = db.dao
+): UserRepository {
+    private val dao = db.userDao
 
     override suspend fun getUsers(
         fetchFromRemote: Boolean

@@ -3,7 +3,8 @@ package com.locathor.brzodolokacije.di
 import android.app.Application
 import androidx.room.Room
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
-import com.locathor.brzodolokacije.data.remote.BrzoDoLokacijeApi
+import com.locathor.brzodolokacije.data.remote.PostApi
+import com.locathor.brzodolokacije.data.remote.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,9 +20,19 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun providesBrzoDoLokacijeApi(): BrzoDoLokacijeApi {
+    fun providesUserApi(): UserApi {
         return Retrofit.Builder()
-            .baseUrl(BrzoDoLokacijeApi.BASE_URL)
+            .baseUrl(UserApi.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create()
+    }
+
+    @Provides
+    @Singleton
+    fun providesPostApi(): PostApi {
+        return Retrofit.Builder()
+            .baseUrl(PostApi.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()
@@ -34,6 +45,8 @@ object ApplicationModule {
             app,
             BrzoDoLokacijeDatabase::class.java,
             "brzodolokacije.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

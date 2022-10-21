@@ -1,7 +1,9 @@
 package com.locathor.brzodolokacije.di
 
-import com.locathor.brzodolokacije.data.repository.BrzoDoLokacijeRepositoryImpl
-import com.locathor.brzodolokacije.domain.repository.BrzoDoLokacijeRepository
+import com.locathor.brzodolokacije.data.repository.PostRepositoryImpl
+import com.locathor.brzodolokacije.data.repository.UserRepositoryImpl
+import com.locathor.brzodolokacije.domain.repository.PostRepository
+import com.locathor.brzodolokacije.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +16,13 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindBrzoDoLokacijeRepository(
-        brzoDoLokacijeRepositoryImpl: BrzoDoLokacijeRepositoryImpl
-    ): BrzoDoLokacijeRepository
+    abstract fun bindsUserRepository(
+        userRepositoryImpl: UserRepositoryImpl
+    ): UserRepository
+
+    @Binds
+    @Singleton
+    abstract  fun bindsPostRepository(
+        postRepositoryImpl: PostRepositoryImpl
+    ): PostRepository
 }
