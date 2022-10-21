@@ -5,6 +5,7 @@ import java.util.Date
 data class Post(
     var title: String,
     var desc: String,
-    var posted: Date,
-    var images: List<String>
+    var latitude: Double,
+    var longitude: Double,
+    var createdAt: String
 )

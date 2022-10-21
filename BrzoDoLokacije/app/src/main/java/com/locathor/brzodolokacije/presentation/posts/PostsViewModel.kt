@@ -1,4 +1,4 @@
-package com.locathor.brzodolokacije.presentation.profile
+package com.locathor.brzodolokacije.presentation.posts
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.locathor.brzodolokacije.domain.repository.PostRepository
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,40 +15,46 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class PostsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val repository: UserRepository
+    private val repository: PostRepository
 ): ViewModel() {
-    var state by mutableStateOf(ProfileState())
+    var state by mutableStateOf(PostsState())
 
     init {
-        getUsers()
+        getPosts()
     }
 
-    fun onEvent(event: UsersEvent){
+    fun onEvent(event: PostsEvent){
         when(event){
-            is UsersEvent.Refresh -> {
-                getUsers()
+            is PostsEvent.Refresh -> {
+                getPosts()
             }
-            is UsersEvent.OnSearchQueryChange -> {
+            is PostsEvent.OnSearchQueryChange -> {
                 Unit
             }
         }
     }
 
-    private fun getUsers(){
+    private fun getPosts(){
         viewModelScope.launch {
-            repository.getUsers(true).collect { result ->
+            repository.getPosts(true).collect { result ->
                 when(result) {
                     is Resource.Success -> {
-                        result.data?.let { users ->
+                        result.data?.let { posts ->
                             state = state.copy(
-                                users = users
+                                posts = posts
                             )
-                            Log.d("STATE", users.toString())
+                            Log.d("STATE", posts.toString())
                         }
                     }
-                    is Resource.Error -> Unit
+                    is Resource.Error -> {
+                        result.message?.let { message ->
+                            state = state.copy(
+                                error = message
+                            )
+                        }
+                    }
                     is Resource.Loading -> {
                         state = state.copy(isLoading = result.isLoading)
                     }
