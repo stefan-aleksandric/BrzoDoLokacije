@@ -6,7 +6,7 @@ data class PostDto(
     val createdAt: String?,
     val title: String?,
     val desc: String?,
-    val image: String,
+    val image: String?,
     val latitude: Double?,
     val longitude: Double?,
     val owner: String?
