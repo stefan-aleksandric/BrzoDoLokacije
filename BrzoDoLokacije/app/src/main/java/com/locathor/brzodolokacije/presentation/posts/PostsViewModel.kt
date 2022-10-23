@@ -7,8 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.locathor.brzodolokacije.data.remote.UserApi
+import com.locathor.brzodolokacije.data.repository.UserRepositoryImpl
 import com.locathor.brzodolokacije.domain.repository.PostRepository
-import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

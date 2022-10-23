@@ -12,5 +12,7 @@ data class PostEntity(
     //val images: Array<String>,
     val latitude: Double,
     val longitude: Double,
-    @PrimaryKey val id: Int? = null
+    val owner: String,
+    val userId: Int? = null,
+    @PrimaryKey val postId: Int? = null
 )

@@ -9,6 +9,7 @@ interface PostApi {
     @GET("${POSTS_URL}?p=${PAGE}&l=${LIMIT}")
     suspend fun getAllPosts(): List<PostDto>
 
+
     companion object{
         const val BASE_URL = "https://6349fbbd33bb42dca4fcbc69.mockapi.io"
         const val POSTS_URL = "test/user/1/post"

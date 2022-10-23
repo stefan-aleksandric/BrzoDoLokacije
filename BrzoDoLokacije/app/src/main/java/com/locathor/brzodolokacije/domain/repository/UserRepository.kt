@@ -5,7 +5,12 @@ import com.locathor.brzodolokacije.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    suspend fun getUsers(
-        fetchFromRemote: Boolean
-    ): Flow<Resource<List<User>>>
+    suspend fun registerUser(
+        username: String,
+        email: String,
+        surname: String,
+        name: String,
+        //profilePic: String,
+        password: String
+    ): Flow<Resource<User>>
 }

@@ -28,16 +28,16 @@ fun ProfileScreen(
         viewModel.onEvent(PostsEvent.Refresh)
     }) {
         if ( state.posts.isNotEmpty() )
-        LazyColumn(modifier = Modifier.fillMaxSize()){
-            items(state.posts.size) { i ->
-                val post = state.posts[i]
-                Text(
-                    text = post.toString()
-                )
+            LazyColumn(modifier = Modifier.fillMaxSize()){
+                items(state.posts.size) { i ->
+                    val post = state.posts[i]
+                    Text(
+                        text = post.toString()
+                    )
+                }
             }
-        }
         if ( state.error != null )
-        Text(text = state.error)
+            Text(text = state.error)
     }
 
 }

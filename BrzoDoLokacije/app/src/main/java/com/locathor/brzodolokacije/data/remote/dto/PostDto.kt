@@ -8,5 +8,6 @@ data class PostDto(
     val desc: String?,
     val image: String,
     val latitude: Double?,
-    val longitude: Double?
+    val longitude: Double?,
+    val owner: String?
 )

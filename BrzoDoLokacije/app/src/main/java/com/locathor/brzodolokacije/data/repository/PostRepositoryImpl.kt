@@ -3,8 +3,6 @@ package com.locathor.brzodolokacije.data.repository
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.mappers.toPost
 import com.locathor.brzodolokacije.data.mappers.toPostEntity
-import com.locathor.brzodolokacije.data.mappers.toUser
-import com.locathor.brzodolokacije.data.mappers.toUserEntity
 import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.domain.model.Post

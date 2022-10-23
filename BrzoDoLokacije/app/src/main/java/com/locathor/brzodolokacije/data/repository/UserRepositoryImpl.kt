@@ -1,8 +1,6 @@
 package com.locathor.brzodolokacije.data.repository
 
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
-import com.locathor.brzodolokacije.data.mappers.toUser
-import com.locathor.brzodolokacije.data.mappers.toUserEntity
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -16,49 +14,37 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
-    private val api: UserApi,
-    private val db: BrzoDoLokacijeDatabase
+    private val api: UserApi
 ): UserRepository {
-    private val dao = db.userDao
-
-    override suspend fun getUsers(
-        fetchFromRemote: Boolean
-    ): Flow<Resource<List<User>>> {
+    override suspend fun registerUser(
+        username: String,
+        email: String,
+        surname: String,
+        name: String,
+        password: String
+    ): Flow<Resource<User>> {
         return flow {
-            emit(Resource.Loading(true))
-            val localUsers = dao.getAllUsers()
-            emit(Resource.Success(
-                data = localUsers.map { it.toUser() }
-            ))
-
-            val isDbEmpty = localUsers.isEmpty()
-            val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
-            if(shouldJustLoadFromCache){ //we already returned an emit with Resource.Success<data from cache>
-                emit(Resource.Loading(false)) //stop loading indication
-                return@flow
-            }
-            val remoteUsers = try {
-                api.getAllUsers()
+            emit(Resource.Loading(isLoading = true))
+            val responseUser = try {
+                api.registerUser(
+                    username = username,
+                    email = email,
+                    surname = surname,
+                    name = name,
+                    password = password
+                )
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load user data"))
+                emit(Resource.Error("Couldn't register user."))
                 null
             } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load user data"))
+                emit(Resource.Error("Couldn't register user."))
                 null
             }
-
-            remoteUsers?.let { users ->
-                dao.clearUsers()
-                dao.insertUsers(
-                    users.map { it.toUser().toUserEntity() }
-                )
-                emit(Resource.Success(
-                    data = dao.getAllUsers()
-                        .map { it.toUser() }
-                ))
-                emit(Resource.Loading(false))
+            responseUser?.let {
+                emit(Resource.Success(data = User(username, name, surname, email)))
+                emit(Resource.Loading(isLoading = false))
             }
         }
     }

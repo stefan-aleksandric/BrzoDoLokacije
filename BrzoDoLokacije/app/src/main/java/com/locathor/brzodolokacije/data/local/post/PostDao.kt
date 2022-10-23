@@ -13,7 +13,7 @@ interface PostDao {
 
     @Query("""
        SELECT * FROM postentity
-       WHERE id = :id
+       WHERE postId = :id
     """)
     suspend fun getPostForId(id: Int): PostEntity
 
