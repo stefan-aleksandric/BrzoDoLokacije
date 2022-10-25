@@ -36,6 +36,16 @@ class RegisterViewModel @Inject constructor(
                     password = event.value
                 )
             }
+            is RegisterEvent.EnteredName -> {
+                _state.value = _state.value.copy(
+                    name = event.value
+                )
+            }
+            is RegisterEvent.EnteredSurname -> {
+                _state.value = _state.value.copy(
+                    surname = event.value
+                )
+            }
             is RegisterEvent.TogglePasswordVisibility -> {
                 _state.value = _state.value.copy(
                     isPasswordVisible = !state.value.isPasswordVisible
