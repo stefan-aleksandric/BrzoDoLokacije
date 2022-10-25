@@ -12,6 +12,7 @@ interface PostApi {
 
     companion object{
         const val BASE_URL = "https://6349fbbd33bb42dca4fcbc69.mockapi.io"
+        //const val BASE_URL = "https://localhost:5001/api/user"
         const val POSTS_URL = "test/user/1/post"
         const val PAGE = 1
         const val LIMIT = 10

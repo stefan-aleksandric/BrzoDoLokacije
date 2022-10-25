@@ -8,8 +8,8 @@ interface UserRepository {
     suspend fun registerUser(
         username: String,
         email: String,
-        surname: String,
         name: String,
+        surname: String,
         //profilePic: String,
         password: String
     ): Flow<Resource<User>>

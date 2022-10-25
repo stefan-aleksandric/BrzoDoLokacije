@@ -20,6 +20,7 @@ interface UserApi {
 
     companion object {
         const val BASE_URL = "https://6349fbbd33bb42dca4fcbc69.mockapi.io"
+        //const val BASE_URL = "https://localhost:5001/api/user"
         const val USERS_URL = "test/user"
     }
 }
