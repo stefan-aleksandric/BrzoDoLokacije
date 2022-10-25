@@ -10,7 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.locathor.brzodolokacije.presentation.posts.NavGraphs
+import com.locathor.brzodolokacije.presentation.NavGraphs
+
 import com.locathor.brzodolokacije.ui.theme.BrzoDoLokacijeTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint

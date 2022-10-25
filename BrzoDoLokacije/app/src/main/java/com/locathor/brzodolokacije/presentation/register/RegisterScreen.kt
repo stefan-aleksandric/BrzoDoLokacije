@@ -9,9 +9,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
 @Composable
-fun RegistrationScreen(
+fun RegisterScreen(
     navigator: DestinationsNavigator,
-    viewModel: RegistrationViewModel= hiltViewModel()
+    viewModel: RegisterViewModel= hiltViewModel()
 ) {
 
 }
