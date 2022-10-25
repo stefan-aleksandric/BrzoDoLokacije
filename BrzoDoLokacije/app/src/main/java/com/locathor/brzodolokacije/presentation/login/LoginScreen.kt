@@ -17,7 +17,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.locathor.brzodolokacije.presentation.components.StandardtextField
+import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.ui.theme.SpaceSmall
@@ -55,7 +55,7 @@ fun LoginScreen(
                 style = MaterialTheme.typography.headlineLarge
                 )
             Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardtextField(
+            StandardTextField(
                 text = viewModel.usernameText.value,
 
                 onValueChange = {
@@ -64,7 +64,7 @@ fun LoginScreen(
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.login_hint)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardtextField(
+            StandardTextField(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)

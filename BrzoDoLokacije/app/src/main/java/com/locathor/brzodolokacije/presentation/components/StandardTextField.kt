@@ -17,7 +17,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StandardtextField(
+fun StandardTextField(
     text: String="",
     hint:String="",
     maxLength:Int=50,

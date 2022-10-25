@@ -20,7 +20,7 @@ import com.locathor.brzodolokacije.ui.theme.SpaceLarge
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.locathor.brzodolokacije.presentation.components.StandardtextField
+import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
 
 @RootNavGraph(start = true)
@@ -52,7 +52,7 @@ fun RegisterScreen(
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardtextField(
+            StandardTextField(
                 text = state.email,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredEmail(it))
@@ -62,7 +62,7 @@ fun RegisterScreen(
                 hint = stringResource(com.locathor.brzodolokacije.R.string.email)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardtextField(
+            StandardTextField(
                 text = state.username,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredUsername(it))
@@ -71,25 +71,25 @@ fun RegisterScreen(
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.username)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardtextField(
+            StandardTextField(
                 text = state.name,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredName(it))
                 },
-                //TODO username error
+                //TODO name error
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.name)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardtextField(
+            StandardTextField(
                 text = state.surname,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredSurname(it))
                 },
-                //TODO username error
+                //TODO surname error
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.surname)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardtextField(
+            StandardTextField(
                 text = state.password,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredPassword(it))
