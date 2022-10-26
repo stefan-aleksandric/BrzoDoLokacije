@@ -1,6 +1,5 @@
 package com.locathor.brzodolokacije.data.repository
 
-import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -19,8 +18,9 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun registerUser(
         username: String,
         email: String,
-        surname: String,
         name: String,
+        surname: String,
+        //profilePic: String,
         password: String
     ): Flow<Resource<User>> {
         return flow {
