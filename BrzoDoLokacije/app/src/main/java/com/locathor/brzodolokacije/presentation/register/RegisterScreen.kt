@@ -23,7 +23,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
 
-@RootNavGraph(start = true)
 @Destination
 @Composable
 fun RegisterScreen(

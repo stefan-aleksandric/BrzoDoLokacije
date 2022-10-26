@@ -1,7 +1,9 @@
 package com.locathor.brzodolokacije.presentation.login
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -13,40 +15,29 @@ class LoginViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val repository: UserRepository
 ): ViewModel(){
+    var state by mutableStateOf(LoginState())
 
-    private val _usernameText = mutableStateOf("")
-    val usernameText: State<String> = _usernameText
+    fun onUsernameChange(value: String){
+        state = state.copy(
+            username = value
+        )
+    }
+    fun setPasswordText(value: String) {
+        state = state.copy(
+            password = value
+        )
+    }
+    init {
 
-    private val _passwordText = mutableStateOf("")
-    val passwordText: State<String> = _passwordText
-
-    private val _showPassword = mutableStateOf(false)
-    val showPassword: State<Boolean> = _showPassword
-
-    private val _usernameError = mutableStateOf("")
-    val usernameError: State<String> = _usernameError
-
-    private val _passwordError = mutableStateOf("")
-    val passwordError: State<String> = _passwordError
-
-    fun setUsernameText(username: String) {
-        _usernameText.value = username
     }
 
-    fun setPasswordText(password: String) {
-        _passwordText.value = password
+    fun onEvent(){
+
     }
 
-    fun setIsUsernameError(error: String) {
-        _usernameError.value = error
+    private fun toDo(){
+
     }
 
-    fun setIsPasswordError(error: String) {
-        _passwordError.value = error
-    }
-
-    fun setShowPassword(showPassword: Boolean) {
-        _showPassword.value = showPassword
-    }
 
 }

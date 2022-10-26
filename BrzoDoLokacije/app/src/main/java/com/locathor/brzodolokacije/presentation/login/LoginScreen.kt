@@ -25,13 +25,15 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state
+
     Box(modifier= Modifier
         .fillMaxSize()
         .padding(
@@ -55,16 +57,15 @@ fun LoginScreen(
                 )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
-                text = viewModel.usernameText.value,
-
+                text = viewModel.state.username,
                 onValueChange = {
-                    viewModel.setUsernameText(it)
+                    viewModel.onUsernameChange(it)
                 },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.login_hint)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
-                text = viewModel.passwordText.value,
+                text = state.password,
                 onValueChange = {
                     viewModel.setPasswordText(it)
                 },
