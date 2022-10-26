@@ -1,5 +1,6 @@
 package com.locathor.brzodolokacije.data.repository
 
+import android.util.Log
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -44,6 +45,7 @@ class UserRepositoryImpl @Inject constructor(
             }
             responseUser?.let {
                 emit(Resource.Success(data = User(username, name, surname, email)))
+                Log.d("DEBUG", it.toString());
                 emit(Resource.Loading(isLoading = false))
             }
         }

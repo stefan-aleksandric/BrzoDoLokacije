@@ -6,15 +6,14 @@ import retrofit2.http.POST
 import retrofit2.http.Field
 
 interface UserApi {
-
     @POST(USERS_URL)
     suspend fun registerUser(
         @Field("username") username: String,
-        @Field("email") email: String,
         @Field("name") name: String,
         @Field("surname") surname: String,
         //profilePic: String,
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("email") email: String
     ): UserDto
     //GET JWT
 
