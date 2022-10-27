@@ -2,6 +2,7 @@ package com.locathor.brzodolokacije.data.repository
 
 import android.util.Log
 import com.locathor.brzodolokacije.data.remote.UserApi
+import com.locathor.brzodolokacije.data.remote.dto.LoginResponse
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
@@ -45,6 +46,31 @@ class UserRepositoryImpl @Inject constructor(
             }
             responseUser?.let {
                 emit(Resource.Success(data = User(username, name, surname, email)))
+                Log.d("DEBUG", it.toString());
+                emit(Resource.Loading(isLoading = false))
+            }
+        }
+    }
+
+    override suspend fun loginUser(username: String, password: String): Flow<Resource<LoginResponse>> {
+        return flow {
+            emit(Resource.Loading(isLoading = true))
+            val loginResponse = try {
+                api.loginUser(
+                    username = username,
+                    password = password
+                )
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't register user."))
+                null
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't register user."))
+                null
+            }
+            loginResponse?.let {
+                emit(Resource.Success(data = LoginResponse(statusCode = it.statusCode, authToken = it.authToken)))
                 Log.d("DEBUG", it.toString());
                 emit(Resource.Loading(isLoading = false))
             }

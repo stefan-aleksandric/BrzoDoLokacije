@@ -75,7 +75,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                    //TODO navigation after login
+                          viewModel.onEvent(LoginEvent.OnLoginButtonPress)
                 },
                 modifier = Modifier
                     .align(Alignment.End)
