@@ -97,6 +97,7 @@ fun RegisterScreen(
                 },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.password_hint),
                 keyboardType = KeyboardType.Password,
+
                 //TODO password error
                 //TODO Password visibility
             )

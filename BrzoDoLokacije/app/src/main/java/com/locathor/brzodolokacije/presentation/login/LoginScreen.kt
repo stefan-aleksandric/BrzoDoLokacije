@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -15,20 +14,14 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
-import com.locathor.brzodolokacije.ui.theme.SpaceSmall
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 @Destination
 @Composable
 fun LoginScreen(

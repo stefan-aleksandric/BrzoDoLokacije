@@ -71,7 +71,7 @@ class UserRepositoryImpl @Inject constructor(
             }
             loginResponse?.let {
                 emit(Resource.Success(data = LoginResponse(statusCode = it.statusCode, authToken = it.authToken)))
-                Log.d("DEBUG", it.toString());
+                Log.d("loginResponse", it.toString());
                 emit(Resource.Loading(isLoading = false))
             }
         }

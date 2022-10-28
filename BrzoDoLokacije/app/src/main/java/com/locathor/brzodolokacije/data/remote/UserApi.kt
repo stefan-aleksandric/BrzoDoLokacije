@@ -8,6 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 
 interface UserApi {
+    @FormUrlEncoded
     @POST(USERS_URL)
     suspend fun registerUser(
         @Field("username") username: String,

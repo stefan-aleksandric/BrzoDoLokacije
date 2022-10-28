@@ -3,6 +3,8 @@ package com.locathor.brzodolokacije.presentation.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.locathor.brzodolokacije.R
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -55,7 +58,7 @@ fun StandardTextField(
         }else{ VisualTransformation.None },
         singleLine=true,
         //TODO visibilityICON
-        /*trailingIcon={
+        trailingIcon={
             if(isPasswordToggleDisplayed){
                 IconButton(
                     onClick={
@@ -67,14 +70,14 @@ fun StandardTextField(
                          Icons.Filled.Visibility
                          },
                         contentDescription =if(isPasswordVisible){
-                            stringResource(id = )
+                            stringResource(id = R.string.password_hidden_content_description)
                         }else{
-                            stringResource(id = )
+                            stringResource(id = R.string.password_visible_content_description)
                         }
                     )
                 }
             }
-        },*/
+        },
         modifier = Modifier
             .fillMaxWidth()
     )
