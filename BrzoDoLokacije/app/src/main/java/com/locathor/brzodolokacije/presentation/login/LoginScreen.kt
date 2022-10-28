@@ -25,7 +25,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 @Destination
 @Composable
 fun LoginScreen(
