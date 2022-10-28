@@ -25,7 +25,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@RootNavGraph(start = true)
+
 @Destination
 @Composable
 fun LoginScreen(
@@ -59,7 +59,7 @@ fun LoginScreen(
             StandardTextField(
                 text = viewModel.state.username,
                 onValueChange = {
-                    viewModel.onUsernameChange(it)
+                    viewModel.setUsernameText(it)
                 },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.login_hint)
             )

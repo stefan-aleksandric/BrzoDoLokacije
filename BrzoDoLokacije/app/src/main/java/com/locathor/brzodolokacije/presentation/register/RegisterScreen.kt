@@ -21,15 +21,17 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.login.LoginEvent
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
 
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun RegisterScreen(
     navigator: DestinationsNavigator,
     viewModel: RegisterViewModel= hiltViewModel()
 ) {
-    val state = viewModel.state.value
+    val state = viewModel.state
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +56,7 @@ fun RegisterScreen(
             StandardTextField(
                 text = state.email,
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.EnteredEmail(it))
+                    viewModel.setEmailText(it)
                 },
                 //TODO email error
                 keyboardType = KeyboardType.Email,
@@ -64,7 +66,7 @@ fun RegisterScreen(
             StandardTextField(
                 text = state.username,
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.EnteredUsername(it))
+                    viewModel.setUsernameText(it)
                 },
                 //TODO username error
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.username)
@@ -73,7 +75,7 @@ fun RegisterScreen(
             StandardTextField(
                 text = state.name,
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.EnteredName(it))
+                    viewModel.setNameText(it)
                 },
                 //TODO name error
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.name)
@@ -82,7 +84,7 @@ fun RegisterScreen(
             StandardTextField(
                 text = state.surname,
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.EnteredSurname(it))
+                    viewModel.setSurnameText(it)
                 },
                 //TODO surname error
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.surname)
@@ -91,7 +93,7 @@ fun RegisterScreen(
             StandardTextField(
                 text = state.password,
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.EnteredPassword(it))
+                    viewModel.setPasswordText(it)
                 },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.password_hint),
                 keyboardType = KeyboardType.Password,
@@ -101,7 +103,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                    viewModel.onEvent(RegisterEvent.Register)
+                    viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
                 },
                 modifier = Modifier
                     .align(Alignment.End)

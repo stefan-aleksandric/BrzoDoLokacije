@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(
 ): ViewModel(){
     var state by mutableStateOf(LoginState())
 
-    fun onUsernameChange(value: String){
+    fun setUsernameText(value: String){
         state = state.copy(
             username = value
         )
