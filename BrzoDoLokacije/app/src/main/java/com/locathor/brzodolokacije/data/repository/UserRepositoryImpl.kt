@@ -9,6 +9,7 @@ import com.locathor.brzodolokacije.data.remote.dto.LoginResponse
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
+import com.locathor.brzodolokacije.util.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 @Singleton
 class UserRepositoryImpl @Inject constructor(
     private val api: UserApi,
-    private val prefs: SharedPreferences
+    private val sessionManager: SessionManager
 ): UserRepository {
     override suspend fun registerUser(
         username: String,
@@ -75,9 +76,8 @@ class UserRepositoryImpl @Inject constructor(
                 null
             }
             loginResponse?.let {
-                prefs.edit()
-                    .putString("token", loginResponse.authToken)
-                    .apply()
+                sessionManager.setToken(loginResponse.authToken)
+                Log.d("AUTH_TOKEN:",sessionManager.getToken().toString())
                 emit(Resource.Success(data = AuthResult.Authorized()))
                 Log.d("loginResponse", it.toString())
                 emit(Resource.Loading(isLoading = false))

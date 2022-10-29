@@ -8,6 +8,7 @@ import androidx.room.Room
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
+import com.locathor.brzodolokacije.util.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,8 +56,8 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(app: Application): SharedPreferences{
-        return app.getSharedPreferences("prefs", MODE_PRIVATE)
+    fun provideSessionManager(app: Application): SessionManager {
+        return SessionManager(prefs = app.getSharedPreferences("prefs", MODE_PRIVATE))
     }
 
 }
