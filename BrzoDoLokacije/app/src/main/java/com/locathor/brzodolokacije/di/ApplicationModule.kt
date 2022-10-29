@@ -8,11 +8,17 @@ import androidx.room.Room
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
+import com.locathor.brzodolokacije.data.repository.AuthRepositoryImpl
+import com.locathor.brzodolokacije.domain.repository.AuthRepository
+import com.locathor.brzodolokacije.util.AppSharedPreferences
+import com.locathor.brzodolokacije.util.AuthInterceptor
 import com.locathor.brzodolokacije.util.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -24,7 +30,7 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun providesUserApi(): UserApi {
+    fun provideUserApi(): UserApi {
         return Retrofit.Builder()
             .baseUrl(UserApi.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -34,17 +40,31 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun providesPostApi(): PostApi {
-        return Retrofit.Builder()
-            .baseUrl(PostApi.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
+    fun providePostApi(retrofit: Retrofit): PostApi =
+       retrofit
             .create()
-    }
+
 
     @Provides
     @Singleton
-    fun providesBrzoDoLokacijeDatabase(app: Application): BrzoDoLokacijeDatabase {
+    fun provideRetrofit(client: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .client(client)
+            .baseUrl(PostApi.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
+
+
+    @Provides
+    @Singleton
+    fun provideBrzoDoLokacijeDatabase(app: Application): BrzoDoLokacijeDatabase {
         return Room.databaseBuilder(
             app,
             BrzoDoLokacijeDatabase::class.java,
@@ -54,10 +74,38 @@ object ApplicationModule {
             .build()
     }
 
-    @Provides
     @Singleton
-    fun provideSessionManager(app: Application): SessionManager {
-        return SessionManager(prefs = app.getSharedPreferences("prefs", MODE_PRIVATE))
-    }
+    @Provides
+    fun provideAuthInterceptorImpl(
+        sessionManager: SessionManager
+    ): AuthInterceptor = AuthInterceptor(sessionManager = sessionManager)
 
+
+    @Singleton
+    @Provides
+    fun provideSessionManager(
+        appSharedPreferences: AppSharedPreferences,
+        authRepository: AuthRepository
+    ): SessionManager = SessionManager(
+        pref = appSharedPreferences,
+        authRepository = authRepository
+    )
+
+    @Singleton
+    @Provides
+    fun provideAuthRepository(): AuthRepository = AuthRepositoryImpl()
+
+    @Singleton
+    @Provides
+    fun provideAppSharedPreferences(
+        sharedPreferences: SharedPreferences
+    ) = AppSharedPreferences(sharedPreferences)
+
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context,
+    ): SharedPreferences =
+        context.getSharedPreferences(AppSharedPreferences.SHARED_PREFS, Context.MODE_PRIVATE)
 }

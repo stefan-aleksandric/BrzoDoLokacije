@@ -1,11 +1,9 @@
 package com.locathor.brzodolokacije.data.repository
 
-import android.content.SharedPreferences
 import android.util.Log
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.data.remote.dto.AuthResult
 import com.locathor.brzodolokacije.data.remote.dto.LoginRequest
-import com.locathor.brzodolokacije.data.remote.dto.LoginResponse
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
@@ -76,8 +74,8 @@ class UserRepositoryImpl @Inject constructor(
                 null
             }
             loginResponse?.let {
-                sessionManager.setToken(loginResponse.authToken)
-                Log.d("AUTH_TOKEN:",sessionManager.getToken().toString())
+                sessionManager.refreshToken(loginResponse.authToken) /// do refresh logic
+                Log.d("AUTH_TOKEN:",sessionManager.getAccessToken().toString())
                 emit(Resource.Success(data = AuthResult.Authorized()))
                 Log.d("loginResponse", it.toString())
                 emit(Resource.Loading(isLoading = false))

@@ -1,19 +1,24 @@
 package com.locathor.brzodolokacije.util
 
-import android.content.SharedPreferences
+import com.locathor.brzodolokacije.domain.repository.AuthRepository
 import javax.inject.Inject
 
+class SessionManager @Inject constructor(
+    private val pref: AppSharedPreferences,
+    private val authRepository: AuthRepository
+) {
 
-class SessionManager (
-    val prefs: SharedPreferences
-){
-    fun getToken(): String? {
-        return prefs.getString("token", null)
-    }
+    fun getAccessToken(): String? = pref.getToken()
 
-    fun setToken(token: String) {
-        prefs.edit()
-            .putString("token", token)
-            .apply()
+    fun getRefreshToken(): String? = pref.getRefreshToken()
+
+    fun refreshToken(refreshToken: String): String {
+        pref.setRefreshToken(refreshToken)
+        return refreshToken
+    }//authRepository.refreshToken(refreshToken)
+
+    fun logout() {
+        /* .... */
+        pref.setToken("")
     }
 }
