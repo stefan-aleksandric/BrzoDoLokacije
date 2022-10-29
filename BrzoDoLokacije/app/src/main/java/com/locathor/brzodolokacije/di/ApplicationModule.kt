@@ -1,6 +1,9 @@
 package com.locathor.brzodolokacije.di
 
 import android.app.Application
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.remote.PostApi
@@ -49,4 +52,11 @@ object ApplicationModule {
             .fallbackToDestructiveMigration()
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(app: Application): SharedPreferences{
+        return app.getSharedPreferences("prefs", MODE_PRIVATE)
+    }
+
 }

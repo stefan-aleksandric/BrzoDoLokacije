@@ -1,7 +1,10 @@
 package com.locathor.brzodolokacije.data.repository
 
+import android.content.SharedPreferences
 import android.util.Log
 import com.locathor.brzodolokacije.data.remote.UserApi
+import com.locathor.brzodolokacije.data.remote.dto.AuthResult
+import com.locathor.brzodolokacije.data.remote.dto.LoginRequest
 import com.locathor.brzodolokacije.data.remote.dto.LoginResponse
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -15,7 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
-    private val api: UserApi
+    private val api: UserApi,
+    private val prefs: SharedPreferences
 ): UserRepository {
     override suspend fun registerUser(
         username: String,
@@ -52,29 +56,43 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun loginUser(username: String, password: String): Flow<Resource<LoginResponse>> {
+    override suspend fun loginUser(username: String, password: String): Flow<Resource<AuthResult<Unit>>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
             val loginResponse = try {
                 api.loginUser(
-                    username = username,
-                    password = password
+                    LoginRequest(username, password)
                 )
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't register user."))
                 null
             } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't register user."))
+                if(e.code() == 401)
+                    emit(Resource.Success(data = AuthResult.Unauthorized()))
+                else
+                    emit(Resource.Success(data = AuthResult.UnknownError()))
                 null
             }
             loginResponse?.let {
-                emit(Resource.Success(data = LoginResponse(statusCode = it.statusCode, authToken = it.authToken)))
-                Log.d("loginResponse", it.toString());
+                prefs.edit()
+                    .putString("token", loginResponse.authToken)
+                    .apply()
+                emit(Resource.Success(data = AuthResult.Authorized()))
+                Log.d("loginResponse", it.toString())
                 emit(Resource.Loading(isLoading = false))
             }
         }
     }
+
+
+    //authenticate
+    /*
+    *
+    *
+    *
+    *
+    *
+    * */
 
 }

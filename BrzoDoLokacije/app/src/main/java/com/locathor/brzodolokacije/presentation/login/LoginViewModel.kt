@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.locathor.brzodolokacije.data.remote.dto.AuthResult
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,8 +47,11 @@ class LoginViewModel @Inject constructor(
                 .collect {  result ->
                     when(result) {
                         is Resource.Success -> {
-                            result.data?.let { loginResponse ->
-                                Log.d("DEBUG", loginResponse.toString())
+                            if (result.data !is AuthResult.Authorized)
+                                Log.d("AUTH_FAIL", "")
+                            else
+                            result.data.let { loginResponse ->
+                                Log.d("AUTH_SUCCESS", loginResponse.toString())
                             }
                         }
                         is Resource.Error -> {

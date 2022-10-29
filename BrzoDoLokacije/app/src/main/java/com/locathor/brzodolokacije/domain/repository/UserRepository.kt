@@ -1,5 +1,6 @@
 package com.locathor.brzodolokacije.domain.repository
 
+import com.locathor.brzodolokacije.data.remote.dto.AuthResult
 import com.locathor.brzodolokacije.data.remote.dto.LoginResponse
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.util.Resource
@@ -18,5 +19,5 @@ interface UserRepository {
     suspend fun loginUser(
         username: String,
         password: String
-    ): Flow<Resource<LoginResponse>>
+    ): Flow<Resource<AuthResult<Unit>>>
 }
