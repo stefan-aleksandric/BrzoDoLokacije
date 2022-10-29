@@ -7,7 +7,6 @@ import com.locathor.brzodolokacije.data.remote.dto.LoginRequest
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.util.Resource
-import com.locathor.brzodolokacije.util.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException

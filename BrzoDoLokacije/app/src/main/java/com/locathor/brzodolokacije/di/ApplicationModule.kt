@@ -2,7 +2,6 @@ package com.locathor.brzodolokacije.di
 
 import android.app.Application
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
@@ -10,9 +9,9 @@ import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.data.repository.AuthRepositoryImpl
 import com.locathor.brzodolokacije.domain.repository.AuthRepository
-import com.locathor.brzodolokacije.util.AppSharedPreferences
-import com.locathor.brzodolokacije.util.AuthInterceptor
-import com.locathor.brzodolokacije.util.SessionManager
+import com.locathor.brzodolokacije.data.local.AppSharedPreferences
+import com.locathor.brzodolokacije.data.remote.interceptors.AuthInterceptor
+import com.locathor.brzodolokacije.data.repository.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

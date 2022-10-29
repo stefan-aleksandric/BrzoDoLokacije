@@ -1,6 +1,7 @@
-package com.locathor.brzodolokacije.util
+package com.locathor.brzodolokacije.data.remote.interceptors
 
 import android.util.Log
+import com.locathor.brzodolokacije.data.repository.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

@@ -7,7 +7,6 @@ import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.domain.repository.PostRepository
 import com.locathor.brzodolokacije.util.Resource
-import com.locathor.brzodolokacije.util.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException

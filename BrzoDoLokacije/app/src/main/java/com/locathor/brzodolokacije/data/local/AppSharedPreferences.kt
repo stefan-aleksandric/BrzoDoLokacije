@@ -1,4 +1,4 @@
-package com.locathor.brzodolokacije.util
+package com.locathor.brzodolokacije.data.local
 
 import android.content.SharedPreferences
 import javax.inject.Inject
