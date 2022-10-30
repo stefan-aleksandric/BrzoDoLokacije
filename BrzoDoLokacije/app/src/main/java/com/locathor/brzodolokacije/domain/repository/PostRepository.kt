@@ -8,4 +8,13 @@ interface PostRepository {
     suspend fun getPosts(
         fetchFromRemote: Boolean
     ): Flow<Resource<List<Post>>>
+
+    suspend fun getPost(
+        id: Int,
+        fetchFromRemote: Boolean
+    ): Flow<Resource<List<Post>>>
+
+    suspend fun createPost(
+        post: Post
+    ): Flow<Resource<Post>>
 }

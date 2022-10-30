@@ -14,8 +14,7 @@ interface PostDao {
        SELECT * FROM postentity
        WHERE postId = :id
     """)
-
-    suspend fun getPostForId(id: Int): PostEntity
+    suspend fun getPostForId(id: Int): List<PostEntity>
 
     @Query("DELETE FROM postentity")
     suspend fun clearPosts()
@@ -24,4 +23,8 @@ interface PostDao {
     suspend fun insertPosts(postEntities: List<PostEntity>)
 
 
+    /*
+    @Query("SELECT 'title', 'desc' FROM postentity")
+    suspend fun getTuple(): List<Tuple>
+    */
 }

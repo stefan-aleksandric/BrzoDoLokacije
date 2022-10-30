@@ -1,4 +1,4 @@
-package com.locathor.brzodolokacije.data.remote.dto
+package com.locathor.brzodolokacije.util
 
 sealed class AuthResult<T>(val data: T? = null){
     class Authorized<T>(data: T? = null): AuthResult<T>(data)
