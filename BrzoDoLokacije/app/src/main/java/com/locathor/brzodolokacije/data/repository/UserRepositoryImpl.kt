@@ -2,7 +2,7 @@ package com.locathor.brzodolokacije.data.repository
 
 import android.util.Log
 import com.locathor.brzodolokacije.data.remote.UserApi
-import com.locathor.brzodolokacije.data.remote.dto.AuthResult
+import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.data.remote.dto.LoginRequest
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository

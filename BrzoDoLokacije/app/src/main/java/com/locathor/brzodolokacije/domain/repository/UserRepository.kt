@@ -1,7 +1,6 @@
 package com.locathor.brzodolokacije.domain.repository
 
-import com.locathor.brzodolokacije.data.remote.dto.AuthResult
-import com.locathor.brzodolokacije.data.remote.dto.LoginResponse
+import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -20,4 +19,8 @@ interface UserRepository {
         username: String,
         password: String
     ): Flow<Resource<AuthResult<Unit>>>
+
+//    suspend fun getUser(
+//        username: String
+//    ): Flow<Resource<User>>
 }
