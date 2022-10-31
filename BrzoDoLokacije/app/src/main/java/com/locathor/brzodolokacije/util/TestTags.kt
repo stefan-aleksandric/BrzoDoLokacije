@@ -1,4 +1,4 @@
-package com.plcoding.socialnetworktwitch.presentation.util
+package com.locathor.brzodolokacije.util
 
 object TestTags {
 

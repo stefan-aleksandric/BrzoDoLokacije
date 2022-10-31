@@ -23,8 +23,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.presentation.login.LoginEvent
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
+import com.locathor.brzodolokacije.util.Constants
 
-@RootNavGraph(start = true)
+
 @Destination
 @Composable
 fun RegisterScreen(
@@ -58,7 +59,15 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.setEmailText(it)
                 },
-                //TODO email error
+                error = when (state.emailError) {
+                    RegisterState.EmailError.FieldEmpty -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                    }
+                    RegisterState.EmailError.InvalidEmail -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.not_a_valid_email)
+                    }
+                    null -> ""
+                },
                 keyboardType = KeyboardType.Email,
                 hint = stringResource(com.locathor.brzodolokacije.R.string.email)
             )
@@ -68,7 +77,15 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.setUsernameText(it)
                 },
-                //TODO username error
+                error = when (state.usernameError) {
+                    RegisterState.UsernameError.FieldEmpty -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                    }
+                    RegisterState.UsernameError.InputTooShort -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.input_too_short, Constants.MIN_PASSWORD_LENGTH)
+                    }
+                    null -> ""
+                },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.username)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -77,7 +94,15 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.setNameText(it)
                 },
-                //TODO name error
+                error = when (state.nameError) {
+                    RegisterState.NameError.FieldEmpty -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                    }
+                    RegisterState.NameError.InputTooShort -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.input_too_short, Constants.MIN_PASSWORD_LENGTH)
+                    }
+                    null -> ""
+                },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.name)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -86,7 +111,15 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.setSurnameText(it)
                 },
-                //TODO surname error
+                error = when (state.surnameError) {
+                    RegisterState.SurnameError.FieldEmpty -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                    }
+                    RegisterState.SurnameError.InputTooShort -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.input_too_short, Constants.MIN_PASSWORD_LENGTH)
+                    }
+                    null -> ""
+                },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.surname)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -97,9 +130,22 @@ fun RegisterScreen(
                 },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.password_hint),
                 keyboardType = KeyboardType.Password,
-
-                //TODO password error
-                //TODO Password visibility
+                error = when (state.passwordError) {
+                    RegisterState.PasswordError.FieldEmpty -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                    }
+                    RegisterState.PasswordError.InputTooShort -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.input_too_short, Constants.MIN_PASSWORD_LENGTH)
+                    }
+                    RegisterState.PasswordError.InvalidPassword -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.invalid_password)
+                    }
+                    null -> ""
+                },
+                isPasswordVisible = state.isPasswordVisible,
+                onPasswordToggleClick = {
+                    viewModel.onEvent(RegisterEvent.TogglePasswordVisibility)
+                }
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
@@ -128,12 +174,12 @@ fun RegisterScreen(
                     append(signUpText)
                 }
             },
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .clickable {
-                    //TODO navigation to main screen
-                }
+                //.clickable {
+                    //TODO navigation for don't have an account yet
+                //}
         )
     }
 }

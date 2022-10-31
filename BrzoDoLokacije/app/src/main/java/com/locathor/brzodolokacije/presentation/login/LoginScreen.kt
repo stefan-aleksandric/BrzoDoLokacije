@@ -1,5 +1,6 @@
 package com.locathor.brzodolokacije.presentation.login
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -16,12 +17,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.register.RegisterState
 import com.locathor.brzodolokacije.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
+import com.locathor.brzodolokacije.util.Constants
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun LoginScreen(
@@ -57,6 +61,13 @@ fun LoginScreen(
                 onValueChange = {
                     viewModel.setUsernameText(it)
                 },
+                keyboardType = KeyboardType.Email,
+                error = when (state.usernameError) {
+                    LoginState.UsernameError.FieldEmpty -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                    }
+                    null -> ""
+                },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.login_hint)
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -66,11 +77,22 @@ fun LoginScreen(
                     viewModel.setPasswordText(it)
                 },
                 hint = stringResource(id = com.locathor.brzodolokacije.R.string.password_hint),
-                keyboardType = KeyboardType.Password
+                keyboardType = KeyboardType.Password,
+                error = when (state.passwordError) {
+                    LoginState.PasswordError.FieldEmpty -> {
+                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                    }
+                    null -> ""
+                },
+                isPasswordVisible=viewModel.showPassword.value,
+                onPasswordToggleClick={
+                    viewModel.setShowPassword(it)
+                }
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
+                    //TODO on button press navigate
                           viewModel.onEvent(LoginEvent.OnLoginButtonPress)
                 },
                 modifier = Modifier
@@ -81,7 +103,6 @@ fun LoginScreen(
                     color = Color.Green
                 )
             }
-
         }
         Text(
             text = buildAnnotatedString {
@@ -96,6 +117,10 @@ fun LoginScreen(
             style=MaterialTheme.typography.bodyLarge,
             modifier=Modifier
                 .align(Alignment.BottomCenter)
+                //clickable {
+                    //TODO navigation for already have an account
+                    //DestinationsNavigator.navigate()
+                //}
         )
     }
 }
