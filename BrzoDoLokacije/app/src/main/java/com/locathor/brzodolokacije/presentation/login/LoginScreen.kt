@@ -47,6 +47,8 @@ fun LoginScreen(
             top = SpaceLarge,
             bottom = 50.dp
         )
+        .scrollable(state=scrollState, orientation = Orientation.Horizontal)
+        .scrollable(state=scrollState, orientation = Orientation.Vertical)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
