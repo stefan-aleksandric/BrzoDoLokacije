@@ -1,7 +1,11 @@
 package com.locathor.brzodolokacije.presentation.register
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,13 +29,14 @@ import com.locathor.brzodolokacije.presentation.login.LoginEvent
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.util.Constants
 
-
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun RegisterScreen(
     navigator: DestinationsNavigator,
     viewModel: RegisterViewModel= hiltViewModel()
 ) {
+    val scrollState = rememberScrollState()
     val state = viewModel.state
     Box(
         modifier = Modifier
@@ -42,12 +47,14 @@ fun RegisterScreen(
                 top = SpaceLarge,
                 bottom = 50.dp
             )
+            .scrollable(state=scrollState, orientation = Orientation.Horizontal)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .align(Alignment.Center),
+                .align(Alignment.Center)
+                .verticalScroll(rememberScrollState())
         ) {
             Text(
                 text = stringResource(id = com.locathor.brzodolokacije.R.string.register),
@@ -160,27 +167,29 @@ fun RegisterScreen(
                     color = Color.Green
                 )
             }
-        }
-        Text(
-            text = buildAnnotatedString {
-                append(stringResource(id = com.locathor.brzodolokacije.R.string.already_have_an_account))
-                append(" ")
-                val signUpText = stringResource(id = com.locathor.brzodolokacije.R.string.sign_in)
-                withStyle(
-                    style = SpanStyle(
-                        color=Color.Green
-                    )
-                ) {
-                    append(signUpText)
-                }
-            },
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
+            Spacer(modifier = Modifier.height(SpaceLarge))
+            Text(
+                text = buildAnnotatedString {
+                    append(stringResource(id = com.locathor.brzodolokacije.R.string.already_have_an_account))
+                    append(" ")
+                    val signUpText = stringResource(id = com.locathor.brzodolokacije.R.string.sign_in)
+                    withStyle(
+                        style = SpanStyle(
+                            color=Color.Green
+                        )
+                    ) {
+                        append(signUpText)
+                    }
+                },
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier
+                    //.align(Alignment.BottomCenter)
+                    .align(alignment = Alignment.CenterHorizontally)
                 //.clickable {
-                    //TODO navigation for don't have an account yet
+                //TODO navigation for don't have an account yet
                 //}
-        )
+            )
+        }
     }
 }
 
