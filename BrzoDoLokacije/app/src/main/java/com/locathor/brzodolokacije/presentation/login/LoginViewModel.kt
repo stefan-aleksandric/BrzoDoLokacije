@@ -1,6 +1,7 @@
 package com.locathor.brzodolokacije.presentation.login
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,8 +41,9 @@ class LoginViewModel @Inject constructor(
                 validateUsername(state.username)
                 validatePassword(state.password)
 
-                if(state.usernameError==null && state.passwordError==null)
-                loginUser(state.username, state.password);
+                if(state.usernameError==null && state.passwordError==null) {
+                    loginUser(state.username, state.password)
+                }
             }
         }
     }

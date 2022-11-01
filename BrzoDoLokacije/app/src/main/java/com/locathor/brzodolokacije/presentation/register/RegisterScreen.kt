@@ -1,5 +1,6 @@
 package com.locathor.brzodolokacije.presentation.register
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -10,9 +11,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -29,6 +32,7 @@ import com.locathor.brzodolokacije.presentation.login.LoginEvent
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.util.Constants
 
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun RegisterScreen(
@@ -56,6 +60,7 @@ fun RegisterScreen(
                 .align(Alignment.Center)
                 .verticalScroll(rememberScrollState())
         ) {
+            val context= LocalContext.current
             Text(
                 text = stringResource(id = com.locathor.brzodolokacije.R.string.register),
                 style = MaterialTheme.typography.titleLarge
@@ -158,6 +163,7 @@ fun RegisterScreen(
             Button(
                 onClick = {
                     viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
+                    Toast.makeText(context,"Attempting registration...",Toast.LENGTH_SHORT).show()
                 },
                 modifier = Modifier
                     .align(Alignment.End)

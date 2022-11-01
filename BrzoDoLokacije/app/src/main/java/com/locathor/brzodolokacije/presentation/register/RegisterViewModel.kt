@@ -61,8 +61,9 @@ class RegisterViewModel @Inject constructor(
                 validateName(state.name)
                 validateSurname(state.surname)
 
-                if(state.usernameError==null && state.emailError==null && state.nameError==null && state.surnameError==null && state.passwordError==null)
-                registerUser(state.username,state.email,state.name,state.surname,state.password);
+                if(state.usernameError==null && state.emailError==null && state.nameError==null && state.surnameError==null && state.passwordError==null){
+                    registerUser(state.username,state.email,state.name,state.surname,state.password)
+                }
             }
             is RegisterEvent.TogglePasswordVisibility -> {
                 state = state.copy(

@@ -60,22 +60,17 @@ fun Post(
         ){
             Row (
                 horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier
+                    //.clickable()
             ){
-                Image(
-                    //TODO pull postOwner image
-                    painterResource(id = R.drawable.user),
-                    contentDescription = "Profile picture",
-                    modifier=Modifier
-                        .clip(CircleShape)
-                        .size(30.dp)
-                )
                 Icon(
                     Icons.Filled.LocationOn,
                     contentDescription = "Location pin icon" // decorative element
                 )
-                //TODO addLocation
+                //TODO addLocation from user
                 Text(
-                    text="LocationName XY"
+                    text="Paris,France,Western Europe",
+                    style=MaterialTheme.typography.titleSmall
                 )
             }
             Image(
@@ -196,17 +191,25 @@ fun ActionRow(
         modifier=modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ){
-        Text(
-            text=username,
-            style= TextStyle(
-                fontWeight= FontWeight.Bold,
-                color= Color.Blue
-            ),
+        Row(
             modifier= Modifier
                 .clickable{
                     onUsernameClick(username)
                 }
-        )
+        ){
+            Image(
+                //TODO pull postOwner image
+                painterResource(id = R.drawable.user),
+                contentDescription = "Profile picture",
+                modifier=Modifier
+                    .clip(CircleShape)
+                    .size(30.dp)
+            )
+            Text(
+                text=username,
+                style= MaterialTheme.typography.headlineSmall,
+            )
+        }
         EngagementButtons(
             isLiked=isLiked,
             onLikeClick=onLikeClick,
