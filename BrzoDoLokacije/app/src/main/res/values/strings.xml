@@ -18,4 +18,11 @@
     <string name="not_a_valid_email">This is not a valid email</string>
     <string name="input_too_short">The minimum length is %d</string>
     <string name="invalid_password">The password needs to contain at least one uppercase letter and one number</string>
+    <string name="unlike">unlike</string>
+    <string name="like">like</string>
+    <string name="comment">comment</string>
+    <string name="share">share</string>
+    <string name="read_more">Read more</string>
+    <string name="liked_by_x_people">Liked by %d people</string>
+    <string name="x_comments">%d comments</string>
 </resources>

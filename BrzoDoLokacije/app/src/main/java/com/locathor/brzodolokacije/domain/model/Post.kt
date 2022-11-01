@@ -7,6 +7,9 @@ data class Post(
     var latitude: Double,
     var longitude: Double,
     var createdAt: String,
-    //val image: String,
-    val ownerUsername: String
+    val image: String?=null,
+    val ownerUsername: String,
+    val ownerProfilePicture: String?=null,
+    val likeCount: Int=0,
+    val commentCount: Int=0
 )
