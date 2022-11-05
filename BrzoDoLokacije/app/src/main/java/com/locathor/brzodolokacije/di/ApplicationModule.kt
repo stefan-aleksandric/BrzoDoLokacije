@@ -7,11 +7,11 @@ import androidx.room.Room
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
-import com.locathor.brzodolokacije.data.repository.AuthRepositoryImpl
+import com.locathor.brzodolokacije.data.services.AppSharedPreferences
+import com.locathor.brzodolokacije.data.remote.interceptors.AuthInterceptorImpl
+import com.locathor.brzodolokacije.data.services.SessionManager
 import com.locathor.brzodolokacije.domain.repository.AuthRepository
-import com.locathor.brzodolokacije.data.local.AppSharedPreferences
-import com.locathor.brzodolokacije.data.remote.interceptors.AuthInterceptor
-import com.locathor.brzodolokacije.data.repository.SessionManager
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +27,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApplicationModule {
 
+    /*  USER API DEPENDENCY CHAIN */
     @Provides
     @Singleton
     fun provideUserApi(): UserApi {
@@ -37,12 +38,12 @@ object ApplicationModule {
             .create()
     }
 
+    /*  POST API DEPENDENCY CHAIN */
     @Provides
     @Singleton
     fun providePostApi(retrofit: Retrofit): PostApi =
        retrofit
             .create()
-
 
     @Provides
     @Singleton
@@ -55,10 +56,38 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient =
+    fun provideOkHttpClient(authInterceptorImpl: AuthInterceptorImpl): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
+            .addInterceptor(authInterceptorImpl)
             .build()
+    @Singleton
+    @Provides
+    fun provideAuthInterceptorImpl(
+        sessionManager: SessionManager
+    ): AuthInterceptorImpl = AuthInterceptorImpl(sessionManager)
+
+
+
+    /* SESSION MANAGER DEPENDENCY CHAIN */
+    @Singleton
+    @Provides
+    fun provideSessionManager(
+        appSharedPreferences: AppSharedPreferences,
+        authRepository: AuthRepository
+    ): SessionManager = SessionManager(appSharedPreferences, authRepository)
+
+    @Singleton
+    @Provides
+    fun provideAppSharedPreferences(
+        sharedPreferences: SharedPreferences
+    ): AppSharedPreferences = AppSharedPreferences(sharedPreferences)
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context,
+    ): SharedPreferences =
+        context.getSharedPreferences(AppSharedPreferences.SHARED_PREFS, Context.MODE_PRIVATE)
 
 
     @Provides
@@ -72,39 +101,4 @@ object ApplicationModule {
             .fallbackToDestructiveMigration()
             .build()
     }
-
-    @Singleton
-    @Provides
-    fun provideAuthInterceptorImpl(
-        sessionManager: SessionManager
-    ): AuthInterceptor = AuthInterceptor(sessionManager = sessionManager)
-
-
-    @Singleton
-    @Provides
-    fun provideSessionManager(
-        appSharedPreferences: AppSharedPreferences,
-        authRepository: AuthRepository
-    ): SessionManager = SessionManager(
-        pref = appSharedPreferences,
-        authRepository = authRepository
-    )
-
-    @Singleton
-    @Provides
-    fun provideAuthRepository(): AuthRepository = AuthRepositoryImpl()
-
-    @Singleton
-    @Provides
-    fun provideAppSharedPreferences(
-        sharedPreferences: SharedPreferences
-    ) = AppSharedPreferences(sharedPreferences)
-
-
-    @Singleton
-    @Provides
-    fun provideSharedPreferences(
-        @ApplicationContext context: Context,
-    ): SharedPreferences =
-        context.getSharedPreferences(AppSharedPreferences.SHARED_PREFS, Context.MODE_PRIVATE)
 }
