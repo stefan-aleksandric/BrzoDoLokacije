@@ -1,14 +1,14 @@
 package com.locathor.brzodolokacije.data.remote.interceptors
 
 import android.util.Log
-import com.locathor.brzodolokacije.data.repository.SessionManager
+import com.locathor.brzodolokacije.data.services.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class AuthInterceptor @Inject constructor(
+class AuthInterceptorImpl @Inject constructor(
     private val sessionManager: SessionManager
 ):Interceptor {
 

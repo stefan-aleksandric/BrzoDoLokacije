@@ -1,6 +1,5 @@
-package com.locathor.brzodolokacije.data.repository
+package com.locathor.brzodolokacije.data.services
 
-import com.locathor.brzodolokacije.data.local.AppSharedPreferences
 import com.locathor.brzodolokacije.domain.repository.AuthRepository
 import javax.inject.Inject
 
