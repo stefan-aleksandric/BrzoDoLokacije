@@ -7,11 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.*
-import androidx.compose.material.icons.filled.Comment
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -55,14 +52,13 @@ fun Post(
                 .clip(MaterialTheme.shapes.medium)
                 .shadow(3.dp)
                 .padding(SpaceMedium),
-            /*.clickable {
-                locationClick
-            }*///TODO on location click
         ){
             Row (
                 horizontalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier
-                    //.clickable()
+                    .clickable {
+                        //TODO on location click
+                    }
             ){
                 Icon(
                     Icons.Filled.LocationOn,
@@ -77,6 +73,9 @@ fun Post(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clickable {
+                    //TODO on image click
+                }
             ){
                 Image(
                     //TODO pull user post image async
@@ -150,12 +149,12 @@ fun EngagementButtons(
         }, modifier = Modifier.size(iconSize)
         ){
             Icon(
-                Icons.Outlined.Favorite,
-                tint=if(isLiked){
+                imageVector = if(isLiked){
+                    Icons.Filled.Favorite
+                }else Icons.Filled.FavoriteBorder,
+                tint = if(isLiked){
                     Color.Red
-                }else{
-                    Color.Black
-                },
+                }else Color.Black,
                 contentDescription = if(isLiked){
                     stringResource(id = R.string.unlike)
                 } else stringResource(id = R.string.like)
@@ -211,6 +210,7 @@ fun ActionRow(
                     .clip(CircleShape)
                     .size(30.dp)
             )
+            Spacer(modifier=Modifier.width(SpaceSmall))
             Text(
                 text=username,
                 style= MaterialTheme.typography.headlineSmall,

@@ -24,77 +24,72 @@ fun StandardBottomBar(
     content:@Composable () -> Unit)
 {
     Scaffold (
-        bottomBar = {
-            BottomAppBar(
-                modifier= Modifier.fillMaxWidth(),
-                contentColor = Color.White,
-                containerColor = Color.Blue,
-                actions = {
-                    if (bottomBarOn){
-                    Spacer(Modifier.size(SpaceLarge))
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            Icons.Filled.Home,
-                            contentDescription = "Home",
-                            modifier = Modifier
-                                .size(128.dp)
-                        )
+            bottomBar = {
+                if(bottomBarOn){
+                BottomAppBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentColor = Color.White,
+                    containerColor = Color.Blue,
+                    actions = {
+                            Spacer(Modifier.size(SpaceLarge))
+                            IconButton(onClick = {
+                                /* doSomething() */
+                            }) {
+                                Icon(
+                                    Icons.Filled.Home,
+                                    contentDescription = "Home",
+                                    modifier = Modifier
+                                        .size(128.dp)
+                                )
+                            }
+                            Spacer(Modifier.size(SpaceLarge + SpaceSmall))
+                            IconButton(onClick = {
+                                /* doSomething() */
+                            }) {
+                                Icon(
+                                    Icons.Filled.Message,
+                                    contentDescription = "Inbox",
+                                    modifier = Modifier
+                                        .size(128.dp)
+                                )
+                            }
+                            Spacer(Modifier.size(SpaceLarge + SpaceSmall))
+                            IconButton(onClick = {
+                                /* doSomething() */
+                            }) {
+                                Icon(
+                                    Icons.Filled.Notifications,
+                                    contentDescription = "Notifications",
+                                    modifier = Modifier
+                                        .size(128.dp)
+                                )
+                            }
+                            Spacer(Modifier.size(SpaceLarge + SpaceSmall))
+                            IconButton(onClick = {
+                                /* doSomething() */
+                            }) {
+                                Icon(
+                                    Icons.Filled.Person,
+                                    contentDescription = "User profile",
+                                    modifier = Modifier
+                                        .size(128.dp)
+                                )
+                            }
+                    },
+                    floatingActionButton = {
+                            FloatingActionButton(
+                                shape = CircleShape,
+                                onClick = { /* do something */ },
+                                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            ) {
+                                Icon(Icons.Filled.Add, "Localized description")
+                            }
                     }
-                    Spacer(Modifier.size(SpaceLarge + SpaceSmall))
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            Icons.Filled.Message,
-                            contentDescription = "Inbox",
-                            modifier = Modifier
-                                .size(128.dp)
-                        )
-                    }
-                    Spacer(Modifier.size(SpaceLarge + SpaceSmall))
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            Icons.Filled.Notifications,
-                            contentDescription = "Notifications",
-                            modifier = Modifier
-                                .size(128.dp)
-                        )
-                    }
-                    Spacer(Modifier.size(SpaceLarge + SpaceSmall))
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            Icons.Filled.Person,
-                            contentDescription = "User profile",
-                            modifier = Modifier
-                                .size(128.dp)
-                        )
-                    }
-                }else{
-                        Spacer(Modifier.size(SpaceSmall))
-                        IconButton(onClick = { /* doSomething() */ }) {
-                            Icon(
-                                Icons.Filled.ArrowBack,
-                                contentDescription = "Arrow back",
-                                modifier = Modifier
-                                    .size(128.dp)
-                            )
-                        }
-                    }
-                },
-                floatingActionButton = {
-                    if(bottomBarOn){
-                        FloatingActionButton(
-                            shape = CircleShape,
-                            onClick = { /* do something */ },
-                            containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(Icons.Filled.Add, "Localized description")
-                        }
-                    }
-                }
-            )
-        },
-        modifier = Modifier
-    ){
+                )}
+            },
+            modifier = Modifier
+        ){
         content()
     }
 }
