@@ -32,7 +32,7 @@ import com.locathor.brzodolokacije.presentation.login.LoginEvent
 import com.locathor.brzodolokacije.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.util.Constants
 
-@RootNavGraph(start = true)
+//@RootNavGraph(start = true)
 @Destination
 @Composable
 fun RegisterScreen(

@@ -54,9 +54,10 @@ fun Post(
                 .fillMaxWidth()
                 .clip(MaterialTheme.shapes.medium)
                 .shadow(3.dp)
+                .padding(SpaceMedium),
             /*.clickable {
-                onPostClick()
-            }*///TODO on post click
+                locationClick
+            }*///TODO on location click
         ){
             Row (
                 horizontalArrangement = Arrangement.SpaceAround,
@@ -73,11 +74,16 @@ fun Post(
                     style=MaterialTheme.typography.titleSmall
                 )
             }
-            Image(
-                //TODO pull user post image
-                painterResource(id = R.drawable.paris),
-                contentDescription="Post image",
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ){
+                Image(
+                    //TODO pull user post image async
+                    painterResource(id = R.drawable.paris),
+                    contentDescription="Post image",
+                )
+            }
             ActionRow(
                 username=post.ownerUsername,
                 modifier=Modifier.fillMaxWidth(),
@@ -117,11 +123,11 @@ fun Post(
             ){
                 Text(
                     text= stringResource(id = R.string.liked_by_x_people,post.likeCount),
-                    style=MaterialTheme.typography.headlineSmall
+                    style=MaterialTheme.typography.titleSmall
                 )
                 Text(
                     text= stringResource(id = R.string.x_comments,post.commentCount),
-                    style=MaterialTheme.typography.headlineSmall
+                    style=MaterialTheme.typography.titleSmall
                 )
             }
         }
@@ -134,7 +140,7 @@ fun EngagementButtons(
     onCommentClick:()->Unit={},
     onShareClick:()->Unit={},
     isLiked:Boolean=false,
-    iconSize: Dp =30.dp,
+    iconSize: Dp = 30.dp,
 ){
     Row(
         horizontalArrangement = Arrangement.SpaceAround
@@ -142,7 +148,6 @@ fun EngagementButtons(
         IconButton(onClick={
             onLikeClick(!isLiked)
         }, modifier = Modifier.size(iconSize)
-
         ){
             Icon(
                 Icons.Outlined.Favorite,
@@ -183,6 +188,7 @@ fun ActionRow(
     isLiked:Boolean=false,
     onLikeClick:(Boolean)->Unit={},
     onCommentClick:()->Unit={},
+    onLocationClick:()->Unit={},
     onShareClick:()->Unit={},
     username:String,
     onUsernameClick:(String)->Unit={}
@@ -211,9 +217,9 @@ fun ActionRow(
             )
         }
         EngagementButtons(
-            isLiked=isLiked,
-            onLikeClick=onLikeClick,
-            onCommentClick =onCommentClick,
+            isLiked = isLiked,
+            onLikeClick = onLikeClick,
+            onCommentClick = onCommentClick,
             onShareClick = onShareClick,
         )
     }
