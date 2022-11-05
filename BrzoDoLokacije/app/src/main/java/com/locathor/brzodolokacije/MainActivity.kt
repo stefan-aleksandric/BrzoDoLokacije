@@ -25,21 +25,21 @@ class MainActivity : ComponentActivity() {
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
-            setContent {
-                BrzoDoLokacijeTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        DestinationsNavHost(navGraph = NavGraphs.root)
-                    }
-                }
-            }
+            //for permissions launch coroutine to consume them
         }
         permissionLauncher.launch(arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
         ))
-
+        setContent {
+            BrzoDoLokacijeTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    DestinationsNavHost(navGraph = NavGraphs.root)
+                }
+            }
+        }
     }
 }
