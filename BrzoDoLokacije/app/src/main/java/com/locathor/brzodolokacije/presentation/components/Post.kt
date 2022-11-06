@@ -37,7 +37,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Post
-import com.locathor.brzodolokacije.ui.theme.*
+import com.locathor.brzodolokacije.presentation.ui.theme.HintGray
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
+import com.locathor.brzodolokacije.presentation.ui.theme.*
 import com.locathor.brzodolokacije.util.Constants
 
 @Composable

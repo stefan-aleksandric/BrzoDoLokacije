@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import com.locathor.brzodolokacije.ui.theme.IconSizeMedium
+import com.locathor.brzodolokacije.presentation.ui.theme.IconSizeMedium
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

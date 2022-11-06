@@ -23,16 +23,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.locathor.brzodolokacije.ui.theme.SpaceLarge
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.destinations.ProfileScreenDestination
 import com.locathor.brzodolokacije.presentation.login.LoginEvent
-import com.locathor.brzodolokacije.ui.theme.SpaceMedium
+import com.locathor.brzodolokacije.presentation.posts.PostScreenData
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.util.Constants
 
-//@RootNavGraph(start = true)
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun RegisterScreen(
@@ -162,8 +164,12 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                    viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
-                    Toast.makeText(context,"Attempting registration...",Toast.LENGTH_SHORT).show()
+                          navigator.navigate(ProfileScreenDestination(PostScreenData(
+                              title = "title",
+                              desc = "desc"
+                          )))
+//                    viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
+//                    Toast.makeText(context,"Attempting registration...",Toast.LENGTH_SHORT).show()
                 },
                 modifier = Modifier
                     .align(Alignment.End)

@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
@@ -90,6 +92,7 @@ object ApplicationModule {
         context.getSharedPreferences(AppSharedPreferences.SHARED_PREFS, Context.MODE_PRIVATE)
 
 
+    /* DATABASE */
     @Provides
     @Singleton
     fun provideBrzoDoLokacijeDatabase(app: Application): BrzoDoLokacijeDatabase {
@@ -100,5 +103,14 @@ object ApplicationModule {
         )
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    /* FUSED LOCATION PROVIDER */
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(
+        app: Application
+    ): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(app)
     }
 }

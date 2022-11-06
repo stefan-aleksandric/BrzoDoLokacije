@@ -1,7 +1,7 @@
 package com.locathor.brzodolokacije.di
 
+import com.locathor.brzodolokacije.data.location.DefaultLocationTracker
 import com.locathor.brzodolokacije.domain.location.LocationTracker
-import com.plcoding.weatherapp.data.location.DefaultLocationTracker
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
