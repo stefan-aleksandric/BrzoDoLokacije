@@ -126,10 +126,14 @@ class DefaultLocationTracker @Inject constructor(
     }
 
     override suspend fun getLocation(): Location? {
-       return when(getLocationAvailability()!!.isLocationAvailable &&   getLastLocation()!!.time + 1000*30 > System.currentTimeMillis()){
-            true -> getLastLocation()
-            false -> getCurrentLocation()
-       }
+        val availability =  getLocationAvailability()
+        val lastLocation = getLastLocation()
+        if(availability != null && lastLocation != null) {
+            if( availability.isLocationAvailable &&
+                lastLocation.time.plus(30*1000) > System.currentTimeMillis())
+                return lastLocation
+        }
+        return getCurrentLocation()
     }
 
     private fun checkPermissions(): Boolean {
