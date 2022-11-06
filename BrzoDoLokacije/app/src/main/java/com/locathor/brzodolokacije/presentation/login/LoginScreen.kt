@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.presentation.register.RegisterState
-import com.locathor.brzodolokacije.ui.theme.SpaceLarge
-import com.locathor.brzodolokacije.ui.theme.SpaceMedium
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.util.Constants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph

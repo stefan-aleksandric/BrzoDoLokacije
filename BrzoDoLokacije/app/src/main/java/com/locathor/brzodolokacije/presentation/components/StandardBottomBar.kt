@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.locathor.brzodolokacije.ui.theme.*
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
+import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
+import com.locathor.brzodolokacije.presentation.ui.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
