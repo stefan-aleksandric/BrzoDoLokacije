@@ -6,25 +6,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.presentation.components.Post
-import com.locathor.brzodolokacije.presentation.components.StandardBottomBar
+import com.locathor.brzodolokacije.presentation.components.StandardScaffold
 import com.locathor.brzodolokacije.presentation.posts.PostsViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
-//@RootNavGraph(start = true)
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
     viewModel: PostsViewModel = hiltViewModel()
 ){
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ){
-        StandardBottomBar (
-                bottomBarOn = true
+        StandardScaffold (
+                bottomBarOn = true,
+                navigationArrowOn = true,
+                topBarOn = true,
+                toolbarTitle = "Home"
                 ){
             Post(
                 post = com.locathor.brzodolokacije.domain.model.Post(
@@ -44,5 +44,4 @@ fun HomeScreen(
             )
         }
     }
-}
 

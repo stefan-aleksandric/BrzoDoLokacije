@@ -34,7 +34,7 @@ import com.locathor.brzodolokacije.presentation.posts.PostScreenData
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.util.Constants
 
-@RootNavGraph(start = true)
+//@RootNavGraph(start = true)
 @Destination
 @Composable
 fun RegisterScreen(
@@ -164,6 +164,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
+
                           navigator.navigate(ProfileScreenDestination(PostScreenData(
                               title = "title",
                               desc = "desc"
