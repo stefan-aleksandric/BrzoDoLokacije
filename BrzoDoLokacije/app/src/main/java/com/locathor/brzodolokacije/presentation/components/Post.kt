@@ -33,11 +33,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Post
+import com.locathor.brzodolokacije.presentation.posts.PostScreenData
 import com.locathor.brzodolokacije.presentation.ui.theme.HintGray
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
 import com.locathor.brzodolokacije.presentation.ui.theme.*
 import com.locathor.brzodolokacije.util.Constants
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun Post(
@@ -76,13 +78,15 @@ fun Post(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                    //TODO on image click
+                    //TODO on post image click
+                    //navigator.navigate(PostDetailScreenDestination(post))
                 }
             ){
                 Image(
                     //TODO pull user post image async
                     painterResource(id = R.drawable.paris),
                     contentDescription="Post image",
+                    modifier=Modifier.fillMaxWidth()
                 )
             }
             ActionRow(
@@ -180,6 +184,7 @@ fun EngagementButtons(
 fun ActionRow(
     modifier:Modifier=Modifier,
     isLiked:Boolean=false,
+    userIconOn:Boolean=true,
     onLikeClick:(Boolean)->Unit={},
     onCommentClick:()->Unit={},
     onLocationClick:()->Unit={},
@@ -197,14 +202,16 @@ fun ActionRow(
                     onUsernameClick(username)
                 }
         ){
+            if(userIconOn){
             Image(
                 //TODO pull postOwner image
                 painterResource(id = R.drawable.user),
                 contentDescription = "Profile picture",
                 modifier=Modifier
                     .clip(CircleShape)
-                    .size(30.dp)
+                    .size(IconSizeLarge)
             )
+            }
             Spacer(modifier=Modifier.width(SpaceSmall))
             Text(
                 text=username,

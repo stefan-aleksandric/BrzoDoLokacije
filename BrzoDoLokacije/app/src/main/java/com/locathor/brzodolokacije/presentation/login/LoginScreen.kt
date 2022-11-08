@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -108,7 +109,8 @@ fun LoginScreen(
             ) {
                 Text(
                     text = stringResource(id = com.locathor.brzodolokacije.R.string.login),
-                    color = Color.Green
+                    color=Color.Black,
+                    fontWeight = FontWeight.Bold
                 )
             }
             Spacer(modifier = Modifier.height(SpaceLarge))
@@ -117,7 +119,8 @@ fun LoginScreen(
                     append(stringResource(id = com.locathor.brzodolokacije.R.string.dont_have_an_account_yet))
                     append(" ")
                     withStyle(style=SpanStyle(
-                        color=Color.Green
+                        color=Color.Black,
+                        fontWeight = FontWeight.Bold
                     )){
                         append(stringResource(id= com.locathor.brzodolokacije.R.string.sign_up))
                     }

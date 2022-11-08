@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -19,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -52,8 +54,8 @@ fun RegisterScreen(
                 top = SpaceLarge,
                 bottom = 50.dp
             )
-            .scrollable(state=scrollState, orientation = Orientation.Horizontal)
-            .scrollable(state=scrollState, orientation = Orientation.Vertical)
+            .scrollable(state = scrollState, orientation = Orientation.Horizontal)
+            .scrollable(state = scrollState, orientation = Orientation.Vertical)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -164,12 +166,11 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-
                           navigator.navigate(ProfileScreenDestination(PostScreenData(
                               title = "title",
                               desc = "desc"
                           )))
-//                    viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
+                        //viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
 //                    Toast.makeText(context,"Attempting registration...",Toast.LENGTH_SHORT).show()
                 },
                 modifier = Modifier
@@ -177,7 +178,8 @@ fun RegisterScreen(
             ) {
                 Text(
                     text = stringResource(id = com.locathor.brzodolokacije.R.string.register),
-                    color = Color.Green
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
                 )
             }
             Spacer(modifier = Modifier.height(SpaceLarge))
@@ -188,7 +190,8 @@ fun RegisterScreen(
                     val signUpText = stringResource(id = com.locathor.brzodolokacije.R.string.sign_in)
                     withStyle(
                         style = SpanStyle(
-                            color=Color.Green
+                            color=Color.Black,
+                            fontWeight = FontWeight.Bold
                         )
                     ) {
                         append(signUpText)

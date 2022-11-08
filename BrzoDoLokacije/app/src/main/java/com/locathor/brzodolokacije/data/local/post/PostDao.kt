@@ -22,7 +22,6 @@ interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPosts(postEntities: List<PostEntity>)
 
-
     /*
     @Query("SELECT 'title', 'desc' FROM postentity")
     suspend fun getTuple(): List<Tuple>

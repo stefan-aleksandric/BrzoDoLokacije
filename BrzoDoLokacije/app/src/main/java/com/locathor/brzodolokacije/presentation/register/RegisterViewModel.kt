@@ -60,7 +60,6 @@ class RegisterViewModel @Inject constructor(
                 validatePassword(state.password)
                 validateName(state.name)
                 validateSurname(state.surname)
-
                 if(state.usernameError==null && state.emailError==null && state.nameError==null && state.surnameError==null && state.passwordError==null){
                     registerUser(state.username,state.email,state.name,state.surname,state.password)
                 }
