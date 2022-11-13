@@ -20,10 +20,12 @@
     <string name="invalid_password">The password needs to contain at least one uppercase letter and one number</string>
     <string name="unlike">unlike</string>
     <string name="like">like</string>
+    <string name="likes">%d likes</string>
     <string name="comment">comment</string>
     <string name="share">share</string>
     <string name="read_more">Read more</string>
     <string name="liked_by_x_people">Liked by %d people</string>
+    <string name="liked_by_one_person">Liked by %d person</string>
     <string name="x_comments">%d comments</string>
     <string name="home">Home</string>
     <string name="chat">Chat</string>

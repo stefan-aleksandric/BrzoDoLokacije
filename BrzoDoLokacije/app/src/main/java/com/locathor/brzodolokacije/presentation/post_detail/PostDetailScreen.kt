@@ -1,12 +1,15 @@
 package com.locathor.brzodolokacije.presentation.post_detail
 
+import android.widget.Space
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +31,7 @@ import com.locathor.brzodolokacije.presentation.components.Post
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
 import com.locathor.brzodolokacije.presentation.posts.PostsViewModel
 import com.locathor.brzodolokacije.presentation.ui.theme.ProfilePictureSize
+import com.locathor.brzodolokacije.presentation.ui.theme.ProfilePictureSizeSmall
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
 import com.locathor.brzodolokacije.util.Constants
@@ -51,7 +55,7 @@ fun PostDetailScreen(
         Box(
             modifier= Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                //.verticalScroll(rememberScrollState())
         ){
             Column(
                 modifier = Modifier
@@ -121,6 +125,20 @@ fun PostDetailScreen(
                     text= stringResource(id = R.string.liked_by_x_people,post.likeCount),
                     style=MaterialTheme.typography.titleSmall
                 )
+                LazyColumn(
+                    modifier=Modifier.fillMaxSize()
+                ){
+                    items(20){
+                        Comment(
+                            modifier=Modifier.fillMaxWidth(),
+                            comment=Comment(
+                                username="Stefan Aleksandric$it",
+                                comment="This is very nice!"+" The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,",
+                            )
+                        ){
+                        }
+                    }
+                }
             }
             Image(
                 //TODO pull user post image async
@@ -150,6 +168,9 @@ fun PostDetailPreview(){
                 ownerProfilePicture = "",
                 desc = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout." +
                         " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
+                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
+                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
+                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
                         " as opposed to using 'Content here, content here', making it look like readable English.",
                 likeCount=10,
                 commentCount = 5,
@@ -176,15 +197,17 @@ fun Comment(
         Column(modifier=Modifier.fillMaxSize()){
             Row(
                 modifier=Modifier
+                    .padding(SpaceMedium)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Row(
                     modifier=Modifier
                 ){
-                    Image(painter= painterResource(
-                        id = R.drawable.user)
-                        ,null
+                    Image(
+                        painter= painterResource(id = R.drawable.user),
+                        contentDescription=null,
+                        modifier=Modifier.size(ProfilePictureSizeSmall)
                     )
                     Spacer(modifier=Modifier.width(SpaceSmall))
                     Text(
@@ -197,32 +220,40 @@ fun Comment(
                     text="2 days ago"
                 )
             }
-            Spacer(modifier=Modifier.height(SpaceMedium))
+            Spacer(modifier=Modifier.height(SpaceSmall))
             Row(
                 modifier=Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Text(
                     text=comment.comment,
-                    style=MaterialTheme.typography.bodySmall
+                    style=MaterialTheme.typography.bodyMedium,
+                    modifier=Modifier.padding(SpaceSmall)
                 )
+            }
+            Spacer(modifier=Modifier.height(SpaceSmall))
+            Row(
+                modifier=Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ){
                 IconButton(
                     onClick = {
-                    onLikeClick(comment.isLiked)
-                }){
-                    Icon(imageVector=Icons.Default.Favorite,
-                    if(comment.isLiked){
-                        stringResource(id=R.string.like)
-                    }else stringResource(id = R.string.unlike)
+                        onLikeClick(comment.isLiked)
+                    },
+                ){
+                    Icon(imageVector=Icons.Filled.FavoriteBorder,
+                        if(comment.isLiked){
+                            stringResource(id=R.string.like)
+                        }else stringResource(id = R.string.unlike)
                     )
                 }
+                Text(
+                    text= if(comment.likeCount==1){stringResource(id = R.string.liked_by_one_person,comment.likeCount)}
+                    else{stringResource(id = R.string.liked_by_x_people,comment.likeCount)},
+                    fontWeight = FontWeight.Bold,
+                    style=MaterialTheme.typography.bodySmall
+                )
             }
-            Spacer(modifier=Modifier.height(SpaceMedium))
-            Text(
-                text= stringResource(id = R.string.liked_by_x_people,comment.likeCount),
-                fontWeight = FontWeight.Bold,
-                style=MaterialTheme.typography.bodySmall
-            )
         }
     }
 }
