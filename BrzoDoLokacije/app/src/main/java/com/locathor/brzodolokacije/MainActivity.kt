@@ -1,20 +1,27 @@
 package com.locathor.brzodolokacije
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.ActivityNavigator
 import com.locathor.brzodolokacije.presentation.NavGraphs
+import com.locathor.brzodolokacije.presentation.camera.CameraScreen
 
 import com.locathor.brzodolokacije.presentation.ui.theme.BrzoDoLokacijeTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -29,7 +36,8 @@ class MainActivity : ComponentActivity() {
         }
         permissionLauncher.launch(arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.CAMERA
         ))
         setContent {
             BrzoDoLokacijeTheme {
@@ -37,9 +45,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DestinationsNavHost(navGraph = NavGraphs.root)
+                    val context = LocalContext.current
+
+                    Button(onClick = {
+                        context.startActivity(Intent(context, CameraScreen::class.java))
+                    }) {
+                        Text(text = "Show Camera")
+                    }
+//                    DestinationsNavHost(navGraph = NavGraphs.root)
+
                 }
             }
         }
     }
+
+
 }
