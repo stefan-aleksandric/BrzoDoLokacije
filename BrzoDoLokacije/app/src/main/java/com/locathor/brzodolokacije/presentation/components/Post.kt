@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Post
+import com.locathor.brzodolokacije.presentation.destinations.HomeScreenDestination
+import com.locathor.brzodolokacije.presentation.destinations.PostDetailScreenDestination
+import com.locathor.brzodolokacije.presentation.destinations.ProfileScreenDestination
 import com.locathor.brzodolokacije.presentation.posts.PostScreenData
 import com.locathor.brzodolokacije.presentation.ui.theme.HintGray
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
@@ -44,11 +47,15 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun Post(
     post:Post,
+    onPostImageClick:()->Unit
 ){
     Box(
         modifier= Modifier
             .fillMaxWidth()
             .padding(SpaceSmall)
+            .clickable{
+                onPostImageClick()
+            }
     ){
         Column(
             modifier = Modifier

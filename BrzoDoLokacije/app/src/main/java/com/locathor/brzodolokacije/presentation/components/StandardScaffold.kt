@@ -25,6 +25,7 @@ fun StandardScaffold(
     topBarOn:Boolean=true,
     searchOn:Boolean=true,
     navigationArrowOn:Boolean=true,
+    onArrowNavigationClick:()->Unit={},
     toolbarTitle:String?=null,
     content:@Composable () -> Unit)
 {
@@ -44,7 +45,9 @@ fun StandardScaffold(
                 navigationIcon = {
                     //TODO navigate to screen before
                     if(navigationArrowOn){
-                        IconButton(onClick = { /* doSomething() */ }) {
+                        IconButton(onClick = {
+                            onArrowNavigationClick()
+                        }) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = "Go Back Icon"
