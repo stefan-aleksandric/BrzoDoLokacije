@@ -1,6 +1,9 @@
 package com.locathor.brzodolokacije.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Post(
     var title: String,
     var desc: String,
@@ -12,4 +15,4 @@ data class Post(
     val ownerProfilePicture: String?=null,
     val likeCount: Int=0,
     val commentCount: Int=0
-)
+) : Parcelable
