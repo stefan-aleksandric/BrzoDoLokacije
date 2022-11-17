@@ -23,10 +23,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.destinations.HomeScreenDestination
 import com.locathor.brzodolokacije.presentation.destinations.RegisterScreenDestination
 import com.locathor.brzodolokacije.presentation.register.RegisterState
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
+import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.util.Constants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -41,6 +43,11 @@ fun LoginScreen(
 ) {
     val state = viewModel.state
     val scrollState = rememberScrollState()
+
+    if(state.status is AuthResult.Authorized){
+        navigator.navigate(HomeScreenDestination)
+    }
+
     Box(modifier= Modifier
         .fillMaxSize()
         .padding(
@@ -102,7 +109,8 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                          viewModel.onEvent(LoginEvent.OnLoginButtonPress)
+                    viewModel.onEvent(LoginEvent.OnLoginButtonPress)
+                    navigator.navigate(HomeScreenDestination)
                 },
                 modifier = Modifier
                     .align(Alignment.End)

@@ -79,7 +79,7 @@ class UserRepositoryImpl @Inject constructor(
                 null
             }
             loginResponse?.let {
-                sessionManager.refreshToken(loginResponse.authToken) /// do refresh logic
+                sessionManager.refreshToken(loginResponse.authToken.value) /// do refresh logic
                 Log.d("AUTH_TOKEN:",sessionManager.getAccessToken().toString())
                 emit(Resource.Success(data = AuthResult.Authorized()))
                 Log.d("loginResponse", it.toString())

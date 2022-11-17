@@ -2,6 +2,7 @@ package com.locathor.brzodolokacije.data.remote
 
 import com.locathor.brzodolokacije.data.remote.dto.*
 import retrofit2.http.*
+import retrofit2.http.Body
 
 interface UserApi {
 
@@ -20,7 +21,7 @@ interface UserApi {
 
     companion object {
         const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012"
-        const val LOGIN = "Authentication/login"
+        const val LOGIN = "api/Authentication/login"
         const val REGISTER = "Authentication/register"
     }
 }

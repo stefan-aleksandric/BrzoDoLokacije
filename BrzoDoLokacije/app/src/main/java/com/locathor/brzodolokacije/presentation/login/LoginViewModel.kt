@@ -76,18 +76,22 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun loginUser(username: String, password: String){
-        Log.d("DEBUG", "ok")
         viewModelScope.launch {
             repository.loginUser(username, password)
                 .collect {  result ->
                     when(result) {
                         is Resource.Success -> {
-                            if (result.data !is AuthResult.Authorized)
-                                Log.d("AUTH_FAIL", "")
-                            else
-                            result.data.let { loginResponse ->
-                                Log.d("AUTH_SUCCESS", loginResponse.toString())
+                            if (result.data !is AuthResult.Authorized){
+                                state = state.copy(
+                                    status = AuthResult.Unauthorized()
+                                )
                             }
+                            if (result.data is AuthResult.Authorized){
+                                state = state.copy(
+                                    status = AuthResult.Authorized(result.data.toString())
+                                )
+                            }
+
                         }
                         is Resource.Error -> {
                             Unit
