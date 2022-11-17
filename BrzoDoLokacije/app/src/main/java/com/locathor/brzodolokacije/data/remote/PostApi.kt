@@ -7,22 +7,23 @@ import retrofit2.http.*
 
 interface PostApi {
 
-    @GET
+    @GET(POST)
     suspend fun getAllPosts(): List<PostDto>
 
 
-    @GET("{id}")
+    @GET("${POST}/{id}")
     suspend fun getPostsForId(
         @Path("id") postId: Int
     ): PostDto
 
-    @POST
+    @POST(POST)
     suspend fun createPost(
         @Body createPostRequest: CreatePostRequest
     ): PostDto
 
     companion object{
-        const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012/api/Post"
+        const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012"
+        const val POST = "api/Post"
         const val PAGE = 1
         const val LIMIT = 10
     }

@@ -19,8 +19,8 @@ interface UserApi {
 
 
     companion object {
-        const val BASE_URL = "http://http://softeng.pmf.kg.ac.rs:10012/"
-        const val LOGIN = "login"
-        const val REGISTER = "register"
+        const val BASE_URL = "http://http://softeng.pmf.kg.ac.rs:10012"
+        const val LOGIN = "Authentication/login"
+        const val REGISTER = "Authentication/register"
     }
 }
