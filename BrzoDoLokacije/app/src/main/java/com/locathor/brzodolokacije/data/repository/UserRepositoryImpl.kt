@@ -4,6 +4,8 @@ import android.util.Log
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.data.remote.dto.LoginRequest
+import com.locathor.brzodolokacije.data.remote.dto.RegisterRequest
+import com.locathor.brzodolokacije.data.remote.dto.RegisterResponse
 import com.locathor.brzodolokacije.data.services.SessionManager
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -32,11 +34,14 @@ class UserRepositoryImpl @Inject constructor(
             emit(Resource.Loading(isLoading = true))
             val responseUser = try {
                 api.registerUser(
-                    username = username,
-                    email = email,
-                    surname = surname,
-                    name = name,
-                    password = password
+                    RegisterRequest(
+                        username = username,
+                        email = email,
+                        surname = surname,
+                        name = name,
+                        password = password,
+                        profilePic = ""
+                    )
                 )
             } catch (e: IOException) {
                 e.printStackTrace()
