@@ -1,6 +1,7 @@
 package com.locathor.brzodolokacije.presentation.components
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -24,9 +25,14 @@ fun StandardScaffold(
     bottomBarOn:Boolean=true,
     topBarOn:Boolean=true,
     searchOn:Boolean=true,
+    commentInputOn:Boolean=true,
     navigationArrowOn:Boolean=true,
     onArrowNavigationClick:()->Unit={},
+    onHomeButtonClick:()->Unit={},
+    onAddButtonClick:()->Unit={},
+    commentInputText:String="",
     toolbarTitle:String?=null,
+    onCommentInsertChange:(String)->Unit={},
     content:@Composable () -> Unit)
 {
     Scaffold (
@@ -43,7 +49,6 @@ fun StandardScaffold(
                         )}
                 },
                 navigationIcon = {
-                    //TODO navigate to screen before
                     if(navigationArrowOn){
                         IconButton(onClick = {
                             onArrowNavigationClick()
@@ -75,7 +80,7 @@ fun StandardScaffold(
                     actions = {
                             Spacer(Modifier.size(SpaceLarge))
                             IconButton(onClick = {
-                                /* doSomething() */
+                                onHomeButtonClick()
                             }) {
                                 Icon(
                                     Icons.Filled.Home,
@@ -121,14 +126,48 @@ fun StandardScaffold(
                     floatingActionButton = {
                             FloatingActionButton(
                                 shape = CircleShape,
-                                onClick = { /* do something */ },
+                                onClick = {
+                                            onAddButtonClick()
+                                          },
                                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                             ) {
                                 Icon(Icons.Filled.Add, "Localized description")
                             }
                     }
-                )}
+                )}else if(commentInputOn){
+                    BottomAppBar(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentColor = Color.White,
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        actions = {
+                            TextField(
+                                value = commentInputText ,
+                                onValueChange ={
+                                    onCommentInsertChange(it)
+                                },
+                                placeholder = {
+                                    Text(
+                                        text="Input your comment here...",
+                                        style= MaterialTheme.typography.bodySmall
+                                    )
+                                },
+                            )
+                        },
+                        floatingActionButton = {
+                            FloatingActionButton(
+                                shape = CircleShape,
+                                onClick = {
+                                          //TODO add comment button
+                                          },
+                                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            ) {
+                                Icon(Icons.Filled.Input, "Localized description")
+                            }
+                        }
+                    )
+                }
             },
             modifier = Modifier
         ){ innerPadding ->

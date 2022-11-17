@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.presentation.components.Post
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
+import com.locathor.brzodolokacije.presentation.destinations.CreatePostScreenDestination
 import com.locathor.brzodolokacije.presentation.destinations.PostDetailScreenDestination
 import com.locathor.brzodolokacije.presentation.posts.PostsViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -29,6 +30,9 @@ fun HomeScreen(
         var state=viewModel.state
         StandardScaffold (
                 bottomBarOn = true,
+                onAddButtonClick = {
+                    navigator.navigate(CreatePostScreenDestination)
+                },
                 navigationArrowOn = false,
                 topBarOn = true,
                 toolbarTitle = stringResource(com.locathor.brzodolokacije.R.string.home)
@@ -37,7 +41,7 @@ fun HomeScreen(
             ) {
                 items(state.list.size) { i ->
                     val post =state.list[i]
-                    Post(post = post, onPostImageClick = {
+                    Post(post = post, onPostClick = {
                         navigator.navigate(PostDetailScreenDestination(post))
                     })
                 }

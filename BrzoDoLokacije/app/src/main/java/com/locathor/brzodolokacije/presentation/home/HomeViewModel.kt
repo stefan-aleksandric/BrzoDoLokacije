@@ -34,7 +34,7 @@ class HomeViewModel @Inject constructor(
                                 " as opposed to using 'Content here, content here', making it look like readable English.",
                         likeCount=10,
                         commentCount = 5,
-                        title="",
+                        title="Paris Travel experience",
                         createdAt = "",
                         longitude = 0.0,
                         latitude = 0.0
@@ -48,7 +48,7 @@ class HomeViewModel @Inject constructor(
                             " as opposed to using 'Content here, content here', making it look like readable English.",
                     likeCount=10,
                     commentCount = 5,
-                    title="",
+                    title="Paris Travel experience",
                     createdAt = "",
                     longitude = 0.0,
                     latitude = 0.0
@@ -62,7 +62,7 @@ class HomeViewModel @Inject constructor(
                             " as opposed to using 'Content here, content here', making it look like readable English.",
                     likeCount=10,
                     commentCount = 5,
-                    title="",
+                    title="Paris Travel experience",
                     createdAt = "",
                     longitude = 0.0,
                     latitude = 0.0

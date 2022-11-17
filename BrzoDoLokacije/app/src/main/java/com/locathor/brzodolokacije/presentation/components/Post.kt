@@ -47,15 +47,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun Post(
     post:Post,
-    onPostImageClick:()->Unit
+    onPostClick:()->Unit,
 ){
     Box(
         modifier= Modifier
             .fillMaxWidth()
             .padding(SpaceSmall)
-            .clickable{
-                onPostImageClick()
-            }
     ){
         Column(
             modifier = Modifier
@@ -64,29 +61,37 @@ fun Post(
                 .shadow(4.dp)
                 .padding(SpaceSmall),
         ){
-            Row (
-                horizontalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier
-                    .clickable {
-                        //TODO on location click
-                    }
+            Column(
+                modifier=Modifier.fillMaxWidth()
             ){
-                Icon(
-                    Icons.Filled.LocationOn,
-                    contentDescription = "Location pin icon" // decorative element
-                )
-                //TODO addLocation from user
                 Text(
-                    text="Paris,France,Western Europe",
-                    style=MaterialTheme.typography.titleSmall
+                    text=post.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier=Modifier.padding(start= SpaceSmall)
                 )
+                Row (
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    modifier = Modifier
+                        .clickable {
+                            //TODO on location click
+                        }
+                ){
+                    Icon(
+                        Icons.Filled.LocationOn,
+                        contentDescription = "Location pin icon" // decorative element
+                    )
+                    //TODO addLocation from user
+                    Text(
+                        text="Paris,France,Western Europe",
+                        style=MaterialTheme.typography.titleSmall
+                    )
+                }
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                    //TODO on post image click
-                    //navigator.navigate(PostDetailScreenDestination(post))
+                        onPostClick()
                 }
             ){
                 Image(
@@ -103,7 +108,7 @@ fun Post(
 
                 },
                 onCommentClick = {
-
+                    onPostClick()
                 },
                 onShareClick = {
 

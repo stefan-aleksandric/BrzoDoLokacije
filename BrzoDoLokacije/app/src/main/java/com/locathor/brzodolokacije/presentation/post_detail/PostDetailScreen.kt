@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Input
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import com.locathor.brzodolokacije.domain.model.Comment
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.presentation.components.ActionRow
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
+import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.presentation.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -33,10 +35,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun PostDetailScreen(
     post: Post,
-    navigator:DestinationsNavigator
+    navigator:DestinationsNavigator,
+    commentInput:String?=""
 ){
     StandardScaffold (
         bottomBarOn = false,
+        commentInputOn = true,
         navigationArrowOn = true,
         topBarOn = true,
         searchOn= false,
@@ -79,7 +83,7 @@ fun PostDetailScreen(
                         Row (
                             horizontalArrangement = Arrangement.SpaceAround,
                             modifier = Modifier
-                                .padding(horizontal=SpaceSmall)
+                                .padding(horizontal = SpaceSmall)
                                 .clickable {
                                     //TODO on location click
                                 }
@@ -97,7 +101,9 @@ fun PostDetailScreen(
                         ActionRow(
                             userIconOn=false,
                             username=post.ownerUsername,
-                            modifier=Modifier.fillMaxWidth().padding(horizontal=SpaceSmall),
+                            modifier= Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = SpaceSmall),
                             onLikeClick = { isLiked->
 
                             },
@@ -154,32 +160,6 @@ fun PostDetailScreen(
         }
     }
 }
-
-////@RootNavGraph(start = true)
-//@Destination
-//@Preview
-//@Composable
-//fun PostDetailPreview(){
-//    PostDetailScreen(
-//        post= Post(
-//                ownerUsername = "Pera Peric",
-//                image = "",
-//                ownerProfilePicture = "",
-//                desc = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout." +
-//                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-//                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-//                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-//                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-//                        " as opposed to using 'Content here, content here', making it look like readable English.",
-//                likeCount=10,
-//                commentCount = 5,
-//                title="Paris travel experience",
-//                createdAt = "",
-//                longitude = 0.0,
-//                latitude = 0.0
-//            )
-//        )
-//}
 
 @Composable
 fun Comment(

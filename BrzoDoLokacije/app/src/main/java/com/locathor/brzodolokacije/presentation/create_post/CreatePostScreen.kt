@@ -1,9 +1,8 @@
 package com.locathor.brzodolokacije.presentation.create_post
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.locathor.brzodolokacije.presentation.posts.PostScreenData
-import com.locathor.brzodolokacije.presentation.posts.PostsViewModel
+import com.locathor.brzodolokacije.presentation.components.StandardScaffold
+import com.locathor.brzodolokacije.presentation.destinations.CreatePostScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -11,7 +10,18 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun CreatePostScreen(
     navigator: DestinationsNavigator,
-    data: PostScreenData,
 ){
+    StandardScaffold (
+            bottomBarOn = false,
+            topBarOn = true,
+            commentInputOn = false,
+            toolbarTitle = "Add your post",
+            searchOn = false,
+            navigationArrowOn = true,
+            onArrowNavigationClick = {
+                navigator.popBackStack()
+            }
+            ){
 
+    }
 }
