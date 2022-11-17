@@ -23,6 +23,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.destinations.RegisterScreenDestination
 import com.locathor.brzodolokacije.presentation.register.RegisterState
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
@@ -31,7 +32,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-//@RootNavGraph(start = true)
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun LoginScreen(
@@ -101,7 +102,6 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                    //TODO on button press navigate
                           viewModel.onEvent(LoginEvent.OnLoginButtonPress)
                 },
                 modifier = Modifier
@@ -128,10 +128,9 @@ fun LoginScreen(
                 style=MaterialTheme.typography.bodyLarge,
                 modifier=Modifier
                     .align(alignment = Alignment.CenterHorizontally)
-                //clickable {
-                //TODO navigation for already have an account
-                //DestinationsNavigator.navigate()
-                //}
+                    .clickable {
+                        navigator.navigate(RegisterScreenDestination)
+                }
             )
         }
 

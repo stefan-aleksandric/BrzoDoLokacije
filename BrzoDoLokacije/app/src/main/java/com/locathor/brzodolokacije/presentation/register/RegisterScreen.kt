@@ -30,7 +30,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.destinations.LoginScreenDestination
 import com.locathor.brzodolokacije.presentation.destinations.ProfileScreenDestination
+import com.locathor.brzodolokacije.presentation.destinations.RegisterScreenDestination
 import com.locathor.brzodolokacije.presentation.login.LoginEvent
 import com.locathor.brzodolokacije.presentation.posts.PostScreenData
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
@@ -166,12 +168,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                          navigator.navigate(ProfileScreenDestination(PostScreenData(
-                              title = "title",
-                              desc = "desc"
-                          )))
-                        //viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
-//                    Toast.makeText(context,"Attempting registration...",Toast.LENGTH_SHORT).show()
+                        viewModel.onEvent(RegisterEvent.OnRegisterButtonPress)
                 },
                 modifier = Modifier
                     .align(Alignment.End)
@@ -199,11 +196,10 @@ fun RegisterScreen(
                 },
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
-                    //.align(Alignment.BottomCenter)
                     .align(alignment = Alignment.CenterHorizontally)
-                //.clickable {
-                //TODO navigation for don't have an account yet
-                //}
+                    .clickable {
+                    navigator.navigate(LoginScreenDestination)
+                    }
             )
         }
     }

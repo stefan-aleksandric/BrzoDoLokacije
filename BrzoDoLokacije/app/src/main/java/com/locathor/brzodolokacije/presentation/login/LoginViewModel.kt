@@ -40,7 +40,6 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.OnLoginButtonPress ->{
                 validateUsername(state.username)
                 validatePassword(state.password)
-
                 if(state.usernameError==null && state.passwordError==null) {
                     loginUser(state.username, state.password)
                 }
@@ -99,6 +98,5 @@ class LoginViewModel @Inject constructor(
                     }
                 }
         }
-
     }
 }
