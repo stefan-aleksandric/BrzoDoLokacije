@@ -33,9 +33,9 @@ fun PostDto.toPostEntity(): PostEntity {
 fun Post.toRequest(): CreatePostRequest =
     CreatePostRequest(
         title = title,
-        desc = desc,
+        description = desc,
         ownerUsername = ownerUsername,
-        createdAt = createdAt,
+        createdDate = createdAt,
         longitude = longitude,
         latitude = latitude
     )

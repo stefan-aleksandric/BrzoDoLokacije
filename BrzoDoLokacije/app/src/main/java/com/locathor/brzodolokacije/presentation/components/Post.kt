@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Post
+import com.locathor.brzodolokacije.presentation.destinations.HomeScreenDestination
+import com.locathor.brzodolokacije.presentation.destinations.PostDetailScreenDestination
+import com.locathor.brzodolokacije.presentation.destinations.ProfileScreenDestination
 import com.locathor.brzodolokacije.presentation.posts.PostScreenData
 import com.locathor.brzodolokacije.presentation.ui.theme.HintGray
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
@@ -44,6 +47,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun Post(
     post:Post,
+    onPostClick:()->Unit,
 ){
     Box(
         modifier= Modifier
@@ -57,29 +61,37 @@ fun Post(
                 .shadow(4.dp)
                 .padding(SpaceSmall),
         ){
-            Row (
-                horizontalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier
-                    .clickable {
-                        //TODO on location click
-                    }
+            Column(
+                modifier=Modifier.fillMaxWidth()
             ){
-                Icon(
-                    Icons.Filled.LocationOn,
-                    contentDescription = "Location pin icon" // decorative element
-                )
-                //TODO addLocation from user
                 Text(
-                    text="Paris,France,Western Europe",
-                    style=MaterialTheme.typography.titleSmall
+                    text=post.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier=Modifier.padding(start= SpaceSmall)
                 )
+                Row (
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    modifier = Modifier
+                        .clickable {
+                            //TODO on location click
+                        }
+                ){
+                    Icon(
+                        Icons.Filled.LocationOn,
+                        contentDescription = "Location pin icon" // decorative element
+                    )
+                    //TODO addLocation from user
+                    Text(
+                        text="Paris,France,Western Europe",
+                        style=MaterialTheme.typography.titleSmall
+                    )
+                }
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                    //TODO on post image click
-                    //navigator.navigate(PostDetailScreenDestination(post))
+                        onPostClick()
                 }
             ){
                 Image(
@@ -96,7 +108,7 @@ fun Post(
 
                 },
                 onCommentClick = {
-
+                    onPostClick()
                 },
                 onShareClick = {
 

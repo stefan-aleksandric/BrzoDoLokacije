@@ -1,15 +1,13 @@
 package com.locathor.brzodolokacije.presentation.post_detail
 
-import android.widget.Space
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Input
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,115 +17,122 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Comment
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.presentation.components.ActionRow
-import com.locathor.brzodolokacije.presentation.components.Post
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
-import com.locathor.brzodolokacije.presentation.posts.PostsViewModel
-import com.locathor.brzodolokacije.presentation.ui.theme.ProfilePictureSize
-import com.locathor.brzodolokacije.presentation.ui.theme.ProfilePictureSizeSmall
-import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
-import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
-import com.locathor.brzodolokacije.util.Constants
+import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 //@RootNavGraph(start = true)
-//@Destination
+@Destination
 @Composable
 fun PostDetailScreen(
-    post: Post
+    post: Post,
+    navigator:DestinationsNavigator,
+    commentInput:String?=""
 ){
     StandardScaffold (
         bottomBarOn = false,
+        commentInputOn = true,
         navigationArrowOn = true,
         topBarOn = true,
         searchOn= false,
-        toolbarTitle = post.title
+        toolbarTitle = post.title,
+        onArrowNavigationClick = {
+            navigator.popBackStack()
+        }
     ){
         Box(
             modifier= Modifier
                 .fillMaxSize()
-                //.verticalScroll(rememberScrollState())
         ){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = ProfilePictureSize / 2f)
                     .clip(MaterialTheme.shapes.small)
-                    .shadow(4.dp)
-                    .padding(SpaceSmall)
                     .fillMaxSize()
             ){
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            //TODO on image click
-                        }
-                ){
-                    Image(
-                        //TODO pull user post image async
-                        painterResource(id = R.drawable.paris),
-                        contentDescription="Post image",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
-                }
-                Row (
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    modifier = Modifier
-                        .clickable {
-                            //TODO on location click
-                        }
-                ){
-                    Icon(
-                        Icons.Filled.LocationOn,
-                        contentDescription = "Location pin icon" // decorative element
-                    )
-                    //TODO addLocation from user
-                    Text(
-                        text="Paris,France,Western Europe",
-                        style=MaterialTheme.typography.titleSmall
-                    )
-                }
-                ActionRow(
-                    userIconOn=false,
-                    username=post.ownerUsername,
-                    modifier=Modifier.fillMaxWidth(),
-                    onLikeClick = { isLiked->
-
-                    },
-                    onCommentClick = {
-
-                    },
-                    onShareClick = {
-
-                    },
-                    onUsernameClick = { username->
-
-                    }
-                )
-                Spacer(modifier = Modifier.height(SpaceSmall))
-                Text(
-                    text=post.desc,
-                    style = MaterialTheme.typography.bodySmall,
-                )
-                Spacer(modifier = Modifier.height(SpaceSmall))
-                Text(
-                    text= stringResource(id = R.string.liked_by_x_people,post.likeCount),
-                    style=MaterialTheme.typography.titleSmall
-                )
                 LazyColumn(
-                    modifier=Modifier.fillMaxSize()
+                    modifier=Modifier
+                        .fillMaxSize()
                 ){
+                    item{
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    //TODO on image click
+                                }
+                        ){
+                            Image(
+                                //TODO pull user post image async
+                                painterResource(id = R.drawable.paris),
+                                contentDescription="Post image",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+                        }
+                        Row (
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            modifier = Modifier
+                                .padding(horizontal = SpaceSmall)
+                                .clickable {
+                                    //TODO on location click
+                                }
+                        ){
+                            Icon(
+                                Icons.Filled.LocationOn,
+                                contentDescription = "Location pin icon" // decorative element
+                            )
+                            //TODO addLocation from user
+                            Text(
+                                text="Paris,France,Western Europe",
+                                style=MaterialTheme.typography.titleSmall
+                            )
+                        }
+                        ActionRow(
+                            userIconOn=false,
+                            username=post.ownerUsername,
+                            modifier= Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = SpaceSmall),
+                            onLikeClick = { isLiked->
+
+                            },
+                            onCommentClick = {
+
+                            },
+                            onShareClick = {
+
+                            },
+                            onUsernameClick = { username->
+
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(SpaceSmall))
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal= SpaceSmall),
+                            text=post.desc,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                        Spacer(modifier = Modifier.height(SpaceSmall))
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal=SpaceSmall),
+                            text= stringResource(id = R.string.liked_by_x_people,post.likeCount),
+                            style=MaterialTheme.typography.titleSmall
+                        )
+                        Spacer(modifier = Modifier.height(SpaceSmall))
+                    }
                     items(20){
                         Comment(
                             modifier=Modifier.fillMaxWidth(),
@@ -156,37 +161,11 @@ fun PostDetailScreen(
     }
 }
 
-@RootNavGraph(start = true)
-@Destination
-@Preview
-@Composable
-fun PostDetailPreview(){
-    PostDetailScreen(
-        post= Post(
-                ownerUsername = "Pera Peric",
-                image = "",
-                ownerProfilePicture = "",
-                desc = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout." +
-                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-                        " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-                        " as opposed to using 'Content here, content here', making it look like readable English.",
-                likeCount=10,
-                commentCount = 5,
-                title="Paris travel experience",
-                createdAt = "",
-                longitude = 0.0,
-                latitude = 0.0
-            )
-        )
-}
-
 @Composable
 fun Comment(
-    modifier:Modifier=Modifier,
-    comment: Comment =Comment(),
-    onLikeClick:(Boolean)->Unit={}
+    modifier:Modifier = Modifier,
+    comment: Comment = Comment(),
+    onLikeClick:(Boolean)->Unit = {}
 ){
     Card(
         modifier= modifier
@@ -196,13 +175,15 @@ fun Comment(
     ){
         Column(modifier=Modifier.fillMaxSize()){
             Row(
-                modifier=Modifier
+                modifier= Modifier
                     .padding(SpaceMedium)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Row(
-                    modifier=Modifier
+                    modifier=Modifier.clickable{
+                        //TODO click on username in comment
+                    }
                 ){
                     Image(
                         painter= painterResource(id = R.drawable.user),
@@ -211,6 +192,7 @@ fun Comment(
                     )
                     Spacer(modifier=Modifier.width(SpaceSmall))
                     Text(
+                        modifier=Modifier.align(Alignment.CenterVertically),
                         text=comment.username,
                         fontWeight = FontWeight.Bold
                     )
@@ -220,7 +202,6 @@ fun Comment(
                     text="2 days ago"
                 )
             }
-            Spacer(modifier=Modifier.height(SpaceSmall))
             Row(
                 modifier=Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -231,28 +212,29 @@ fun Comment(
                     modifier=Modifier.padding(SpaceSmall)
                 )
             }
-            Spacer(modifier=Modifier.height(SpaceSmall))
             Row(
-                modifier=Modifier.fillMaxWidth(),
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ){
-                IconButton(
-                    onClick = {
-                        onLikeClick(comment.isLiked)
-                    },
-                ){
-                    Icon(imageVector=Icons.Filled.FavoriteBorder,
-                        if(comment.isLiked){
-                            stringResource(id=R.string.like)
-                        }else stringResource(id = R.string.unlike)
+                    IconButton(
+                        onClick = {
+                            onLikeClick(comment.isLiked)
+                        },
+                    ){
+                        Icon(imageVector=Icons.Filled.FavoriteBorder,
+                            if(comment.isLiked){
+                                stringResource(id=R.string.like)
+                            }else stringResource(id = R.string.unlike)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text= if(comment.likeCount==1){stringResource(id = R.string.liked_by_one_person,comment.likeCount)}
+                        else{stringResource(id = R.string.liked_by_x_people,comment.likeCount)},
+                        fontWeight = FontWeight.Bold,
+                        style=MaterialTheme.typography.bodySmall
                     )
-                }
-                Text(
-                    text= if(comment.likeCount==1){stringResource(id = R.string.liked_by_one_person,comment.likeCount)}
-                    else{stringResource(id = R.string.liked_by_x_people,comment.likeCount)},
-                    fontWeight = FontWeight.Bold,
-                    style=MaterialTheme.typography.bodySmall
-                )
             }
         }
     }
