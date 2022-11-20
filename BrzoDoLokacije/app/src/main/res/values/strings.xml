@@ -30,4 +30,9 @@
     <string name="home">Home</string>
     <string name="chat">Chat</string>
     <string name="user_profile">User profile</string>
+    <string name="add_media">Add your media</string>
+    <string name="post">Post</string>
+    <string name="description">Description</string>
+    <string name="add_title">Title</string>
+    <string name="add_location">Location</string>
 </resources>

@@ -26,7 +26,7 @@ fun StandardTextField(
     modifier: Modifier = Modifier,
     text: String="",
     hint:String="",
-    maxLength:Int=50,
+    maxLength:Int=500,
     singleLine: Boolean = true,
     maxLines: Int = 1,
     error: String = "",
