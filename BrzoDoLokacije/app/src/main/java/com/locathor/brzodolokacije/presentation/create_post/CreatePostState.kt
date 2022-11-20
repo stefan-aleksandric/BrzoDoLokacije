@@ -1,12 +1,11 @@
 package com.locathor.brzodolokacije.presentation.create_post
 
-import android.location.Location
-import com.locathor.brzodolokacije.domain.model.Post
+import android.net.Uri
 
 data class CreatePostState(
     val description: String = "",
+    var mediaUris: List<Uri> = emptyList(),
     val title:String="",
     val error: String = "",
     val location: String = "",
-    val post: Post ?= null
 )

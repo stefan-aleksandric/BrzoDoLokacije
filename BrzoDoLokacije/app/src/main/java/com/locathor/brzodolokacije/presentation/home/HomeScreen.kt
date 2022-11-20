@@ -27,7 +27,7 @@ fun HomeScreen(
     navigator: DestinationsNavigator,
     viewModel: HomeViewModel = hiltViewModel()
 ){
-        var state=viewModel.state
+        val state=viewModel.state
         StandardScaffold (
                 bottomBarOn = true,
                 onAddButtonClick = {

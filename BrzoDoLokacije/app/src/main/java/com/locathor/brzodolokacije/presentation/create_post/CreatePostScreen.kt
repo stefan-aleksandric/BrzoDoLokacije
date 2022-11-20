@@ -2,7 +2,6 @@ package com.locathor.brzodolokacije.presentation.create_post
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,27 +12,66 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import android.Manifest
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.activity.result.contract.ActivityResultContracts.PickMultipleVisualMedia
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.SideEffect
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
-import com.locathor.brzodolokacije.presentation.destinations.CreatePostScreenDestination
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@OptIn(ExperimentalPermissionsApi::class)
+//@RootNavGraph(start = true)
 @Destination
 @Composable
 fun CreatePostScreen(
     navigator: DestinationsNavigator,
     viewModel: CreatePostViewModel = hiltViewModel()
 ){
+    val state = viewModel.state
+
+    val permissions = listOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    val permissionsState = rememberMultiplePermissionsState(
+        permissions = permissions
+    )
+    if(!permissionsState.allPermissionsGranted){
+        SideEffect {
+            permissionsState.launchMultiplePermissionRequest()
+        }
+    }
+
+
+    val launcher = rememberLauncherForActivityResult(contract = PickMultipleVisualMedia()) { uris ->
+//        val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//        uris.forEach {
+//            context.contentResolver.takePersistableUriPermission(it, flag)
+//        }
+
+        if (uris.isNotEmpty()) {
+            Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
+        viewModel.pickMedia(uris)
+    }
+
     StandardScaffold (
             bottomBarOn = false,
             topBarOn = true,
@@ -61,7 +99,7 @@ fun CreatePostScreen(
                         shape = MaterialTheme.shapes.medium
                     )
                     .clickable {
-                        //TODO click on add box
+                               launcher.launch(PickVisualMediaRequest(PickVisualMedia.ImageAndVideo))
                     },
                 contentAlignment = Alignment.Center
             ) {
