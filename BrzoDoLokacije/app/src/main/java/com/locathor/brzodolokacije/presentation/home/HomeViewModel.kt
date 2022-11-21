@@ -24,39 +24,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         state=state.copy(
-            list=listOf(
-                Post(
-                        ownerUsername = "Pera Peric",
-                        image = "",
-                        ownerProfilePicture = "",
-                        desc = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout." +
-                                " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-                                " as opposed to using 'Content here, content here', making it look like readable English.",
-                        likeCount=10,
-                        commentCount = 5,
-                        title="Paris Travel experience",
-                        createdAt = "",
-                        longitude = 0.0,
-                        latitude = 0.0
-                ),
+            list=List(5){
                 Post(
                     ownerUsername = "Pera Peric",
-                    image = "",
-                    ownerProfilePicture = "",
-                    desc = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout." +
-                            " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
-                            " as opposed to using 'Content here, content here', making it look like readable English.",
-                    likeCount=10,
-                    commentCount = 5,
-                    title="Paris Travel experience",
-                    createdAt = "",
-                    longitude = 0.0,
-                    latitude = 0.0
-                ),
-                Post(
-                    ownerUsername = "Pera Peric",
-                    image = "",
-                    ownerProfilePicture = "",
+                    mediaUris = emptyList(),
                     desc = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout." +
                             " The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters," +
                             " as opposed to using 'Content here, content here', making it look like readable English.",
@@ -67,7 +38,7 @@ class HomeViewModel @Inject constructor(
                     longitude = 0.0,
                     latitude = 0.0
                 )
-            )
+            }
         )
     }
 

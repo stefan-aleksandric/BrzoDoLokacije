@@ -13,7 +13,10 @@ fun PostEntity.toPost(): Post {
         latitude = latitude,
         longitude = longitude,
         createdAt = createdAt,
-        ownerUsername = owner
+        ownerUsername = owner,
+        mediaUris = mediaUris,
+        commentCount = commentCount,
+        likeCount = likeCount
     )
 }
 
@@ -26,7 +29,10 @@ fun PostDto.toPostEntity(): PostEntity {
         latitude = latitude ?: 0.0,
         longitude = longitude ?: 0.0,
         createdAt = createdAt ?: "",
-        owner = owner ?: ""
+        owner = owner ?: "",
+        mediaUris = mediaUris,
+        commentCount = commentCount,
+        likeCount = likeCount
     )
 }
 

@@ -6,8 +6,10 @@ data class PostDto(
     val createdAt: String,
     val title: String,
     val desc: String,
-    val image: String,
     val latitude: Double,
     val longitude: Double,
-    val owner: String
+    val owner: String,
+    val mediaUris: List<String>,
+    val commentCount: Int,
+    val likeCount: Int
 )
