@@ -12,6 +12,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.locathor.brzodolokacije.data.repository.CustomCameraRepositoryImpl
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
+import com.locathor.brzodolokacije.data.local.RoomConverters
 import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.data.services.AppSharedPreferences
@@ -19,6 +20,8 @@ import com.locathor.brzodolokacije.data.remote.interceptors.AuthInterceptorImpl
 import com.locathor.brzodolokacije.data.services.SessionManager
 import com.locathor.brzodolokacije.domain.repository.AuthRepository
 import com.locathor.brzodolokacije.domain.repository.CustomCameraRepository
+import com.squareup.moshi.Moshi
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -109,6 +112,7 @@ object ApplicationModule {
             .fallbackToDestructiveMigration()
             .build()
     }
+
 
     /* FUSED LOCATION PROVIDER */
     @Provides
