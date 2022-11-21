@@ -1,6 +1,8 @@
 package com.locathor.brzodolokacije.data.repository
 
 import android.util.Log
+import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
+import com.locathor.brzodolokacije.data.mappers.toUser
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.data.remote.dto.LoginRequest
@@ -20,14 +22,18 @@ import javax.inject.Singleton
 @Singleton
 class UserRepositoryImpl @Inject constructor(
     private val api: UserApi,
+    private val db: BrzoDoLokacijeDatabase,
     private val sessionManager: SessionManager
 ): UserRepository {
+    private val dao = db.userDao
+
+
     override suspend fun registerUser(
         username: String,
         email: String,
         name: String,
         surname: String,
-        //profilePic: String,
+//        profilePic: String,
         password: String
     ): Flow<Resource<User>> {
         return flow {
@@ -53,7 +59,7 @@ class UserRepositoryImpl @Inject constructor(
                 null
             }
             responseUser?.let {
-                emit(Resource.Success(data = User(username, name, surname, email)))
+                emit(Resource.Success(data = User(username, name, surname, email, "")))
                 Log.d("DEBUG", it.toString());
                 emit(Resource.Loading(isLoading = false))
             }
@@ -88,14 +94,25 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-
-    //authenticate
-    /*
-    *
-    *
-    *
-    *
-    *
-    * */
-
+    override suspend fun getUser(): Flow<Resource<User>> {
+        return flow {
+            emit(Resource.Loading(isLoading = true))
+            val user = try{
+                dao.getUsers().last()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't register user."))
+                null
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error(data = null, message = e.message()))
+                null
+            }
+            user?.let{
+                //FINISH IMPLEMENTATION WHEN API IS REFACTORED
+                emit(Resource.Error(data = User(username = "test", email="", name="", surname ="", profilePicUrl = ""), message = "Unable to retreive user because API is not implemented"))
+                emit(Resource.Loading(isLoading = false))
+            }
+        }
+    }
 }

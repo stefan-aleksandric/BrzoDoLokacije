@@ -18,7 +18,6 @@ interface UserApi {
         @Body loginRequest: LoginRequest
     ): LoginResponse
 
-
     companion object {
         const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012"
         const val LOGIN = "api/Authentication/login"
