@@ -18,7 +18,7 @@ interface UserRepository {
     suspend fun loginUser(
         username: String,
         password: String
-    ): Flow<Resource<AuthResult<Unit>>>
+    ): Flow<Resource<User>>
 
     suspend fun getUser(): Flow<Resource<User>>
 }

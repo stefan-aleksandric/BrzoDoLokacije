@@ -17,6 +17,10 @@ interface UserDao {
                 WHERE userId = :id""")
     suspend fun getUserForId(id: Int): List<UserEntity>
 
+    @Query("""SELECT * FROM userentity
+        WHERE username = :username""")
+    suspend fun getUserForUsername(username: String): List<UserEntity>
+    
     @Query("DELETE FROM userentity")
     suspend fun clearUsers()
 

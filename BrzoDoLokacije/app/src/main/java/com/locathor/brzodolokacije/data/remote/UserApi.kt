@@ -9,18 +9,17 @@ interface UserApi {
     @POST(REGISTER)
     suspend fun registerUser(
         @Body registerRequest: RegisterRequest
-    ): RegisterResponse
+    ): AuthenticationResponse
 
 
     @POST(LOGIN)
     suspend fun loginUser(
-        //@Header("Authorization") token: String
         @Body loginRequest: LoginRequest
-    ): LoginResponse
+    ): AuthenticationResponse
 
     companion object {
         const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012"
         const val LOGIN = "api/Authentication/login"
-        const val REGISTER = "Authentication/register"
+        const val REGISTER = "api/Authentication/register"
     }
 }

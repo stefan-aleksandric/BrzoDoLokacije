@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.presentation.register.RegisterState
@@ -81,23 +82,24 @@ class LoginViewModel @Inject constructor(
                 .collect {  result ->
                     when(result) {
                         is Resource.Success -> {
-                            if (result.data !is AuthResult.Authorized){
+                            if (result.data !is User){
                                 state = state.copy(
                                     status = AuthResult.Unauthorized()
                                 )
                             }
-                            if (result.data is AuthResult.Authorized){
+                            if (result.data is User){
                                 state = state.copy(
-                                    status = AuthResult.Authorized(result.data.toString())
+                                    status = AuthResult.Authorized(result.data.username)
                                 )
                             }
-
                         }
                         is Resource.Error -> {
                             Unit
                         }
                         is Resource.Loading -> {
-                            Unit
+                            state = state.copy(
+                                isLoading = result.isLoading
+                            )
                         }
                     }
                 }

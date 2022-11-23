@@ -1,5 +1,7 @@
 package com.locathor.brzodolokacije.presentation.register
 
+import com.locathor.brzodolokacije.util.AuthResult
+
 data class RegisterState(
     var username: String ="",
     val usernameError: UsernameError? = null,
@@ -13,6 +15,7 @@ data class RegisterState(
     val passwordError: PasswordError? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
+    val status: AuthResult<String> = AuthResult.Unauthorized(),
     val isPasswordVisible: Boolean = false
 ){
     sealed class UsernameError {

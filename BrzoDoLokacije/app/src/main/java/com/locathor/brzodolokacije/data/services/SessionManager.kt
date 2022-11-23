@@ -7,7 +7,6 @@ class SessionManager @Inject constructor(
     private val pref: AppSharedPreferences,
     private val authRepository: AuthRepository
 ) {
-
     fun getAccessToken(): String? = pref.getToken()
 
     fun getRefreshToken(): String? = pref.getRefreshToken()
@@ -17,8 +16,15 @@ class SessionManager @Inject constructor(
         return refreshToken
     }//authRepository.refreshToken(refreshToken)
 
+    fun getCurrentUsername(): String? =
+        pref.getUser()
+
+    fun setCurrentUsername(username: String) =
+        pref.setUser(username)
+
     fun logout() {
-        /* .... */
-        pref.setToken("")
+        pref.removeToken()
+        pref.removeRefreshToken()
+        pref.removeUser()
     }
 }

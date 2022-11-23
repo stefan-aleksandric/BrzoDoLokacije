@@ -9,9 +9,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.presentation.login.LoginEvent
 import com.locathor.brzodolokacije.presentation.login.LoginState
+import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.util.Constants
 import com.locathor.brzodolokacije.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,7 +56,7 @@ class RegisterViewModel @Inject constructor(
 
     fun onEvent(event: RegisterEvent){
         when(event){
-            is RegisterEvent.OnRegisterButtonPress ->{
+            is RegisterEvent.OnRegisterButtonPress -> {
                 validateUsername(state.username)
                 validateEmail(state.email)
                 validatePassword(state.password)
@@ -165,21 +167,29 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun registerUser(username: String, email: String,name: String,surname: String,password: String){
-        Log.d("DEBUG", "ok")
         viewModelScope.launch {
             repository.registerUser(username,email,name,surname,password)
                 .collect {  result ->
                     when(result) {
                         is Resource.Success -> {
-                            result.data?.let { UserDto ->
-                                Log.d("DEBUG", UserDto.toString())
+                            if (result.data !is User){
+                                state = state.copy(
+                                    status = AuthResult.Unauthorized()
+                                )
+                            }
+                            if (result.data is User){
+                                state = state.copy(
+                                    status = AuthResult.Authorized(result.data.username)
+                                )
                             }
                         }
                         is Resource.Error -> {
                             Unit
                         }
                         is Resource.Loading -> {
-                            Unit
+                            state = state.copy(
+                                isLoading = result.isLoading
+                            )
                         }
                     }
                 }

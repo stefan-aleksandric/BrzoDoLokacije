@@ -3,11 +3,12 @@ package com.locathor.brzodolokacije.data.repository
 import android.util.Log
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.mappers.toUser
+import com.locathor.brzodolokacije.data.mappers.toUserEntity
 import com.locathor.brzodolokacije.data.remote.UserApi
+import com.locathor.brzodolokacije.data.remote.dto.AuthenticationResponse
 import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.data.remote.dto.LoginRequest
 import com.locathor.brzodolokacije.data.remote.dto.RegisterRequest
-import com.locathor.brzodolokacije.data.remote.dto.RegisterResponse
 import com.locathor.brzodolokacije.data.services.SessionManager
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -38,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
     ): Flow<Resource<User>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
-            val responseUser = try {
+            val authResponse = try {
                 api.registerUser(
                     RegisterRequest(
                         username = username,
@@ -58,18 +59,19 @@ class UserRepositoryImpl @Inject constructor(
                 emit(Resource.Error("Couldn't register user."))
                 null
             }
-            responseUser?.let {
-                emit(Resource.Success(data = User(username, name, surname, email, "")))
-                Log.d("DEBUG", it.toString());
-                emit(Resource.Loading(isLoading = false))
+            authResponse?.let {
+                authenticateUser(it)
+                dao.insertUser(listOf(it.user.toUserEntity()))
+                emit(Resource.Success(data = it.user.toUser()))
             }
+            emit(Resource.Loading(isLoading = false))
         }
     }
 
-    override suspend fun loginUser(username: String, password: String): Flow<Resource<AuthResult<Unit>>> {
+    override suspend fun loginUser(username: String, password: String): Flow<Resource<User>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
-            val loginResponse = try {
+            val authResponse = try {
                 api.loginUser(
                     LoginRequest(username, password)
                 )
@@ -79,38 +81,44 @@ class UserRepositoryImpl @Inject constructor(
                 null
             } catch (e: HttpException) {
                 if(e.code() == 401)
-                    emit(Resource.Success(data = AuthResult.Unauthorized()))
+                    emit(Resource.Error(data=null, message = "Unauthenticated"))
                 else
-                    emit(Resource.Success(data = AuthResult.UnknownError()))
+                    emit(Resource.Error(data=null, message = e.message()))
                 null
             }
-            loginResponse?.let {
-                sessionManager.refreshToken(loginResponse.authToken.value) /// do refresh logic
-                Log.d("AUTH_TOKEN:",sessionManager.getAccessToken().toString())
-                emit(Resource.Success(data = AuthResult.Authorized()))
-                Log.d("loginResponse", it.toString())
-                emit(Resource.Loading(isLoading = false))
+            authResponse?.let {
+                Log.d("LOGGED_IN", it.user.username+" "+it.authToken.value)
+                authenticateUser(it)
+                dao.insertUser(listOf(it.user.toUserEntity()))
+                emit(Resource.Success(data = it.user.toUser()))
             }
+            emit(Resource.Loading(isLoading = false))
         }
+    }
+
+    private fun authenticateUser(it: AuthenticationResponse) {
+        sessionManager.refreshToken(it.authToken.value) /// do refresh logic
+        sessionManager.setCurrentUsername(it.user.username)
     }
 
     override suspend fun getUser(): Flow<Resource<User>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
-            val user = try{
-                dao.getUsers().last()
+            val user = try {
+                val username = sessionManager.getCurrentUsername()
+                dao.getUserForUsername(username!!).first()
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't register user."))
+                emit(Resource.Error("Couldn't find user."))
                 null
-            } catch (e: HttpException) {
+            } catch (e: Exception) {
                 e.printStackTrace()
-                emit(Resource.Error(data = null, message = e.message()))
+                emit(Resource.Error("Couldn't find user."))
                 null
             }
+
             user?.let{
-                //FINISH IMPLEMENTATION WHEN API IS REFACTORED
-                emit(Resource.Error(data = User(username = "test", email="", name="", surname ="", profilePicUrl = ""), message = "Unable to retreive user because API is not implemented"))
+                emit(Resource.Success(data = user.toUser()))
                 emit(Resource.Loading(isLoading = false))
             }
         }

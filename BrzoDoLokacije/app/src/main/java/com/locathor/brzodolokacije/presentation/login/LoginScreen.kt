@@ -22,6 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.presentation.destinations.HomeScreenDestination
 import com.locathor.brzodolokacije.presentation.destinations.RegisterScreenDestination
@@ -43,105 +45,112 @@ fun LoginScreen(
 ) {
     val state = viewModel.state
     val scrollState = rememberScrollState()
-
+    val swipeRefreshState = rememberSwipeRefreshState(
+        isRefreshing = state.isLoading
+    )
     if(state.status is AuthResult.Authorized){
         navigator.navigate(HomeScreenDestination)
     }
 
-    Box(modifier= Modifier
-        .fillMaxSize()
-        .padding(
-            start = SpaceLarge,
-            end = SpaceLarge,
-            top = SpaceLarge,
-            bottom = 50.dp
-        )
-        .scrollable(state=scrollState, orientation = Orientation.Horizontal)
-        .scrollable(state=scrollState, orientation = Orientation.Vertical)
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
+    SwipeRefresh(state = swipeRefreshState, onRefresh = { /*TODO*/ }) {
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpaceMedium)
-                .align(Alignment.Center)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Text(
-                text = stringResource(id = com.locathor.brzodolokacije.R.string.login),
-                color = Color.Black,
-                style = MaterialTheme.typography.headlineLarge
+                .padding(
+                    start = SpaceLarge,
+                    end = SpaceLarge,
+                    top = SpaceLarge,
+                    bottom = 50.dp
                 )
-            Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardTextField(
-                text = viewModel.state.username,
-                onValueChange = {
-                    viewModel.setUsernameText(it)
-                },
-                keyboardType = KeyboardType.Email,
-                error = when (state.usernameError) {
-                    LoginState.UsernameError.FieldEmpty -> {
-                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
-                    }
-                    null -> ""
-                },
-                hint = stringResource(id = com.locathor.brzodolokacije.R.string.login_hint)
-            )
-            Spacer(modifier = Modifier.height(SpaceMedium))
-            StandardTextField(
-                text = state.password,
-                onValueChange = {
-                    viewModel.setPasswordText(it)
-                },
-                hint = stringResource(id = com.locathor.brzodolokacije.R.string.password_hint),
-                keyboardType = KeyboardType.Password,
-                error = when (state.passwordError) {
-                    LoginState.PasswordError.FieldEmpty -> {
-                        stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
-                    }
-                    null -> ""
-                },
-                isPasswordVisible=viewModel.showPassword.value,
-                onPasswordToggleClick={
-                    viewModel.setShowPassword(it)
-                }
-            )
-            Spacer(modifier = Modifier.height(SpaceMedium))
-            Button(
-                onClick = {
-                    viewModel.onEvent(LoginEvent.OnLoginButtonPress)
-                    navigator.navigate(HomeScreenDestination)
-                },
+                .scrollable(state = scrollState, orientation = Orientation.Horizontal)
+                .scrollable(state = scrollState, orientation = Orientation.Vertical)
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .align(Alignment.End)
+                    .fillMaxSize()
+                    .padding(SpaceMedium)
+                    .align(Alignment.Center)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Text(
                     text = stringResource(id = com.locathor.brzodolokacije.R.string.login),
-                    color=Color.Black,
-                    fontWeight = FontWeight.Bold
+                    color = Color.Black,
+                    style = MaterialTheme.typography.headlineLarge
+                )
+                Spacer(modifier = Modifier.height(SpaceMedium))
+                StandardTextField(
+                    text = viewModel.state.username,
+                    onValueChange = {
+                        viewModel.setUsernameText(it)
+                    },
+                    keyboardType = KeyboardType.Email,
+                    error = when (state.usernameError) {
+                        LoginState.UsernameError.FieldEmpty -> {
+                            stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                        }
+                        null -> ""
+                    },
+                    hint = stringResource(id = com.locathor.brzodolokacije.R.string.login_hint)
+                )
+                Spacer(modifier = Modifier.height(SpaceMedium))
+                StandardTextField(
+                    text = state.password,
+                    onValueChange = {
+                        viewModel.setPasswordText(it)
+                    },
+                    hint = stringResource(id = com.locathor.brzodolokacije.R.string.password_hint),
+                    keyboardType = KeyboardType.Password,
+                    error = when (state.passwordError) {
+                        LoginState.PasswordError.FieldEmpty -> {
+                            stringResource(id = com.locathor.brzodolokacije.R.string.this_field_cant_be_empty)
+                        }
+                        null -> ""
+                    },
+                    isPasswordVisible = viewModel.showPassword.value,
+                    onPasswordToggleClick = {
+                        viewModel.setShowPassword(it)
+                    }
+                )
+                Spacer(modifier = Modifier.height(SpaceMedium))
+                Button(
+                    onClick = {
+                        viewModel.onEvent(LoginEvent.OnLoginButtonPress)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.End)
+                ) {
+                    Text(
+                        text = stringResource(id = com.locathor.brzodolokacije.R.string.login),
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Spacer(modifier = Modifier.height(SpaceLarge))
+                Text(
+                    text = buildAnnotatedString {
+                        append(stringResource(id = com.locathor.brzodolokacije.R.string.dont_have_an_account_yet))
+                        append(" ")
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Black,
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) {
+                            append(stringResource(id = com.locathor.brzodolokacije.R.string.sign_up))
+                        }
+                    },
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .clickable {
+                            navigator.navigate(RegisterScreenDestination)
+                        }
                 )
             }
-            Spacer(modifier = Modifier.height(SpaceLarge))
-            Text(
-                text = buildAnnotatedString {
-                    append(stringResource(id = com.locathor.brzodolokacije.R.string.dont_have_an_account_yet))
-                    append(" ")
-                    withStyle(style=SpanStyle(
-                        color=Color.Black,
-                        fontWeight = FontWeight.Bold
-                    )){
-                        append(stringResource(id= com.locathor.brzodolokacije.R.string.sign_up))
-                    }
-                },
-                style=MaterialTheme.typography.bodyLarge,
-                modifier=Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .clickable {
-                        navigator.navigate(RegisterScreenDestination)
-                }
-            )
-        }
 
+        }
     }
+
 }
 
