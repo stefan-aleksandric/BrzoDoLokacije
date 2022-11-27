@@ -11,9 +11,12 @@ import androidx.lifecycle.ViewModel
 import com.locathor.brzodolokacije.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Task
 import com.locathor.brzodolokacije.domain.location.LocationTracker
 import com.locathor.brzodolokacije.domain.model.CreatePost
 import com.locathor.brzodolokacije.domain.model.Post
+import com.locathor.brzodolokacije.util.Resource
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,8 +30,8 @@ class CreatePostViewModel @Inject constructor(
 
     var state by mutableStateOf(CreatePostState())
 
-    private fun getLocation(){
-        viewModelScope.launch {
+    private fun getLocation(): Job {
+         return viewModelScope.launch {
             state = state.copy(
                 isLoading = true,
                 error = null
@@ -59,8 +62,9 @@ class CreatePostViewModel @Inject constructor(
                 Unit
             }*/
             is CreatePostEvent.OnPostButtonPress->{
-                getLocation()
-                createPost()
+                getLocation().invokeOnCompletion {
+                    createPost()
+                }
             }
             else -> {}
         }
@@ -72,16 +76,30 @@ class CreatePostViewModel @Inject constructor(
                     title=state.title,
                     desc=state.description,
                     mediaUris = state.mediaUris,
-                    latitude = 0.0,
-                    longitude = 0.0
+                    latitude = state.location!!.latitude,
+                    longitude = state.location!!.longitude
                 )
-            )
+            ).collect{ result ->
+                when(result){
+                    is Resource.Error -> {
+                        Log.d("ERROR", result.message.toString())
+                    }
+                    is Resource.Success -> {
+                        Log.d("SUCCESS", "")
+                    }
+                    else -> {}
+                }
+
+            }
+
+
         }
     }
 
     fun pickMedia(mediaUris: List<Uri>){
         viewModelScope.launch {
             state = state.copy(mediaUris = mediaUris)
+            Log.d("PICKED_MEDIA", mediaUris.first().path.toString())
         }
     }
 }

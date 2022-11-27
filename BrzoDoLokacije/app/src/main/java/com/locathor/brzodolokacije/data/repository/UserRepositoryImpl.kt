@@ -87,10 +87,10 @@ class UserRepositoryImpl @Inject constructor(
                 null
             }
             authResponse?.let {
-                Log.d("LOGGED_IN", it.user.username+" "+it.authToken.value)
                 authenticateUser(it)
                 dao.insertUser(listOf(it.user.toUserEntity()))
                 emit(Resource.Success(data = it.user.toUser()))
+                Log.d("LOGGED_IN", sessionManager.getAccessToken()+" "+sessionManager.getCurrentUsername())
             }
             emit(Resource.Loading(isLoading = false))
         }

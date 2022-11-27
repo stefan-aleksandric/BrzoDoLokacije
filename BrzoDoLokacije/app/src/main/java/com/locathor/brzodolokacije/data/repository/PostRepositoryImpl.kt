@@ -1,5 +1,6 @@
 package com.locathor.brzodolokacije.data.repository
 
+import android.util.Log
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.locathor.brzodolokacije.domain.model.Post as Post
@@ -116,13 +118,16 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun createPost(post: CreatePost): Flow<Resource<Post>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
-
-            val downloadUrl = try {
-                storage.reference.child(IMAGES)
-                    .putFile(post.mediaUris.first()).await()
-                    .storage.downloadUrl.await()
+            val downloadUrls = try {
+                post.mediaUris.map {
+                     storage.reference.child(IMAGES).child(UUID.randomUUID().toString())
+                        .putFile(it).await()
+                        .storage.downloadUrl.await()
+                }
             } catch (e: Exception){
-                emit(Resource.Error("Couldn't create post data"))
+                emit(Resource.Error(e.message.toString()))
+                e.printStackTrace()
+                null
             }
 
             val response = try {
@@ -131,7 +136,10 @@ class PostRepositoryImpl @Inject constructor(
                     description = post.desc,
                     latitude = post.latitude,
                     longitude = post.longitude,
-                    images = listOf(downloadUrl) as List<String>,
+                    images = downloadUrls!!.first().toString(),
+                    //                    images = downloadUrls!!.first().map{
+//                         it.toString()
+//                    },
                     createdDate = "",
                     ownerUsername = sessionManager.getCurrentUsername().toString()
                 ))
@@ -156,8 +164,9 @@ class PostRepositoryImpl @Inject constructor(
                         .first()
                         .toPost()
                 ))
-                emit(Resource.Loading(isLoading = false))
             }
+
+            emit(Resource.Loading(isLoading = false))
         }
     }
 

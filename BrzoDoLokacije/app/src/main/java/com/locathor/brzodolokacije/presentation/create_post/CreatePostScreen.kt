@@ -26,11 +26,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.text.font.FontWeight
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.locathor.brzodolokacije.presentation.camera.CustomCameraScreen
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.destinations.CustomCameraScreenDestination
 import com.locathor.brzodolokacije.presentation.posts.PostsEvent
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
@@ -53,13 +57,13 @@ fun CreatePostScreen(
         isRefreshing = state.isLoading
     )
 
-    val permissions = listOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-    val permissionsState = rememberMultiplePermissionsState(
-        permissions = permissions
+    val permission = Manifest.permission.READ_EXTERNAL_STORAGE
+    val permissionState = rememberPermissionState(
+        permission = permission
     )
-    if(!permissionsState.allPermissionsGranted){
+    if(!permissionState.status.isGranted){
         SideEffect {
-            permissionsState.launchMultiplePermissionRequest()
+            permissionState.launchPermissionRequest()
         }
     }
 
@@ -126,7 +130,7 @@ fun CreatePostScreen(
                         }
                         IconButton(
                             onClick = {
-                                /*TODO open camera */
+                                      navigator.navigate(CustomCameraScreenDestination())
                             },
                             modifier=Modifier.border(
                                 width = 1.dp,

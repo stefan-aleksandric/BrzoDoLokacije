@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.camera.core.*
-import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.core.ImageCapture.FLASH_MODE_ON
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.room.Room
@@ -15,16 +14,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.locathor.brzodolokacije.data.repository.CustomCameraRepositoryImpl
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
-import com.locathor.brzodolokacije.data.local.RoomConverters
 import com.locathor.brzodolokacije.data.remote.PostApi
 import com.locathor.brzodolokacije.data.remote.UserApi
 import com.locathor.brzodolokacije.data.services.AppSharedPreferences
 import com.locathor.brzodolokacije.data.remote.interceptors.AuthInterceptorImpl
 import com.locathor.brzodolokacije.data.services.SessionManager
-import com.locathor.brzodolokacije.domain.repository.AuthRepository
 import com.locathor.brzodolokacije.domain.repository.CustomCameraRepository
-import com.squareup.moshi.Moshi
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -86,8 +81,7 @@ object ApplicationModule {
     @Provides
     fun provideSessionManager(
         appSharedPreferences: AppSharedPreferences,
-        authRepository: AuthRepository
-    ): SessionManager = SessionManager(appSharedPreferences, authRepository)
+    ): SessionManager = SessionManager(appSharedPreferences)
 
     @Singleton
     @Provides

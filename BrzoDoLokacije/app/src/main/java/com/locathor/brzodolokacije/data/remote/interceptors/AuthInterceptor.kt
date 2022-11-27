@@ -19,6 +19,7 @@ class AuthInterceptorImpl @Inject constructor(
         val response = chain.proceed(newRequestWithAuthToken(authToken, request))
         Log.d("INTERCEPTOR", authToken.toString())
         if(response.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
+            Log.d("UNATHORIZED","HTTP_UNAUTHORIZED")
             val newAuthToken = sessionManager.getAccessToken()
             if(newAuthToken != authToken) {
                 return chain.proceed(newRequestWithAuthToken(authToken, request))
@@ -31,6 +32,7 @@ class AuthInterceptorImpl @Inject constructor(
                 return chain.proceed(newRequestWithAuthToken(authToken, request))
             }
         }
+        Log.d("AUTHORIZED", "HTTP_AUTHORIZED")
         return response
     }
 

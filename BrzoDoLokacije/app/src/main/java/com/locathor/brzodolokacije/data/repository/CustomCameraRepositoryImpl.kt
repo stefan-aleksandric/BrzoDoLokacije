@@ -14,7 +14,9 @@ import com.locathor.brzodolokacije.domain.repository.CustomCameraRepository
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CustomCameraRepositoryImpl @Inject constructor(
     private val cameraProvider: ProcessCameraProvider,
     private val selector: CameraSelector,
