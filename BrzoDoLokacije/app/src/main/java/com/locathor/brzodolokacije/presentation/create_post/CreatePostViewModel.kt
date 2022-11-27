@@ -12,6 +12,8 @@ import com.locathor.brzodolokacije.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
 import com.locathor.brzodolokacije.domain.location.LocationTracker
+import com.locathor.brzodolokacije.domain.model.CreatePost
+import com.locathor.brzodolokacije.domain.model.Post
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,27 +60,24 @@ class CreatePostViewModel @Inject constructor(
             }*/
             is CreatePostEvent.OnPostButtonPress->{
                 getLocation()
+                createPost()
             }
             else -> {}
         }
     }
 
-    suspend fun createPost(){
+    private fun createPost(){
         viewModelScope.launch {
-            /*repository.createPost(post = Post(
-                title=state.title,
-                desc=state.description,
-                image=state.mediaUris.toString(),
-                createdAt = System.currentTimeMillis().toString(),
-                ownerUsername = user.username,
-                latitude = 0.0,
-                longitude = 0.0
-                // TODO assign user picture to post
-                //ownerProfilePicture = user.image
-            ))*/
+            repository.createPost(post = CreatePost(
+                    title=state.title,
+                    desc=state.description,
+                    mediaUris = state.mediaUris,
+                    latitude = 0.0,
+                    longitude = 0.0
+                )
+            )
         }
     }
-
 
     fun pickMedia(mediaUris: List<Uri>){
         viewModelScope.launch {

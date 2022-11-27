@@ -6,6 +6,6 @@ data class CreatePostRequest(
      var latitude: Double,
      var longitude: Double,
      var createdDate: String,
-     //val image: String,
+     val images: List<String>,
      val ownerUsername: String
 )

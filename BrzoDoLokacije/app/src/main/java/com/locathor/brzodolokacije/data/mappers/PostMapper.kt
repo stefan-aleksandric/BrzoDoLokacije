@@ -1,6 +1,5 @@
 package com.locathor.brzodolokacije.data.mappers
 
-import com.locathor.brzodolokacije.data.local.post.PostDao
 import com.locathor.brzodolokacije.data.local.post.PostEntity
 import com.locathor.brzodolokacije.data.remote.dto.CreatePostRequest
 import com.locathor.brzodolokacije.data.remote.dto.PostDto
@@ -36,13 +35,5 @@ fun PostDto.toPostEntity(): PostEntity {
     )
 }
 
-fun Post.toRequest(): CreatePostRequest =
-    CreatePostRequest(
-        title = title,
-        description = desc,
-        ownerUsername = ownerUsername,
-        createdDate = createdAt,
-        longitude = longitude,
-        latitude = latitude
-    )
+
 

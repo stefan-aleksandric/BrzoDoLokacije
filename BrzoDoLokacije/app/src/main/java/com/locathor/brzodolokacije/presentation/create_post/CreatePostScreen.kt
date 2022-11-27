@@ -189,7 +189,6 @@ fun CreatePostScreen(
                 Spacer(modifier = Modifier.height(SpaceLarge))
                 Button(
                     onClick = {
-                        /*TODO on post button click*/
                         viewModel.onEvent(CreatePostEvent.OnPostButtonPress)
                     },
                     modifier = Modifier.align(Alignment.End)

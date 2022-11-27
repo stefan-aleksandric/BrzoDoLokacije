@@ -1,15 +1,22 @@
 package com.locathor.brzodolokacije.data.repository
 
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.locathor.brzodolokacije.data.local.BrzoDoLokacijeDatabase
 import com.locathor.brzodolokacije.data.local.post.PostEntity
 import com.locathor.brzodolokacije.data.mappers.toPost
 import com.locathor.brzodolokacije.data.mappers.toPostEntity
-import com.locathor.brzodolokacije.data.mappers.toRequest
 import com.locathor.brzodolokacije.data.remote.PostApi
+import com.locathor.brzodolokacije.data.remote.dto.CreatePostRequest
+import com.locathor.brzodolokacije.data.services.SessionManager
+import com.locathor.brzodolokacije.domain.model.CreatePost
 import com.locathor.brzodolokacije.domain.repository.PostRepository
+import com.locathor.brzodolokacije.util.Constants.IMAGES
 import com.locathor.brzodolokacije.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -19,7 +26,9 @@ import com.locathor.brzodolokacije.domain.model.Post as Post
 @Singleton
 class PostRepositoryImpl @Inject constructor(
     private val api: PostApi,
-    private val db: BrzoDoLokacijeDatabase
+    private val db: BrzoDoLokacijeDatabase,
+    private val storage: FirebaseStorage,
+    private val sessionManager: SessionManager
 ): PostRepository {
     private val dao = db.postDao
 
@@ -104,11 +113,28 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createPost(post: Post): Flow<Resource<Post>> {
+    override suspend fun createPost(post: CreatePost): Flow<Resource<Post>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
+
+            val downloadUrl = try {
+                storage.reference.child(IMAGES)
+                    .putFile(post.mediaUris.first()).await()
+                    .storage.downloadUrl.await()
+            } catch (e: Exception){
+                emit(Resource.Error("Couldn't create post data"))
+            }
+
             val response = try {
-                api.createPost(post.toRequest())
+                api.createPost(CreatePostRequest(
+                    title = post.title,
+                    description = post.desc,
+                    latitude = post.latitude,
+                    longitude = post.longitude,
+                    images = listOf(downloadUrl) as List<String>,
+                    createdDate = "",
+                    ownerUsername = sessionManager.getCurrentUsername().toString()
+                ))
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't create post data"))

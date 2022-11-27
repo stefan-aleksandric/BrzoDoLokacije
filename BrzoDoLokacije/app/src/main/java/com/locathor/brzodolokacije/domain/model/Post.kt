@@ -1,5 +1,6 @@
 package com.locathor.brzodolokacije.domain.model
 
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 

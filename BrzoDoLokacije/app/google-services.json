@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "573997242200",
+    "project_id": "brzodolokacije-369522",
+    "storage_bucket": "brzodolokacije-369522.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573997242200:android:9b0f5f74a6e07bfb96772d",
+        "android_client_info": {
+          "package_name": "com.locathor.brzodolokacije"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573997242200-k69p9184m11p64vogamcvkcin8bda8l5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnDMO6Xw5jywk9T6MyHda-njlJT5O5V2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573997242200-k69p9184m11p64vogamcvkcin8bda8l5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
