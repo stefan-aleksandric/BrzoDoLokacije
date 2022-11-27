@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'com.google.devtools.ksp' version '1.7.20-1.0.6'
+    id 'com.google.gms.google-services'
 }
 
 kotlin {
@@ -134,5 +135,8 @@ dependencies {
     //permission handling in compose
     implementation "com.google.accompanist:accompanist-permissions:0.24.9-beta"
 
-
+    //Firebase
+    // Import the Firebase Bill of Materials
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-storage-ktx'
 }
