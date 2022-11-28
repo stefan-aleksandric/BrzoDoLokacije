@@ -49,7 +49,7 @@ fun LoginScreen(
         isRefreshing = state.isLoading
     )
     if(state.status is AuthResult.Authorized){
-        navigator.navigate(HomeScreenDestination)
+        navigator.navigate(HomeScreenDestination())
     }
 
     SwipeRefresh(state = swipeRefreshState, onRefresh = { /*TODO*/ }) {
@@ -144,7 +144,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterHorizontally)
                         .clickable {
-                            navigator.navigate(RegisterScreenDestination)
+                            navigator.navigate(RegisterScreenDestination())
                         }
                 )
             }
