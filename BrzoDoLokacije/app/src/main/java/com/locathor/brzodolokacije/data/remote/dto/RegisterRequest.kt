@@ -1,12 +1,12 @@
 package com.locathor.brzodolokacije.data.remote.dto
 
-import retrofit2.http.Field
+import com.squareup.moshi.Json
 
 data class RegisterRequest(
     val username: String,
     val name: String,
     val surname: String,
-    val profilePic: String,
+    @field: Json(name="profilePicId") val profilePic: String,
     val password: String,
     val email: String
 )

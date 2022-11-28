@@ -140,7 +140,7 @@ class PostRepositoryImpl @Inject constructor(
                     //                    images = downloadUrls!!.first().map{
 //                         it.toString()
 //                    },
-                    createdDate = "",
+                    createdDate = "2022-12-07T00:00:00",
                     ownerUsername = sessionManager.getCurrentUsername().toString()
                 ))
             } catch (e: IOException) {
@@ -154,18 +154,25 @@ class PostRepositoryImpl @Inject constructor(
             }
 
             response?.let {
-                dao.insertPosts(
-                    listOf(
-                        it.toPostEntity()
-                    )
-                )
+//                dao.insertPosts(
+//                    listOf(
+//                        it.toPostEntity()
+//                    )
+//                )
                 emit(Resource.Success(
-                    data=dao.getPostForId(response.postId)
-                        .first()
-                        .toPost()
+                    data=Post(
+                        title = post.title,
+                        desc = post.desc,
+                        latitude = post.latitude,
+                        longitude = post.longitude,
+                        createdAt = "",
+                        mediaUris = listOf(downloadUrls!!.first().toString()),
+                        ownerUsername = sessionManager.getCurrentUsername().toString(),
+                        likeCount = 0,
+                        commentCount = 0
+                    )
                 ))
             }
-
             emit(Resource.Loading(isLoading = false))
         }
     }

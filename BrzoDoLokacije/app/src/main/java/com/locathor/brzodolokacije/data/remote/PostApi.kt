@@ -19,7 +19,7 @@ interface PostApi {
     @POST(POST)
     suspend fun createPost(
         @Body createPostRequest: CreatePostRequest
-    ): PostDto
+    ): Int
 
     companion object{
         const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012"

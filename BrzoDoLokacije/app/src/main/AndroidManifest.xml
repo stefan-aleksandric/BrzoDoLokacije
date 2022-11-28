@@ -9,17 +9,21 @@
 
     <!--PERMISSIONS-->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--   location -->
+
+    <!--location-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--    camera  -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <!--camera-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!--<uses-permission android:name="android.permission.RECORD_AUDIO"/>-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
+
+    <!--media-picker-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".BrzoDoLokacijeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
