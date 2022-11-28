@@ -40,7 +40,7 @@ class AuthInterceptorImpl @Inject constructor(
 
     private fun newRequestWithAuthToken(authToken: String?, request: Request): Request =
         request.newBuilder()
-            .header("Authorization", "Bearer $authToken")
+            .header("Bearer", "$authToken")
             .build()
 
     private fun refreshToken(): String? {
