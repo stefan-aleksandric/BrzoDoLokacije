@@ -31,6 +31,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.AsyncImage
+import coil.compose.ImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.presentation.destinations.HomeScreenDestination
@@ -92,13 +97,15 @@ fun Post(
                     .fillMaxWidth()
                     .clickable {
                         onPostClick()
+                    }
             ){
-                Image(
-                    //TODO pull user post image async
-                    painterResource(id = R.drawable.paris),
-                    contentDescription="Post image",
-                    modifier=Modifier.fillMaxWidth()
-                )
+                AsyncImage(
+                        model = "https://firebasestorage.googleapis.com/v0/b/brzodolokacije-369522.appspot.com/o/IMAGES%2F20f30346-43ea-4bb7-9291-f4b0ecda3898?alt=media&token=85d25983-250f-4c60-a8ad-ae1ef483366a",
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(400.dp)
+                    )
             }
             ActionRow(
                 username=post.ownerUsername,
@@ -218,7 +225,7 @@ fun ActionRow(
                 //TODO pull postOwner image
                 painterResource(id = R.drawable.user),
                 contentDescription = "Profile picture",
-                modifier=Modifier
+                modifier= Modifier
                     .clip(CircleShape)
                     .size(IconSizeLarge)
             )
