@@ -92,7 +92,6 @@ fun Post(
                     .fillMaxWidth()
                     .clickable {
                         onPostClick()
-                }
             ){
                 Image(
                     //TODO pull user post image async
