@@ -2,6 +2,7 @@ package com.locathor.brzodolokacije
 
 import android.Manifest
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
@@ -38,10 +39,6 @@ class MainActivity : ComponentActivity() {
         ))
         setContent {
             BrzoDoLokacijeTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
 //                    AsyncImage(
 //                        model = "https://firebasestorage.googleapis.com/v0/b/brzodolokacije-369522.appspot.com/o/IMAGES%2F20f30346-43ea-4bb7-9291-f4b0ecda3898?alt=media&token=85d25983-250f-4c60-a8ad-ae1ef483366a",
 //                        contentDescription = null,
@@ -49,8 +46,7 @@ class MainActivity : ComponentActivity() {
 //                            .fillMaxWidth()
 //                            .height(400.dp)
 //                    )
-                    DestinationsNavHost(navGraph = NavGraphs.root)
-                }
+                DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
     }

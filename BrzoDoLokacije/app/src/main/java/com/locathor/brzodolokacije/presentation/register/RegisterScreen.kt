@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,7 +50,6 @@ fun RegisterScreen(
     navigator: DestinationsNavigator,
     viewModel: RegisterViewModel= hiltViewModel()
 ) {
-    val scrollState = rememberScrollState()
     val state = viewModel.state
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = state.isLoading
@@ -57,8 +57,8 @@ fun RegisterScreen(
     if(state.status is AuthResult.Authorized){
         navigator.navigate(HomeScreenDestination)
     }
-    
-    SwipeRefresh(state = swipeRefreshState, onRefresh = { /*TODO*/ }) {
+
+    SwipeRefresh(state = swipeRefreshState, onRefresh = {}) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -68,15 +68,12 @@ fun RegisterScreen(
                     top = SpaceLarge,
                     bottom = 50.dp
                 )
-                .scrollable(state = scrollState, orientation = Orientation.Horizontal)
-                .scrollable(state = scrollState, orientation = Orientation.Vertical)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Center)
-                    .verticalScroll(rememberScrollState())
             ) {
                 val context = LocalContext.current
                 Text(

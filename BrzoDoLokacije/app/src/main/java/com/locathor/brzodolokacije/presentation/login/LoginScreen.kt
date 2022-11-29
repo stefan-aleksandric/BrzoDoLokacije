@@ -44,7 +44,6 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-    val scrollState = rememberScrollState()
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = state.isLoading
     )
@@ -52,7 +51,7 @@ fun LoginScreen(
         navigator.navigate(HomeScreenDestination())
     }
 
-    SwipeRefresh(state = swipeRefreshState, onRefresh = { /*TODO*/ }) {
+    SwipeRefresh(state = swipeRefreshState, onRefresh = {}) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -62,8 +61,6 @@ fun LoginScreen(
                     top = SpaceLarge,
                     bottom = 50.dp
                 )
-                .scrollable(state = scrollState, orientation = Orientation.Horizontal)
-                .scrollable(state = scrollState, orientation = Orientation.Vertical)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -71,7 +68,6 @@ fun LoginScreen(
                     .fillMaxSize()
                     .padding(SpaceMedium)
                     .align(Alignment.Center)
-                    .verticalScroll(rememberScrollState())
             ) {
                 Text(
                     text = stringResource(id = com.locathor.brzodolokacije.R.string.login),
