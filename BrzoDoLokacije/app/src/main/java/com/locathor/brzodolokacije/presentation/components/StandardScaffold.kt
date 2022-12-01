@@ -29,7 +29,11 @@ fun StandardScaffold(
     navigationArrowOn:Boolean=true,
     onArrowNavigationClick:()->Unit={},
     onHomeButtonClick:()->Unit={},
+    onUserProfileClick:()->Unit={},
+    onActivityClick:()->Unit={},
     onAddButtonClick:()->Unit={},
+    onSearchClick:()->Unit={},
+    onInboxClick:()->Unit={},
     commentInputText:String="",
     toolbarTitle:String?=null,
     onCommentInsertChange:(String)->Unit={},
@@ -61,8 +65,9 @@ fun StandardScaffold(
                 },
                 actions = {
                     if(searchOn){
-                    //TODO navigate to search screen
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = {
+                        onSearchClick()
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = "Search"
@@ -91,7 +96,7 @@ fun StandardScaffold(
                             }
                             Spacer(Modifier.size(SpaceLarge + SpaceSmall))
                             IconButton(onClick = {
-                                /* doSomething() */
+                                onInboxClick()
                             }) {
                                 Icon(
                                     Icons.Filled.Message,
@@ -102,7 +107,7 @@ fun StandardScaffold(
                             }
                             Spacer(Modifier.size(SpaceLarge + SpaceSmall))
                             IconButton(onClick = {
-                                /* doSomething() */
+                                onActivityClick()
                             }) {
                                 Icon(
                                     Icons.Filled.Notifications,
@@ -113,7 +118,7 @@ fun StandardScaffold(
                             }
                             Spacer(Modifier.size(SpaceLarge + SpaceSmall))
                             IconButton(onClick = {
-                                /* doSomething() */
+                                onUserProfileClick()
                             }) {
                                 Icon(
                                     Icons.Filled.Person,
