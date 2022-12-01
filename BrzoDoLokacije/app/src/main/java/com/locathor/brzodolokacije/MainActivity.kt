@@ -39,13 +39,6 @@ class MainActivity : ComponentActivity() {
         ))
         setContent {
             BrzoDoLokacijeTheme {
-//                    AsyncImage(
-//                        model = "https://firebasestorage.googleapis.com/v0/b/brzodolokacije-369522.appspot.com/o/IMAGES%2F20f30346-43ea-4bb7-9291-f4b0ecda3898?alt=media&token=85d25983-250f-4c60-a8ad-ae1ef483366a",
-//                        contentDescription = null,
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(400.dp)
-//                    )
                 DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }

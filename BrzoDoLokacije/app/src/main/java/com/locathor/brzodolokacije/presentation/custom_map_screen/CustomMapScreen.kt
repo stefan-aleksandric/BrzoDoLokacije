@@ -2,10 +2,10 @@ package com.locathor.brzodolokacije.presentation.custom_map_screen
 
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ToggleOff
-import androidx.compose.material.icons.filled.ToggleOn
+import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,7 +17,8 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
+import com.ramcosta.composedestinations.result.ResultBackNavigator
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,65 +26,61 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 @Destination
 @Composable
 fun CustomMapScreen(
-    viewModel: MapViewModel = hiltViewModel()
+    viewModel: CustomMapViewModel = hiltViewModel(),
+    backNavigator: ResultBackNavigator<LatLng>
 ){
+    val singapore = LatLng(1.35, 103.87)
     val state = viewModel.state
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+    BackHandler(enabled = true) {
+        if(state.selectedLocation != null){
+            backNavigator.navigateBack(result = state.selectedLocation)
+        }
+    }
     val uiSettings = remember {
         MapUiSettings(zoomControlsEnabled = false)
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
-            var clickCount by remember { mutableStateOf(0) }
             FloatingActionButton(onClick = {
-                viewModel.onEvent(MapEvent.ToggleFalloutMap)
-//                scope.launch {
-//                    snackbarHostState.showSnackbar(
-//                        "Snackbar # ${++clickCount}"
-//                    )
-//                }
+                viewModel.onEvent(MapEvent.FocusCurrentLocation)
             }) {
                 Icon(
-                    imageVector = if(state.isFalloutMap){
-                        Icons.Default.ToggleOff
-                    } else {
-                        Icons.Default.ToggleOn
-                    },
-                    contentDescription = "Toggle Fallout map"
+                    imageVector = Icons.Default.MyLocation,
+                    contentDescription = "Focus my current Location"
                 )
             }
         },
-    ){
+    )
+    {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             properties = state.properties,
             uiSettings = uiSettings,
             onMapLongClick = {
-//                viewModel.onEvent(MapEvent.OnMapLongClick(it))
-            }
+                viewModel.onEvent(MapEvent.OnMapLongClick(it))
+            },
         ) {
-//            viewModel.state.parkingSpots.forEach { spot ->
-//                Marker(
-//                    state = MarkerState(
-//                        position = LatLng(spot.latitude, spot.longitude),
-//                    ),
-//                    title = "Parking spot (${spot.latitude},${spot.longitude})",
-//                    snippet = "Long click to delete",
-//                    onInfoWindowLongClick = {
-//                        viewModel.onEvent(MapEvent.OnInfoWindowLongClick(spot))
-//                    },
-//                    onClick = {
-//                        it.showInfoWindow()
-//                        true
-//                    },
-//                    icon = BitmapDescriptorFactory.defaultMarker(
-//                        BitmapDescriptorFactory.HUE_GREEN
-//                    )
-//                )
-//            }
+            if(state.selectedLocation != null) {
+                Marker(
+                    state = MarkerState(
+                        position = state.selectedLocation,
+                    ),
+                    title = "Your selected post location (${state.selectedLocation.toString()})",
+                    snippet = "Long click to delete",
+                    onInfoWindowLongClick = {
+                        viewModel.onEvent(MapEvent.OnInfoWindowLongClick)
+                    },
+                    onClick = {
+                        it.showInfoWindow()
+                        false
+                    },
+                    icon = BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_AZURE
+                    )
+                )
+            }
+
         }
     }
 }

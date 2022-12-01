@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Send
 import android.Manifest
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,7 +13,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.result.contract.ActivityResultContracts.PickMultipleVisualMedia
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,10 +29,12 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.google.android.gms.maps.model.LatLng
 import com.locathor.brzodolokacije.presentation.camera.CustomCameraScreen
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
 import com.locathor.brzodolokacije.presentation.destinations.CustomCameraScreenDestination
+import com.locathor.brzodolokacije.presentation.destinations.CustomMapScreenDestination
 import com.locathor.brzodolokacije.presentation.posts.PostsEvent
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceLarge
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
@@ -42,6 +42,8 @@ import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
 
 @OptIn(ExperimentalPermissionsApi::class)
 //@RootNavGraph(start = true)
@@ -49,10 +51,25 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun CreatePostScreen(
     navigator: DestinationsNavigator,
-    viewModel: CreatePostViewModel = hiltViewModel()
+    viewModel: CreatePostViewModel = hiltViewModel(),
+    resultRecipient: ResultRecipient<CustomMapScreenDestination, LatLng>
 ){
     val state = viewModel.state
 
+    resultRecipient.onNavResult { result ->
+        when (result) {
+            is NavResult.Canceled -> {
+                // `Destination` was shown but it was canceled
+                // and no value was set (example: dialog/bottom sheet dismissed)
+            }
+            is NavResult.Value -> {
+                viewModel.setLocation(result.value)
+                // Do whatever with the result received!
+                // Think of it like a button click, usually you want to call
+                // a view model method here or navigate somewhere
+            }
+        }
+    }
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = state.isLoading
     )
@@ -76,10 +93,10 @@ fun CreatePostScreen(
 
         if (uris.isNotEmpty()) {
             Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
+            viewModel.pickMedia(uris)
         } else {
             Log.d("PhotoPicker", "No media selected")
         }
-        viewModel.pickMedia(uris)
     }
 
     StandardScaffold (
@@ -93,9 +110,8 @@ fun CreatePostScreen(
             navigator.popBackStack()
         }
     ){
-        SwipeRefresh(state = swipeRefreshState, onRefresh = {
-
-        }){
+        SwipeRefresh(state = swipeRefreshState, onRefresh = {})
+        {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -130,6 +146,22 @@ fun CreatePostScreen(
                         }
                         IconButton(
                             onClick = {
+                                      navigator.navigate(CustomMapScreenDestination())
+                            },
+                            modifier=Modifier.border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                shape = MaterialTheme.shapes.large
+                            )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Map,
+                                contentDescription = stringResource(id = com.locathor.brzodolokacije.R.string.pick_location),
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                        IconButton(
+                            onClick = {
                                       navigator.navigate(CustomCameraScreenDestination())
                             },
                             modifier=Modifier.border(
@@ -159,13 +191,13 @@ fun CreatePostScreen(
                 StandardTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = "",
+                    text = state.title,
                     hint = stringResource(id = com.locathor.brzodolokacije.R.string.add_title),
                     error = "",
                     singleLine = true,
                     maxLines=1,
                     onValueChange = {
-
+                        viewModel.setTitleText(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
@@ -181,13 +213,13 @@ fun CreatePostScreen(
                 StandardTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = "",
+                    text = state.description,
                     hint = stringResource(id = com.locathor.brzodolokacije.R.string.description),
                     error = "",
                     singleLine = false,
                     maxLines=15,
                     onValueChange = {
-
+                        viewModel.setDescriptionText(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(SpaceLarge))

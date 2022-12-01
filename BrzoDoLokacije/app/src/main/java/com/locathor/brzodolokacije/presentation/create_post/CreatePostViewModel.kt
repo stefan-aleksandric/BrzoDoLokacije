@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import com.locathor.brzodolokacije.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import com.locathor.brzodolokacije.domain.location.LocationTracker
 import com.locathor.brzodolokacije.domain.model.CreatePost
@@ -23,34 +24,28 @@ import javax.inject.Inject
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val locationTracker: LocationTracker,
     private val repository: PostRepository,
     //private val user: User
 ):ViewModel() {
 
     var state by mutableStateOf(CreatePostState())
 
-    private fun getLocation(): Job {
-         return viewModelScope.launch {
-            state = state.copy(
-                isLoading = true,
-                error = null
-            )
-            //get current location then if not null do let for location
-            locationTracker.getLocation()?.let {
-                state = state.copy(
-                    location = it,
-                    isLoading = false,
-                    error = null
-                )
-                Log.d("LOCATION", it.latitude.toString()+"_"+ it.longitude.toString())
-            } ?: kotlin.run {
-                state = state.copy(
-                    isLoading = false,
-                    error = "Couldn't retreive location. Please enable location, and grant permissions!"
-                )
-            }
-        }
+    fun setTitleText(value: String){
+        state = state.copy(
+            title = value
+        )
+    }
+
+    fun setDescriptionText(value: String){
+        state = state.copy(
+            description = value
+        )
+    }
+
+    fun setLocation(value: LatLng) {
+        state = state.copy(
+            location = value
+        )
     }
 
     fun onEvent(event: CreatePostEvent){
@@ -62,9 +57,7 @@ class CreatePostViewModel @Inject constructor(
                 Unit
             }*/
             is CreatePostEvent.OnPostButtonPress->{
-                getLocation().invokeOnCompletion {
-                    createPost()
-                }
+                createPost()
             }
             else -> {}
         }
