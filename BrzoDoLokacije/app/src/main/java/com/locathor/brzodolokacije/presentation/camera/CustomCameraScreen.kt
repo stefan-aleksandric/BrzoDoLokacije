@@ -23,14 +23,17 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.locathor.brzodolokacije.presentation.camera.CustomCameraViewModel
 import com.locathor.brzodolokacije.R
+import com.locathor.brzodolokacije.presentation.components.StandardScaffold
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalPermissionsApi::class)
 //@RootNavGraph(start = true)
 @Destination
 @Composable
 fun CustomCameraScreen(
+    navigator: DestinationsNavigator,
     viewModel: CustomCameraViewModel = hiltViewModel()
 ) {
 
@@ -58,50 +61,62 @@ fun CustomCameraScreen(
     val screenWith = configuration.screenWidthDp.dp
     var previewView: PreviewView
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if(permissionsState.allPermissionsGranted){
-            Box(
-                modifier = Modifier
-                    .height(screenHeight * .85f)
-                    .width(screenWith)
-            ){
-                AndroidView(
-                    factory = {
-                        previewView = PreviewView(it)
-                        viewModel.showCameraPreview(previewView, lifecycleOwner)
-                        previewView
-                    },
-                    modifier = Modifier //maybe fillmaxsize
+    StandardScaffold(
+        bottomBarOn = false,
+        commentInputOn = false,
+        navigationArrowOn = true,
+        topBarOn = true,
+        searchOn= false,
+        toolbarTitle = "Camera",
+        onArrowNavigationClick = {
+            navigator.popBackStack()
+        }
+    ){
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            if(permissionsState.allPermissionsGranted){
+                Box(
+                    modifier = Modifier
                         .height(screenHeight * .85f)
                         .width(screenWith)
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .height(screenHeight * .15f),
-                contentAlignment = Alignment.Center
-            ){
-                IconButton(onClick = {
-                    if(permissionsState.allPermissionsGranted)
-                        viewModel.captureAndSave(context)
-                    else
-                        Toast.makeText(
-                            context,
-                            "Please provide permissions in app settings!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                }){
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.ic_baseline_camera_24
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier.size(45.dp),
-                        tint = Color.Magenta
+                ){
+                    AndroidView(
+                        factory = {
+                            previewView = PreviewView(it)
+                            viewModel.showCameraPreview(previewView, lifecycleOwner)
+                            previewView
+                        },
+                        modifier = Modifier //maybe fillmaxsize
+                            .height(screenHeight * .85f)
+                            .width(screenWith)
                     )
+                }
+                Box(
+                    modifier = Modifier
+                        .height(screenHeight * .15f),
+                    contentAlignment = Alignment.Center
+                ){
+                    IconButton(onClick = {
+                        if(permissionsState.allPermissionsGranted)
+                            viewModel.captureAndSave(context)
+                        else
+                            Toast.makeText(
+                                context,
+                                "Please provide permissions in app settings!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                    }){
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.ic_baseline_camera_24
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier.size(45.dp),
+                            tint = Color.Magenta
+                        )
+                    }
                 }
             }
         }
