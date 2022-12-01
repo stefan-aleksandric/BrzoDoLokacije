@@ -14,10 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.locathor.brzodolokacije.domain.model.Post
+import com.locathor.brzodolokacije.presentation.activity.ActivityScreen
 import com.locathor.brzodolokacije.presentation.components.Post
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
-import com.locathor.brzodolokacije.presentation.destinations.CreatePostScreenDestination
-import com.locathor.brzodolokacije.presentation.destinations.PostDetailScreenDestination
+import com.locathor.brzodolokacije.presentation.destinations.*
 import com.locathor.brzodolokacije.presentation.posts.PostsViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -33,13 +33,28 @@ fun HomeScreen(
 ){
         val state=viewModel.state
         StandardScaffold (
+                toolbarTitle = stringResource(com.locathor.brzodolokacije.R.string.home),
+                topBarOn = true,
                 bottomBarOn = true,
+                navigationArrowOn = false,
+                onLogoutButtonClick = {
+                    navigator.navigate(LoginScreenDestination)
+                },
+                onInboxClick = {
+                    navigator.navigate(InboxScreenDestination)
+                },
+                onActivityClick = {
+                    navigator.navigate(ActivityScreenDestination)
+                },
+                onUserProfileClick = {
+                    navigator.navigate(UserProfileScreenDestination)
+                },
                 onAddButtonClick = {
                     navigator.navigate(CreatePostScreenDestination)
                 },
-                navigationArrowOn = false,
-                topBarOn = true,
-                toolbarTitle = stringResource(com.locathor.brzodolokacije.R.string.home)
+                onSearchClick = {
+                    navigator.navigate(SearchScreenDestination)
+                },
                 ){
             LazyColumn(
             )

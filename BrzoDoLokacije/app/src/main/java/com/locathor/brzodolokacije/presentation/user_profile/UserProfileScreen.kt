@@ -15,7 +15,14 @@ fun UserProfileScreen(
 ){
     StandardScaffold(
         topBarOn = true,
-
+        bottomBarOn = false,
+        navigationArrowOn = true,
+        commentInputOn = false,
+        searchOn = false,
+        toolbarTitle = "User profile",
+        onArrowNavigationClick = {
+            navigator.popBackStack()
+        }
     ) {
 
     }

@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,7 +29,7 @@ fun StandardScaffold(
     commentInputOn:Boolean=true,
     navigationArrowOn:Boolean=true,
     onArrowNavigationClick:()->Unit={},
-    onHomeButtonClick:()->Unit={},
+    onLogoutButtonClick:()->Unit={},
     onUserProfileClick:()->Unit={},
     onActivityClick:()->Unit={},
     onAddButtonClick:()->Unit={},
@@ -85,13 +86,14 @@ fun StandardScaffold(
                     actions = {
                             Spacer(Modifier.size(SpaceLarge))
                             IconButton(onClick = {
-                                onHomeButtonClick()
+                                onLogoutButtonClick()
                             }) {
                                 Icon(
-                                    Icons.Filled.Home,
-                                    contentDescription = "Home",
+                                    Icons.Filled.Logout,
+                                    contentDescription = "Logout",
                                     modifier = Modifier
                                         .size(128.dp)
+                                        .scale(scaleX=-1f,scaleY=1f)
                                 )
                             }
                             Spacer(Modifier.size(SpaceLarge + SpaceSmall))

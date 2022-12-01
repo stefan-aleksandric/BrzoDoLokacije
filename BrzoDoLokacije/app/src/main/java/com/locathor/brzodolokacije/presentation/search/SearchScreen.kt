@@ -1,19 +1,18 @@
-package com.locathor.brzodolokacije.presentation.activity
+package com.locathor.brzodolokacije.presentation.search
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
-import com.locathor.brzodolokacije.presentation.home.HomeViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 
 //@RootNavGraph(start = true)
 @Destination
 @Composable
-fun ActivityScreen(
+fun SearchScreen(
     navigator: DestinationsNavigator,
-    viewModel: ActivityViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel()
 ){
     StandardScaffold(
         topBarOn = true,
@@ -21,7 +20,7 @@ fun ActivityScreen(
         navigationArrowOn = true,
         commentInputOn = false,
         searchOn = false,
-        toolbarTitle = "Activity Feed",
+        toolbarTitle = "Location search",
         onArrowNavigationClick = {
             navigator.popBackStack()
         }
