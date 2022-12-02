@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
 import coil.compose.AsyncImage
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.presentation.activity.ActivityScreen
