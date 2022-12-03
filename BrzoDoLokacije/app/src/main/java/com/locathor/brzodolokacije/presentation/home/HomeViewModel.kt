@@ -8,9 +8,13 @@ import androidx.lifecycle.ViewModel
 import com.locathor.brzodolokacije.domain.location.LocationTracker
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.domain.repository.PostRepository
+import com.locathor.brzodolokacije.domain.repository.UserRepository
 import com.locathor.brzodolokacije.presentation.components.Post
 import com.locathor.brzodolokacije.presentation.login.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 
@@ -18,7 +22,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val locationTracker: LocationTracker,
     private val savedStateHandle: SavedStateHandle,
-    private val repository: PostRepository
+    private val repositoryPost: PostRepository,
+    private val repositoryUser: UserRepository
 ): ViewModel() {
     var state by mutableStateOf(HomeState())
 

@@ -25,6 +25,7 @@ import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.presentation.components.ActionRow
 import com.locathor.brzodolokacije.presentation.components.StandardScaffold
 import com.locathor.brzodolokacije.presentation.components.StandardTextField
+import com.locathor.brzodolokacije.presentation.destinations.UserProfileScreenDestination
 import com.locathor.brzodolokacije.presentation.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -113,8 +114,9 @@ fun PostDetailScreen(
                             onShareClick = {
 
                             },
-                            onUsernameClick = { username->
-
+                            onUsernameClick = {
+                                //TODO ON USERNAME UNDER POST CLICK
+                                navigator.navigate(UserProfileScreenDestination)
                             }
                         )
                         Spacer(modifier = Modifier.height(SpaceSmall))
@@ -135,13 +137,18 @@ fun PostDetailScreen(
                     }
                     items(20){
                         Comment(
+                            onUsernameCommentClick = {
+                                navigator.navigate(UserProfileScreenDestination)
+                            },
+                            onLikeClick={
+                                        //TODO ON COMMENT LIKE CLICK
+                            },
                             modifier=Modifier.fillMaxWidth(),
                             comment=Comment(
                                 username="Stefan Aleksandric$it",
                                 comment="This is very nice!"+" The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,",
                             )
-                        ){
-                        }
+                        )
                     }
                 }
             }
@@ -155,6 +162,7 @@ fun PostDetailScreen(
                     .align(Alignment.TopCenter)
                     .clickable {
                         //TODO navigation to user profile
+                        navigator.navigate(UserProfileScreenDestination)
                     }
             )
         }
@@ -165,7 +173,8 @@ fun PostDetailScreen(
 fun Comment(
     modifier:Modifier = Modifier,
     comment: Comment = Comment(),
-    onLikeClick:(Boolean)->Unit = {}
+    onLikeClick:(Boolean)->Unit = {},
+    onUsernameCommentClick:()->Unit={}
 ){
     Card(
         modifier= modifier
@@ -183,6 +192,7 @@ fun Comment(
                 Row(
                     modifier=Modifier.clickable{
                         //TODO click on username in comment
+                        onUsernameCommentClick()
                     }
                 ){
                     Image(

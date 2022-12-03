@@ -53,6 +53,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun Post(
     post:Post,
     onPostClick:()->Unit,
+    onUsernameClick:(String)->Unit={}
 ){
     Box(
         modifier= Modifier
@@ -110,7 +111,7 @@ fun Post(
             ActionRow(
                 username=post.ownerUsername,
                 modifier=Modifier.fillMaxWidth(),
-                onLikeClick = { isLiked->
+                onLikeClick = {
 
                 },
                 onCommentClick = {
@@ -119,8 +120,9 @@ fun Post(
                 onShareClick = {
 
                 },
-                onUsernameClick = { username->
-
+                onUsernameClick = {
+                    //TODO SEND USERNAME
+                    onUsernameClick("Pera Peric")
                 }
             )
             Spacer(modifier = Modifier.height(SpaceSmall))
