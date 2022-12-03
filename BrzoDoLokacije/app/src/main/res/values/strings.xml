@@ -39,4 +39,6 @@
     <string name="media_selected">Number of media selected: %d</string>
     <string name="no_media_selected">No media selected.</string>
     <string name="location_unreachable">Location unreachable.</string>
+    <string name="map_image">Map</string>
+    <string name="message_me">Message</string>
 </resources>

@@ -69,9 +69,10 @@ fun HomeScreen(
             {
                 items(state.list.size) { i ->
                     val post =state.list[i]
-                    Post(post = post, onPostClick = {
-                        navigator.navigate(PostDetailScreenDestination(post))
-                    })
+                    Post(post = post,
+                        onUsernameClick = { navigator.navigate(UserProfileScreenDestination) },
+                        onPostClick = { navigator.navigate(PostDetailScreenDestination(post)) }
+                    )
                 }
             }
             if (openDialog.value) {
