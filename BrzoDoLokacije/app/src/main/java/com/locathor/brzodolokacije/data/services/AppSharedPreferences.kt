@@ -18,6 +18,7 @@ class AppSharedPreferences @Inject constructor(
     fun removeToken() =
         prefs.edit()
             .remove(TOKEN)
+            .apply()
 
     fun getRefreshToken(): String? =
         prefs.getString(REFRESH_TOKEN, null)
@@ -30,6 +31,7 @@ class AppSharedPreferences @Inject constructor(
     fun removeRefreshToken() =
         prefs.edit()
             .remove(REFRESH_TOKEN)
+            .apply()
 
     fun setUser(username: String) =
         prefs.edit()
@@ -42,6 +44,7 @@ class AppSharedPreferences @Inject constructor(
     fun removeUser() =
         prefs.edit()
             .remove(USER)
+            .apply()
 
 
     companion object {

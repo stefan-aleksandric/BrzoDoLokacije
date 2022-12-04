@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.locathor.brzodolokacije.data.services.SessionManager
 import com.locathor.brzodolokacije.domain.location.LocationTracker
 import com.locathor.brzodolokacije.domain.model.Post
 import com.locathor.brzodolokacije.domain.repository.PostRepository
@@ -23,7 +24,8 @@ class HomeViewModel @Inject constructor(
     private val locationTracker: LocationTracker,
     private val savedStateHandle: SavedStateHandle,
     private val repositoryPost: PostRepository,
-    private val repositoryUser: UserRepository
+    private val repositoryUser: UserRepository,
+    private val sessionManager: SessionManager
 ): ViewModel() {
     var state by mutableStateOf(HomeState())
 
@@ -47,4 +49,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
+    fun logout(){
+        sessionManager.logout();
+    }
 }

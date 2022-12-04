@@ -136,7 +136,12 @@ class PostRepositoryImpl @Inject constructor(
                     description = post.desc,
                     latitude = post.latitude,
                     longitude = post.longitude,
-                    images = downloadUrls!!.first().toString(),
+                    images = if( downloadUrls!!.isNotEmpty() )
+                    {
+                            Log.d("not empty", "")
+                        downloadUrls.first().toString()
+                    }
+                            else "",
                     //                    images = downloadUrls!!.first().map{
 //                         it.toString()
 //                    },

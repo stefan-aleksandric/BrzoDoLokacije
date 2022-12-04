@@ -47,7 +47,8 @@ fun LoginScreen(
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = state.isLoading
     )
-    if(state.status is AuthResult.Authorized){
+
+    if(viewModel.isUserAuthenticated()){
         navigator.navigate(HomeScreenDestination())
     }
 

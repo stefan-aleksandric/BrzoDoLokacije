@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.locathor.brzodolokacije.data.services.SessionManager
 import com.locathor.brzodolokacije.domain.model.User
 import com.locathor.brzodolokacije.util.AuthResult
 import com.locathor.brzodolokacije.domain.repository.UserRepository
@@ -22,15 +23,23 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val repository: UserRepository
+    private val repository: UserRepository,
+    private val sessionManager: SessionManager
 ): ViewModel(){
     var state by mutableStateOf(LoginState())
+
+    fun isUserAuthenticated(): Boolean {
+        if(sessionManager.getAccessToken() != null)
+            return true;
+        return false
+    }
 
     fun setUsernameText(value: String){
         state = state.copy(
             username = value
         )
     }
+
     fun setPasswordText(value: String) {
         state = state.copy(
             password = value
