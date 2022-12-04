@@ -12,7 +12,7 @@ interface PostApi {
 
 
     @GET("${POST}/{id}")
-    suspend fun getPostsForId(
+    suspend fun getPostForId(
         @Path("id") postId: Int
     ): PostDto
 
@@ -20,6 +20,9 @@ interface PostApi {
     suspend fun createPost(
         @Body createPostRequest: CreatePostRequest
     ): Int
+
+    @GET(POST)
+    suspend fun getPost(): List<PostDto>
 
     companion object{
         const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012"

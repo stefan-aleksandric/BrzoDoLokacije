@@ -71,8 +71,8 @@ class PostRepositoryImpl @Inject constructor(
                     data = dao.getAllPosts()
                         .map { it.toPost() }
                 ))
-                emit(Resource.Loading(false))
             }
+            emit(Resource.Loading(false))
         }
     }
 
@@ -91,7 +91,7 @@ class PostRepositoryImpl @Inject constructor(
                 return@flow
             }
             val remotePost = try {
-                api.getPostsForId(id)
+                api.getPostForId(id)
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load post data"))
@@ -104,14 +104,14 @@ class PostRepositoryImpl @Inject constructor(
 
             remotePost?.let { post ->
                 dao.insertPosts(
-                    listOf<PostEntity>(post.toPostEntity())
+                    listOf(post.toPostEntity())
                 )
                 emit(Resource.Success(
                     data = dao.getPostForId(id)
                         .map { it.toPost() }
                 ))
-                emit(Resource.Loading(false))
             }
+            emit(Resource.Loading(false))
         }
     }
 

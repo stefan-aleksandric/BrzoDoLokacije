@@ -22,16 +22,15 @@ fun PostEntity.toPost(): Post {
 fun PostDto.toPostEntity(): PostEntity {
     return PostEntity(
         postId = postId,
-        userId = userId,
         title = title ?: "",
-        desc = desc ?: "",
+        desc = description ?: "",
         latitude = latitude ?: 0.0,
         longitude = longitude ?: 0.0,
-        createdAt = createdAt ?: "",
-        owner = owner ?: "",
-        mediaUris = mediaUris,
-        commentCount = commentCount,
-        likeCount = likeCount
+        createdAt = createdDate ?: "",
+        mediaUris = listOf(photoUrl),
+        commentCount = 0,
+        likeCount = 0,
+        owner = username
     )
 }
 
