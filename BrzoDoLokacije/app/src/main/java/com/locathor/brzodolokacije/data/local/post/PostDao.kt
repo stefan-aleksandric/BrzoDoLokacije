@@ -19,6 +19,10 @@ interface PostDao {
     @Query("DELETE FROM postentity")
     suspend fun clearPosts()
 
+    @Query("""SELECT * FROM postentity
+        WHERE owner = :username""")
+    suspend fun getPostsForUsername(username: String): List<PostEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPosts(postEntities: List<PostEntity>)
 

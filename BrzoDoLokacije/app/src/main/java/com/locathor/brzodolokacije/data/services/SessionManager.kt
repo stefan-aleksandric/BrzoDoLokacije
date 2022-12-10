@@ -20,9 +20,16 @@ class SessionManager @Inject constructor(
     fun setCurrentUsername(username: String) =
         pref.setUser(username)
 
+    fun getCurrentUserId(id: Int) =
+        pref.getUserId(id)
+
+    fun setCurrentUserId(id: Int) =
+        pref.setUserId(id)
+
     fun logout() {
         pref.removeToken()
         pref.removeRefreshToken()
         pref.removeUser()
+        pref.removeUserId()
     }
 }

@@ -182,6 +182,44 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPostsForUsername(username: String, fetchFromRemote: Boolean): Flow<Resource<List<Post>>> {
+        return flow {
+            emit(Resource.Loading(true))
+            val localPosts = dao.getPostsForUsername(username)
+            emit(Resource.Success(
+                data = localPosts.map { it.toPost() }
+            ))
+
+            val isDbEmpty = localPosts.isEmpty()
+            val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
+            if(shouldJustLoadFromCache){ //we already returned an emit with Resource.Success<data from cache>
+                emit(Resource.Loading(false)) //stop loading indication
+                return@flow
+            }
+            val remotePosts = try {
+                api.getPostsForUsername(username)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load post data"))
+                null
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load post data"))
+                null
+            }
+
+            remotePosts?.let { posts ->
+                dao.insertPosts(
+                    posts.map { it.toPostEntity() }
+                )
+                emit(Resource.Success(
+                    data = dao.getPostsForUsername(username)
+                        .map { it.toPost() }
+                ))
+            }
+            emit(Resource.Loading(false))
+        }
+    }
 
 }
 

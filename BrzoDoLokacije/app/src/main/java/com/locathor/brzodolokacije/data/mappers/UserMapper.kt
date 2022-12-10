@@ -6,6 +6,7 @@ import com.locathor.brzodolokacije.domain.model.User
 
 fun UserEntity.toUser(): User
     = User(
+        id = userId ?: 0,
         username = username,
         email = email,
         profilePicUrl = profilePicUrl,
@@ -15,6 +16,7 @@ fun UserEntity.toUser(): User
 
 fun UserDto.toUser(): User
  = User(
+        id = userId,
         username = username,
         email = email,
         profilePicUrl = profilePicUrl,

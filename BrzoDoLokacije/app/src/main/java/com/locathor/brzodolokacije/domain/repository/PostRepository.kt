@@ -19,5 +19,5 @@ interface PostRepository {
         post: CreatePost
     ): Flow<Resource<Post>>
 
-
+    suspend fun getPostsForUsername(username: String, fetchFromRemote: Boolean): Flow<Resource<List<Post>>>
 }

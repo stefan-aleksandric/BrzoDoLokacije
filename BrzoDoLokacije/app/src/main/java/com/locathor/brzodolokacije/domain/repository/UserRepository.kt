@@ -21,4 +21,6 @@ interface UserRepository {
     ): Flow<Resource<User>>
 
     suspend fun getUser(id: Int): Flow<Resource<User>>
+
+    suspend fun getCurrentUser(): Flow<Resource<User>>
 }

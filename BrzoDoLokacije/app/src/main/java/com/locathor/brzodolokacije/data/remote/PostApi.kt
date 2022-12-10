@@ -24,6 +24,9 @@ interface PostApi {
     @GET(POST)
     suspend fun getPost(): List<PostDto>
 
+    @GET("${POST}/UserPosts")
+    suspend fun getPostsForUsername(@Header("username") username: String): List<PostDto>
+
     companion object{
         const val BASE_URL = "http://softeng.pmf.kg.ac.rs:10012"
         const val POST = "api/Post"

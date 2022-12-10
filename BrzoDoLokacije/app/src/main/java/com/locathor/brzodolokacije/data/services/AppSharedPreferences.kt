@@ -46,11 +46,25 @@ class AppSharedPreferences @Inject constructor(
             .remove(USER)
             .apply()
 
+    fun getUserId(id: Int): Int =
+        prefs.getInt(ID, -1)
+
+    fun setUserId(id: Int) =
+        prefs.edit()
+            .putInt(ID, id)
+            .apply()
+
+    fun removeUserId() =
+        prefs.edit()
+            .remove(ID)
+            .apply()
+
 
     companion object {
         const val REFRESH_TOKEN = "auth_token"
         const val TOKEN = "auth_token"
         const val USER = "auth_username"
+        const val ID = "auth_user_id"
         const val SHARED_PREFS = "APP_SHARED_PREFS"
     }
 }

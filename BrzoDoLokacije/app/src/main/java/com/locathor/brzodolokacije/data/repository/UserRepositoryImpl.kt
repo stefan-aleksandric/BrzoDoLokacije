@@ -99,6 +99,7 @@ class UserRepositoryImpl @Inject constructor(
     private fun authenticateUser(it: AuthenticationResponse) {
         sessionManager.refreshToken(it.authToken.value) /// do refresh logic
         sessionManager.setCurrentUsername(it.user.username)
+        sessionManager.setCurrentUserId(it.user.userId)
     }
 
     override suspend fun getUser(id: Int): Flow<Resource<User>> {
@@ -119,8 +120,32 @@ class UserRepositoryImpl @Inject constructor(
 
             user?.let{
                 emit(Resource.Success(data = user.toUser()))
-                emit(Resource.Loading(isLoading = false))
             }
+            emit(Resource.Loading(isLoading = false))
         }
     }
+
+    override suspend fun getCurrentUser(): Flow<Resource<User>> {
+        return flow {
+            emit(Resource.Loading(isLoading = true))
+            val user = try {
+                val username = sessionManager.getCurrentUsername()
+                dao.getUserForUsername(username!!).first()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't find user."))
+                null
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't find user."))
+                null
+            }
+
+            user?.let{
+                emit(Resource.Success(data = user.toUser()))
+            }
+            emit(Resource.Loading(isLoading = false))
+        }
+    }
+
 }
