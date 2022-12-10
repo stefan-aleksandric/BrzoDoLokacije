@@ -46,7 +46,7 @@ fun HomeScreen(
             navigator.navigate(ActivityScreenDestination)
         },
         onUserProfileClick = {
-            navigator.navigate(UserProfileScreenDestination)
+            navigator.navigate(UserProfileScreenDestination(id=1))
         },
         onAddButtonClick = {
             navigator.navigate(CreatePostScreenDestination)
@@ -62,7 +62,7 @@ fun HomeScreen(
             LazyColumn {
                 items(state.posts) { post ->
                     Post(post = post,
-                        onUsernameClick = { navigator.navigate(UserProfileScreenDestination) },
+                        onUsernameClick = { navigator.navigate(UserProfileScreenDestination(id=1)) },
                         onPostClick = { navigator.navigate(PostDetailScreenDestination(post)) }
                     )
                 }

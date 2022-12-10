@@ -101,7 +101,7 @@ class UserRepositoryImpl @Inject constructor(
         sessionManager.setCurrentUsername(it.user.username)
     }
 
-    override suspend fun getUser(): Flow<Resource<User>> {
+    override suspend fun getUser(id: Int): Flow<Resource<User>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
             val user = try {

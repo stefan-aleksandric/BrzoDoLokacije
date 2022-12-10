@@ -37,11 +37,14 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun UserProfileScreen(
+    id: Int,
+    viewModel: UserProfileViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
-    viewModel: UserProfileViewModel = hiltViewModel()
 ){
+
     val owner=true
     val state=viewModel.state
+
     StandardScaffold(
         topBarOn = true,
         bottomBarOn = false,

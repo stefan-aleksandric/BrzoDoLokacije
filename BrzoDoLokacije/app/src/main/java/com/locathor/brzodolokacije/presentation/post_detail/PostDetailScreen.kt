@@ -124,7 +124,7 @@ fun PostDetailScreen(
                             },
                             onUsernameClick = {
                                 //TODO ON USERNAME UNDER POST CLICK
-                                navigator.navigate(UserProfileScreenDestination)
+                                navigator.navigate(UserProfileScreenDestination(id=1))
                             }
                         )
                         Spacer(modifier = Modifier.height(SpaceSmall))
@@ -146,7 +146,7 @@ fun PostDetailScreen(
                     items(20){
                         Comment(
                             onUsernameCommentClick = {
-                                navigator.navigate(UserProfileScreenDestination)
+                                navigator.navigate(UserProfileScreenDestination(id=1))
                             },
                             onLikeClick={
                                         //TODO ON COMMENT LIKE CLICK
@@ -170,7 +170,7 @@ fun PostDetailScreen(
                     .align(Alignment.TopCenter)
                     .clickable {
                         //TODO navigation to user profile
-                        navigator.navigate(UserProfileScreenDestination)
+                        navigator.navigate(UserProfileScreenDestination(id=1))
                     }
             )
         }

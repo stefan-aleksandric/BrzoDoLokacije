@@ -35,7 +35,7 @@ class PostDetailViewModel @Inject constructor(): ViewModel() {
         }
 
         val address: Address? = addresses?.get(0)
-        addressText = address?.locality ?: address?.countryName ?: ""
+        addressText = address?.subLocality ?: address?.locality ?:  address?.subAdminArea ?: address?.adminArea ?: address?.countryName ?: ""
         return addressText
     }
 }
