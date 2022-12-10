@@ -123,11 +123,11 @@ fun UserProfileScreen(
                         Text(
                             text="Posts",
                         )
-                        Text(
-                            text=state.list.size.toString(),
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center
-                        )
+//                        Text(
+//                            text=state.posts,
+//                            fontWeight = FontWeight.Bold,
+//                            textAlign = TextAlign.Center
+//                        )
                     }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -169,8 +169,8 @@ fun UserProfileScreen(
                 }
             }
             //TODO GET POSTS FROM USER ONLY
-            items(state.list.size) { i ->
-                val post =state.list[i]
+            items(state.posts.size) { i ->
+                val post =state.posts[i]
                 Post(post = post, onPostClick = {
                     navigator.navigate(com.locathor.brzodolokacije.presentation.destinations.PostDetailScreenDestination(post))
                 })

@@ -3,7 +3,6 @@ package com.locathor.brzodolokacije.data.remote.dto
 import com.squareup.moshi.Json
 
 data class CreatePostRequest(
-     @field: Json(name="postId") val postId: Int = 0,
      val title: String,
      val description: String,
      val latitude: Double,

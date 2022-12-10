@@ -145,7 +145,7 @@ class PostRepositoryImpl @Inject constructor(
                     //                    images = downloadUrls!!.first().map{
 //                         it.toString()
 //                    },
-                    createdDate = "2022-12-07T00:00:00",
+                    createdDate = "",
                     ownerUsername = sessionManager.getCurrentUsername().toString()
                 ))
             } catch (e: IOException) {

@@ -1,5 +1,7 @@
 package com.locathor.brzodolokacije.presentation.components
 
+import android.location.Geocoder
+import android.location.Geocoder.GeocodeListener
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,29 +33,23 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import coil.compose.ImagePainter
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Post
-import com.locathor.brzodolokacije.presentation.destinations.HomeScreenDestination
-import com.locathor.brzodolokacije.presentation.destinations.PostDetailScreenDestination
-import com.locathor.brzodolokacije.presentation.destinations.ProfileScreenDestination
-import com.locathor.brzodolokacije.presentation.posts.PostScreenData
-import com.locathor.brzodolokacije.presentation.ui.theme.HintGray
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceMedium
 import com.locathor.brzodolokacije.presentation.ui.theme.SpaceSmall
 import com.locathor.brzodolokacije.presentation.ui.theme.*
 import com.locathor.brzodolokacije.util.Constants
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.util.*
 
 @Composable
 fun Post(
-    post:Post,
-    onPostClick:()->Unit,
-    onUsernameClick:(String)->Unit={}
+    post: Post,
+    onPostClick: ()->Unit,
+    onUsernameClick: (String)->Unit={}
 ){
     Box(
         modifier= Modifier
@@ -88,7 +84,7 @@ fun Post(
                     )
                     //TODO addLocation from user
                     Text(
-                        text="Paris,France,Western Europe",
+                        text= "",
                         style=MaterialTheme.typography.titleSmall
                     )
                 }
@@ -101,7 +97,7 @@ fun Post(
                     }
             ){
                 AsyncImage(
-                        model = "https://firebasestorage.googleapis.com/v0/b/brzodolokacije-369522.appspot.com/o/IMAGES%2F20f30346-43ea-4bb7-9291-f4b0ecda3898?alt=media&token=85d25983-250f-4c60-a8ad-ae1ef483366a",
+                        model = post.mediaUris.first(),
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()

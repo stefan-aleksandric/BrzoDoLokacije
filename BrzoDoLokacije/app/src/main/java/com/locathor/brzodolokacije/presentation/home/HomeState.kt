@@ -9,5 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 data class HomeState(
-    var list: List<Post> = emptyList()
+    val posts: List<Post> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null
 )

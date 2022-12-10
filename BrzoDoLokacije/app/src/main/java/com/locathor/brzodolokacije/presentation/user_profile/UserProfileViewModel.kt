@@ -19,7 +19,7 @@ class UserProfileViewModel @Inject constructor(
 
     init {
         state=state.copy(
-            list=List(5){
+            posts=List(5){
                 Post(
                     ownerUsername = "Pera Peric",
                     mediaUris = emptyList(),

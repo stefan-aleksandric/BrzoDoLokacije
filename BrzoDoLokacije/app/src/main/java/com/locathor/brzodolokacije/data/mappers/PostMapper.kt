@@ -30,7 +30,7 @@ fun PostDto.toPostEntity(): PostEntity {
         mediaUris = listOf(photoUrl),
         commentCount = 0,
         likeCount = 0,
-        owner = username
+        owner = username?: ""
     )
 }
 

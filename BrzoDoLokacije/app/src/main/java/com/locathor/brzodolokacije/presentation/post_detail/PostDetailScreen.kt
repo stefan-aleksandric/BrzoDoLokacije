@@ -1,24 +1,27 @@
 package com.locathor.brzodolokacije.presentation.post_detail
 
+import android.location.Geocoder
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Input
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import coil.compose.AsyncImage
 import com.locathor.brzodolokacije.R
 import com.locathor.brzodolokacije.domain.model.Comment
 import com.locathor.brzodolokacije.domain.model.Post
@@ -30,15 +33,21 @@ import com.locathor.brzodolokacije.presentation.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.util.*
 
 //@RootNavGraph(start = true)
 @Destination
 @Composable
 fun PostDetailScreen(
     post: Post,
-    navigator:DestinationsNavigator,
-    commentInput:String?=""
+    viewModel: PostDetailViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator,
 ){
+    var state = viewModel.state
+//    state = state.copy(
+//        latitude = post.latitude,
+//        longitude = post.longitude
+//    )
     StandardScaffold (
         bottomBarOn = false,
         commentInputOn = true,
@@ -73,9 +82,8 @@ fun PostDetailScreen(
                                     //TODO on image click
                                 }
                         ){
-                            Image(
-                                //TODO pull user post image async
-                                painterResource(id = R.drawable.paris),
+                            AsyncImage(
+                                model = post.mediaUris.first(),
                                 contentDescription="Post image",
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -95,7 +103,7 @@ fun PostDetailScreen(
                             )
                             //TODO addLocation from user
                             Text(
-                                text="Paris,France,Western Europe",
+                                text= viewModel.getCompleteAddress(LocalContext.current, post.latitude, post.longitude),
                                 style=MaterialTheme.typography.titleSmall
                             )
                         }
